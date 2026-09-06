@@ -83,10 +83,10 @@ Course concepts will only be marked as implemented when actual project evidence 
 
 | Phase | Status |
 |---|---|
-| Phase 0 — Project Setup & Curriculum Audit | IN PROGRESS |
-| Phase 1 — Business Understanding & Planning | NOT STARTED |
-| Phase 2 — Data Acquisition & Data Understanding | NOT STARTED |
-| Phase 3 — Spreadsheet-Based Analysis | NOT STARTED |
+| Phase 0 — Project Setup & Curriculum Audit | COMPLETE |
+| Phase 1 — Business Understanding & Planning | COMPLETE |
+| Phase 2 — Data Acquisition & Data Understanding | COMPLETE |
+| Phase 3 — Spreadsheet-Based Analysis | COMPLETE |
 | Phase 4 — SQL & Database Analysis | NOT STARTED |
 | Phase 5 — Data Cleaning & Quality Assurance | NOT STARTED |
 | Phase 6 — Data Integration | NOT STARTED |

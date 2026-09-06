@@ -88,11 +88,33 @@ TO BE UPDATED AFTER PHASE 2 VERIFICATION.
 
 ---
 
-## Phase 3
+## Phase 3 — Spreadsheet-Based Analysis
 
-Not yet started.
+### New files
 
-Files will be determined at Phase 3 start.
+- `docs/phase-3/spreadsheet-analysis.md`
+- `docs/phase-3/spreadsheet-methodology.md`
+- `docs/phase-3/course-content-coverage.md`
+- `docs/phase-3/spreadsheet-results.md`
+- `docs/phase-3/phase-3-checklist.md`
+- `scripts/create_spreadsheet_analysis.py`
+- `tests/test_create_spreadsheet_analysis.py`
+
+### Existing files to update
+
+- `README.md`
+- `docs/phase-0/project-state.md`
+- `docs/project-file-update-register.md`
+
+### Generated local artifacts
+
+- `data/analysis/retail_spreadsheet_analysis.xlsx`
+
+The workbook is generated from raw data and should remain outside Git if generated artifacts are excluded by the project's Git policy.
+
+### Phase 3 status
+
+IN PROGRESS
 
 ---
 

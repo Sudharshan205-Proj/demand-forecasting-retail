@@ -1,0 +1,57 @@
+# Phase 3 Course-Content Coverage
+
+## Spreadsheet Curriculum Mapping
+
+| Course Concept | Phase 3 Implementation | Evidence |
+|---|---|---|
+| Spreadsheet analysis | Excel workbook | `data/analysis/retail_spreadsheet_analysis.xlsx` |
+| Sorting | Analytical sheets designed for sorting | `Daily_Analysis`, `Store_Summary`, `Item_Summary` |
+| Multiple-variable sorting | Workbook columns support multi-column sorting | Analytical tables |
+| Filtering | Excel tables with filters | Analytical sheets |
+| Freeze header row | Freeze panes | `Daily_Analysis`, `Store_Summary`, `Item_Summary` |
+| Formulas | Formula demonstration sheet | `Formula_Analysis` |
+| VLOOKUP | Lookup example | `Formula_Analysis` |
+| SUMPRODUCT | Calculation example | `Formula_Analysis` |
+| Data validation | Store selection list | `Formula_Analysis` |
+| Conditional formatting | Demand ranking emphasis | `Item_Summary` |
+| Pivot-table concepts | Aggregated summary tables | `Store_Summary`, `Item_Summary` |
+| Aggregate calculations | SUM, AVERAGE, MIN, MAX, COUNTIF | `Formula_Analysis` |
+| Data validation/checking | Dedicated validation sheet | `Data_Validation` |
+
+## Why These Techniques Are Included
+
+The techniques are not included as isolated demonstrations.
+
+They are connected to the demand-forecasting problem:
+
+- Sorting identifies high- and low-demand observations.
+- Filtering isolates stores, products, and periods.
+- Formulas quantify historical demand.
+- VLOOKUP connects store identifiers with business metadata.
+- SUMPRODUCT demonstrates weighted/multi-cell calculations.
+- Conditional formatting highlights demand differences.
+- Data validation controls user selections.
+- Aggregated summaries provide pivot-table-style business analysis.
+
+## Techniques Deferred to Later Phases
+
+Some course concepts belong more naturally to later stages:
+
+| Concept | Planned Phase |
+|---|---|
+| SQL queries | Phase 4 |
+| Relational joins | Phase 4 / Phase 6 |
+| Data cleaning | Phase 5 |
+| Statistical analysis | Phase 8 |
+| R | Phase 11 |
+| Visualization | Phase 14 |
+| Tableau | Phase 14 |
+| Storytelling | Phase 15 |
+| Forecasting | Phase 10 |
+| Application | Phase 16 |
+
+## Coverage Principle
+
+A technique is considered covered only when actual project evidence exists.
+
+Merely listing a technique in documentation does not constitute implementation.
