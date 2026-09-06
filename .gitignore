@@ -52,6 +52,7 @@ data/raw/*
 data/processed/*
 data/interim/*
 data/external/*
+data/analysis/*
 
 # Keep directory structure
 !data/raw/.gitkeep
@@ -84,3 +85,6 @@ results/figures/generated/
 *.key
 credentials.json
 service-account*.json
+
+# Database
+*.db
