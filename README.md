@@ -70,37 +70,37 @@ Course concepts will only be marked as implemented when actual project evidence 
 8. Phase 7 — Exploratory Data Analysis
 9. Phase 8 — Statistical & Analytical Analysis
 10. Phase 9 — Time-Series Preparation
-11. Phase 10 — Forecasting Models
-12. Phase 11 — R Analysis
+11. 
+12. Phase 11 — Forecasting Models
 13. Phase 12 — Model Evaluation & Tuning
 14. Phase 13 — Forecasting & Inventory Insights
-15. Phase 14 — Visualization & Tableau
-16. Phase 15 — Storytelling & Presentation
+15. Phase 14 — R Analysis
+16. Phase 15 — Visualization & Tableau
 17. Phase 16 — Application Development & Deployment
 18. Phase 17 — Testing, Documentation & Final Audit
 
 ## Project Status
 
-| Phase | Status |
-|---|---|
-| Phase 0 — Project Setup & Curriculum Audit | COMPLETE |
-| Phase 1 — Business Understanding & Planning | COMPLETE |
-| Phase 2 — Data Acquisition & Data Understanding | COMPLETE |
-| Phase 3 — Spreadsheet-Based Analysis | COMPLETE |
-| Phase 4 — SQL & Database Analysis | NOT STARTED |
-| Phase 5 — Data Cleaning & Quality Assurance | NOT STARTED |
-| Phase 6 — Data Integration | NOT STARTED |
-| Phase 7 — Exploratory Data Analysis | NOT STARTED |
-| Phase 8 — Statistical & Analytical Analysis | NOT STARTED |
-| Phase 9 — Time-Series Preparation | NOT STARTED |
-| Phase 10 — Forecasting Models | NOT STARTED |
-| Phase 11 — R Analysis | NOT STARTED |
-| Phase 12 — Model Evaluation & Tuning | NOT STARTED |
-| Phase 13 — Forecasting & Inventory Insights | NOT STARTED |
-| Phase 14 — Visualization & Tableau | NOT STARTED |
-| Phase 15 — Storytelling & Presentation | NOT STARTED |
-| Phase 16 — Application Development & Deployment | NOT STARTED |
-| Phase 17 — Testing, Documentation & Final Audit | NOT STARTED |
+| Phase | Name | Status |
+|---|---|---|
+| Phase 0 | Project Setup & Curriculum Audit | COMPLETE |
+| Phase 1 | Business Understanding & Planning | COMPLETE |
+| Phase 2 | Data Acquisition & Data Understanding | COMPLETE |
+| Phase 3 | Spreadsheet-Based Analysis | COMPLETE |
+| Phase 4 | SQL & Database Analysis | COMPLETE |
+| Phase 5 | Data Cleaning & Quality Assurance | COMPLETE |
+| Phase 6 | Data Integration | COMPLETE |
+| Phase 7 | Exploratory Data Analysis | COMPLETE |
+| Phase 8 | Statistical & Analytical Analysis | COMPLETE |
+| Phase 9 | Time-Series Preparation | NOT STARTED |
+| Phase 10 | Feature Engineering | NOT STARTED |
+| Phase 11 | Forecasting Models | NOT STARTED |
+| Phase 12 | Model Evaluation & Tuning | NOT STARTED |
+| Phase 13 | Forecasting & Inventory Insights | NOT STARTED |
+| Phase 14 | R Analysis | NOT STARTED |
+| Phase 15 | Visualization & Tableau | NOT STARTED |
+| Phase 16 | Application Development & Deployment | NOT STARTED |
+| Phase 17 | Testing, Documentation & Final Audit | NOT STARTED |
 
 ## Repository Structure
 
