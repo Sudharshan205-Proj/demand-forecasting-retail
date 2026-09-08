@@ -2,6 +2,10 @@
 
 ## Current Phase
 
+Phase 17 — Testing, Documentation & Final Audit
+
+Current audit target:
+
 Phase 0 — Project Setup & Curriculum Audit
 
 ## Overall Status
@@ -9,10 +13,6 @@ Phase 0 — Project Setup & Curriculum Audit
 IN PROGRESS
 
 ## Completed Phases
-
-None.
-
-## Remaining Phases
 
 - Phase 0 — Project Setup & Curriculum Audit
 - Phase 1 — Business Understanding & Planning
@@ -24,32 +24,41 @@ None.
 - Phase 7 — Exploratory Data Analysis
 - Phase 8 — Statistical & Analytical Analysis
 - Phase 9 — Time-Series Preparation
-- Phase 10 — Forecasting Models
-- Phase 11 — R Analysis
+- Phase 10 — Feature Engineering
+- Phase 11 — Forecasting Models
 - Phase 12 — Model Evaluation & Tuning
 - Phase 13 — Forecasting & Inventory Insights
-- Phase 14 — Visualization & Tableau
-- Phase 15 — Storytelling & Presentation
+- Phase 14 — R Analysis
+- Phase 15 — Visualization & Tableau
 - Phase 16 — Application Development & Deployment
+
+## Remaining Phases
+
 - Phase 17 — Testing, Documentation & Final Audit
+
+Phase 17 is currently auditing completed phases individually. Phase 0 is the first audited phase.
 
 ## Git
 
 Branch:
 
-NOT YET VERIFIED
+phase-17-testing-documentation-final-audit
 
-Phase branch:
+HEAD:
 
-phase-0-project-setup-and-curriculum-audit
+50d7fc8 — Complete Phase 16 application development and deployment
 
 Git status:
 
-NOT YET VERIFIED
+CLEAN at the start of the Phase 0 audit, as verified by the project owner.
+
+Phase branch:
+
+phase-17-testing-documentation-final-audit
 
 ## Files Created
 
-Phase 0 planned files:
+Phase 0 established:
 
 - README.md
 - .gitignore
@@ -65,25 +74,38 @@ Phase 0 planned files:
 - docs/phase-0/security.md
 - docs/phase-0/project-state.md
 
-## Files Modified
+The Phase 0 audit additionally restores the intended tracked data-directory placeholders and a source-controlled Phase 0 validation test.
 
-None currently.
+## Files Modified During Phase 0 Audit
+
+- docs/phase-0/project-plan.md
+- docs/phase-0/environment.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- tests/test_phase0_project_setup.py
+- data/raw/.gitkeep
+- data/processed/.gitkeep
+- data/interim/.gitkeep
+- data/external/.gitkeep
+
+No other project phase files are modified as part of the Phase 0 audit.
 
 ## Important Decisions
 
-- Project will use the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
+- The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
 - ARIMA is mandatory.
-- Prophet or LSTM will be evaluated rather than installed unnecessarily at Phase 0.
-- RMSE and MAPE will be used for forecast evaluation.
-- Time-aware validation will be required.
-- Course concepts will require actual project evidence.
-- Security and reproducibility will be maintained throughout the project.
-- Git branches will correspond to phases.
-- One logical commit will normally be used per phase.
+- Prophet or LSTM may be evaluated rather than installed unnecessarily at setup time.
+- RMSE and MAPE are used for forecast evaluation.
+- Time-aware validation is required.
+- Course concepts require actual project evidence.
+- Security and reproducibility are maintained throughout the project.
+- Git branches correspond to phases.
+- One logical commit is normally used per phase.
+- The Phase 0 audit does not globally mark curriculum topics as implemented; evidence status must remain tied to actual phase evidence.
 
 ## Dependencies
 
-Initial Python dependencies planned:
+Initial Python dependencies:
 
 - numpy
 - pandas
@@ -95,69 +117,78 @@ Initial Python dependencies planned:
 - jupyter
 - pytest
 
-Installation status:
-
-NOT YET VERIFIED
+The existing dependency set was retained during the Phase 0 audit because dependency removal would require a project-wide audit rather than a Phase 0-only audit.
 
 ## Dataset
 
 Status:
 
-NOT ACQUIRED
+ACQUIRED AND USED BY LATER PROJECT PHASES; raw and generated data are excluded from Git according to the repository data policy.
+
+Phase 0 itself does not acquire or transform the dataset.
 
 ## Models
 
 Status:
 
-NOT IMPLEMENTED
+IMPLEMENTED IN LATER PROJECT PHASES
+
+Phase 0 only establishes the forecasting/model strategy.
 
 ## Application
 
 Status:
 
-NOT IMPLEMENTED
+IMPLEMENTED IN PHASE 16
+
+Phase 0 only establishes the application/deployment direction.
 
 ## Deployment
 
 Status:
 
-NOT IMPLEMENTED
+IMPLEMENTED AND VALIDATED IN PHASE 16 ACCORDING TO THE COMPLETED PHASE 16 PROJECT STATE
+
+Phase 0 does not audit deployment behavior.
 
 ## Documentation
 
 Phase 0 documentation:
 
-IN PROGRESS
+AUDITED — NON-CRITICAL DOCUMENTATION GAPS REMAIN
+
+The Phase 0 plan, environment record and project-state record were synchronized during this audit. The curriculum mapping remains evidence-driven and was not globally rewritten.
 
 ## Tests
 
 Phase 0 validation:
 
-NOT YET EXECUTED
+ADDED AND VERIFIED
+
+The original Phase 0 test source was not present in version-controlled project files. A source-controlled replacement was added to validate the setup contract established by Phase 0.
 
 ## Known Issues
 
-- Local repository state has not yet been verified.
-- Development software versions have not yet been verified.
-- Dataset has not yet been selected.
+- The repository's original Phase 0 commit did not contain the Phase 0 test source even though a compiled `test_phase0_project_setup` bytecode artifact existed locally.
+- The original Phase 0 documentation was stale in several places relative to the completed project state.
+- Exact RStudio and Tableau Public versions are not recorded.
+- BigQuery is not required by the current project implementation.
+- Phase 17 must continue to audit later phases individually; this Phase 0 audit does not certify them.
 
 ## Unresolved Decisions
 
-- Final retail dataset
-- Whether Prophet or LSTM will be the second forecasting approach
-- Final deployment platform
+- Final presentation/portfolio packaging remains part of the final project work.
+- Any deployment-platform-specific operational details are outside the Phase 0 audit scope.
+- Global curriculum status will be finalized only as each corresponding phase is audited and its evidence is verified.
 
-## Exact Starting Point for Next Phase
+## Phase 0 Audit Status
 
-Phase 1 will begin by verifying the completed Phase 0 repository state and then defining:
+AUDITED
 
-- Business problem
-- Retail context
-- Stakeholders
-- Business objectives
-- SMART analytical questions
-- KPIs
-- Scope
-- Assumptions
-- Constraints
-- Success criteria
+The Phase 0 setup contract, planning documentation, environment record, repository structure, security rules, reproducibility requirements and curriculum-mapping role were reviewed. No Phase 0 forecasting, data-processing or application implementation exists to execute; the phase is principally a setup/documentation phase.
+
+## Exact Starting Point for Next Audit
+
+Phase 1 — Business Understanding & Planning
+
+When explicitly instructed to continue, the audit must begin by inspecting Phase 1 documentation, scripts, tests and artifacts independently. No Phase 1 audit is performed as part of this Phase 0 completion.

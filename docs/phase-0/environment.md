@@ -2,7 +2,7 @@
 
 ## Operating Environment
 
-The development environment will be documented using verified versions rather than assumptions.
+The development environment is documented using verified versions where available. Version information below reflects the project owner's verified environment state; versions were not independently re-executed on the audit runner.
 
 ## Required Software
 
@@ -18,7 +18,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### pip
 
@@ -28,7 +28,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### Git
 
@@ -38,7 +38,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### GitHub
 
@@ -50,7 +50,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### VS Code
 
@@ -60,7 +60,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### R
 
@@ -70,7 +70,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### RStudio
 
@@ -80,7 +80,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+INSTALLED; PROJECT-LEVEL SETUP STATUS NOT RE-VERIFIED DURING PHASE 0 AUDIT
 
 ### SQLite
 
@@ -91,7 +91,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+VERIFIED
 
 ### BigQuery
 
@@ -101,7 +101,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+NOT REQUIRED FOR THE CURRENT IMPLEMENTATION
 
 ### Excel / Google Sheets
 
@@ -111,7 +111,7 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+PROJECT ARTIFACT GENERATION VERIFIED; LOCAL APPLICATION VERSION NOT RECORDED
 
 ### Tableau / Tableau Public
 
@@ -121,11 +121,11 @@ Purpose:
 
 Status:
 
-NOT YET VERIFIED
+INSTALLED; VERSION NOT RECORDED
 
 ## Python Environment
 
-A project-local `.venv` will be used.
+A project-local `.venv` is used.
 
 ## Initial Python Dependencies
 
@@ -143,29 +143,30 @@ Additional dependencies will only be introduced when justified by a later phase.
 
 ## R Packages
 
-Required R packages will be selected and verified when the R phase begins.
+The R workflow uses course-aligned packages. Package installation was verified before the Phase 14 workflow was validated.
 
-Potential course-aligned packages include:
+Verified packages include:
 
 - tidyverse
 - dplyr
 - ggplot2
 - tidymodels
-
-They will not be treated as installed until installation is actually verified.
+- rmarkdown
 
 ## Version Recording
 
-Verified versions will be recorded here after environment setup.
-
 | Tool | Version | Status |
 |---|---|---|
-| Python | TBD | NOT VERIFIED |
-| pip | TBD | NOT VERIFIED |
-| Git | TBD | NOT VERIFIED |
-| GitHub CLI | TBD | NOT VERIFIED |
-| VS Code | TBD | NOT VERIFIED |
-| R | TBD | NOT VERIFIED |
-| RStudio | TBD | NOT VERIFIED |
-| SQLite | TBD | NOT VERIFIED |
-| Tableau | TBD | NOT VERIFIED |
+| Python | 3.12.10 | VERIFIED |
+| pip | 25.3 | VERIFIED |
+| Git | 2.55.0.windows.5 | VERIFIED |
+| GitHub CLI | 2.98.0 | VERIFIED |
+| VS Code | 1.135.0 | VERIFIED |
+| R | 4.6.1 | VERIFIED |
+| RStudio | Installed; version not recorded | PARTIALLY VERIFIED |
+| SQLite | 3.53.4 | VERIFIED |
+| Tableau Public | Installed; version not recorded | PARTIALLY VERIFIED |
+
+## Phase 0 Audit Record
+
+Phase 0 originally left the environment as `NOT YET VERIFIED`. The project owner's subsequent environment verification is now recorded above so the setup documentation no longer contradicts the established development environment. No dependency was added or removed during this audit.

@@ -83,10 +83,10 @@ Statistical & Analytical Analysis
 Time-Series Preparation
 
 ### Phase 10
-Forecasting Models
+Feature Engineering
 
 ### Phase 11
-R Analysis
+Forecasting Models
 
 ### Phase 12
 Model Evaluation & Tuning
@@ -95,10 +95,10 @@ Model Evaluation & Tuning
 Forecasting & Inventory Insights
 
 ### Phase 14
-Visualization & Tableau
+R Analysis
 
 ### Phase 15
-Storytelling & Presentation
+Visualization & Tableau
 
 ### Phase 16
 Application Development & Deployment
@@ -115,19 +115,19 @@ phase-1-business-understanding-and-planning
 phase-2-data-acquisition-and-understanding
 phase-3-spreadsheet-analysis
 phase-4-sql-and-database-analysis
-phase-5-data-cleaning-and-quality
+phase-5-data-cleaning-and-quality-assurance
 phase-6-data-integration
 phase-7-exploratory-data-analysis
 phase-8-statistical-and-analytical-analysis
 phase-9-time-series-preparation
-phase-10-forecasting-models
-phase-11-r-analysis
+phase-10-feature-engineering
+phase-11-forecasting-models
 phase-12-model-evaluation-and-tuning
 phase-13-forecasting-and-inventory-insights
-phase-14-visualization-and-tableau
-phase-15-storytelling-and-presentation
-phase-16-application-and-deployment
-phase-17-testing-documentation-and-final-audit
+phase-14-r-analysis
+phase-15-visualization-and-tableau
+phase-16-application-development-and-deployment
+phase-17-testing-documentation-final-audit
 
 ## Phase Commit Strategy
 
@@ -137,9 +137,7 @@ Unnecessary intermediate commits should be avoided.
 
 ## Dataset Strategy
 
-Dataset acquisition will not occur until Phase 2.
-
-The final dataset must contain enough temporal information to support forecasting and, where possible, sales, promotion and holiday information.
+Dataset acquisition will not occur until Phase 2. The final dataset must contain enough temporal information to support forecasting and, where possible, sales, promotion and holiday information.
 
 ## Model Strategy
 
@@ -184,3 +182,7 @@ The project will finish with a complete audit covering:
 - Git
 - Deployment
 - Reproducibility
+
+## Phase 0 Audit Record
+
+Phase 0 was originally created as the project setup and curriculum-planning phase. During the Phase 17 audit, the phase list and branch convention were synchronized with the actual project structure and completed phase responsibilities. No phase was removed, merged, or reordered.
