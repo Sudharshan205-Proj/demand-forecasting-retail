@@ -70,7 +70,7 @@ Course concepts will only be marked as implemented when actual project evidence 
 8. Phase 7 — Exploratory Data Analysis
 9. Phase 8 — Statistical & Analytical Analysis
 10. Phase 9 — Time-Series Preparation
-11. 
+11. Phase 10 — Feature Engineering 
 12. Phase 11 — Forecasting Models
 13. Phase 12 — Model Evaluation & Tuning
 14. Phase 13 — Forecasting & Inventory Insights
