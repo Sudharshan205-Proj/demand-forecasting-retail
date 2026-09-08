@@ -22,7 +22,7 @@
 | BR-009 | Model comparison | Model comparison | 12 | ⬜ |
 | BR-010 | Inventory insights | Business analysis | 13 | ⬜ |
 | BR-011 | Visualization | Python/R/Tableau | 7–15 | ⬜ |
-| BR-012 | Tableau | Tableau dashboard | 14 | ⬜ |
+| BR-012 | Tableau | Tableau dashboard | 15 | ⬜ |
 | BR-013 | Application | Deployed application | 16 | ⬜ |
 | BR-014 | Reproducibility | Documentation/configuration | All | ⬜ |
 | BR-015 | Documentation | Repository documentation | All | ⬜ |

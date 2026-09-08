@@ -91,11 +91,11 @@ The analysis must allow the data to support or contradict the hypotheses.
 | Historical patterns | Phase 7 |
 | Statistical relationships | Phase 8 |
 | Forecast preparation | Phase 9 |
-| Forecasting | Phase 10 |
-| R analysis | Phase 11 |
+| Forecasting | Phase 11 |
+| R analysis | Phase 14 |
 | Evaluation | Phase 12 |
 | Inventory insights | Phase 13 |
-| Visualization | Phase 14 |
+| Visualization | Phase 15 |
 | Storytelling | Phase 15 |
 | Application | Phase 16 |
 
