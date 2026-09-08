@@ -4,6 +4,7 @@ matplotlib
 scipy
 scikit-learn
 statsmodels
+streamlit
 openpyxl
 jupyter
 pytest
