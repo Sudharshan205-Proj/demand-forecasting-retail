@@ -1,0 +1,307 @@
+---
+title: "Retail Demand Forecasting — R Analysis"
+author: "Demand Forecasting for Retail Project"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+# 1. Purpose
+
+This report provides an R-based analytical view of the retail demand
+forecasting project.
+
+The analysis uses the compact analytical outputs produced during Phase 13
+rather than reloading the full raw retail dataset.
+
+Python remains the primary forecasting implementation. R is used here to
+demonstrate an independent analytical and reporting workflow.
+
+# 2. Packages
+
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(tidymodels)
+
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+# 3. Load Phase 13 Results
+
+```{r load-data}
+analysis_dir <- file.path(
+  "..",
+  "data",
+  "analysis"
+)
+
+demand <- read_csv(
+  file.path(
+    analysis_dir,
+    "inventory_demand_summary.csv"
+  ),
+  show_col_types = FALSE
+)
+
+variability <- read_csv(
+  file.path(
+    analysis_dir,
+    "inventory_variability_summary.csv"
+  ),
+  show_col_types = FALSE
+)
+
+scenarios <- read_csv(
+  file.path(
+    analysis_dir,
+    "inventory_scenarios.csv"
+  ),
+  show_col_types = FALSE
+)
+```
+
+# 4. Store-Level Demand
+
+The following analysis uses `dplyr` to combine the demand and variability
+summaries.
+
+```{r store-analysis}
+store_analysis <- demand %>%
+  left_join(
+    variability %>%
+      select(
+        store_id,
+        std_daily_demand,
+        p90_daily_demand,
+        p95_daily_demand,
+        p99_daily_demand
+      ),
+    by = "store_id"
+  ) %>%
+  arrange(desc(mean_daily_demand))
+
+store_analysis
+```
+
+## Highest Average Demand
+
+```{r highest-demand}
+highest_demand <- store_analysis %>%
+  slice_max(
+    mean_daily_demand,
+    n = 1,
+    with_ties = FALSE
+  )
+
+highest_demand
+```
+
+The highest observed average daily demand occurs at Store
+`r highest_demand$store_id`.
+
+# 5. Demand Variability
+
+```{r highest-variability}
+highest_variability <- store_analysis %>%
+  slice_max(
+    coefficient_of_variation,
+    n = 1,
+    with_ties = FALSE
+  )
+
+highest_variability
+```
+
+Store `r highest_variability$store_id` has the highest observed coefficient
+of variation.
+
+## Visualization
+
+The following chart uses a `ggplot2` layered construction with a data
+mapping and geometric object.
+
+```{r demand-plot}
+ggplot(
+  store_analysis,
+  aes(
+    x = factor(store_id),
+    y = mean_daily_demand
+  )
+) +
+  geom_col() +
+  labs(
+    title = "Average Daily Demand by Store",
+    x = "Store",
+    y = "Mean Daily Demand"
+  ) +
+  theme_minimal()
+```
+
+# 6. Relative Variability
+
+```{r variability-plot}
+ggplot(
+  store_analysis,
+  aes(
+    x = factor(store_id),
+    y = coefficient_of_variation
+  )
+) +
+  geom_col() +
+  labs(
+    title = "Relative Demand Variability by Store",
+    x = "Store",
+    y = "Coefficient of Variation"
+  ) +
+  theme_minimal()
+```
+
+# 7. Inventory Scenario Analysis
+
+The inventory calculations are planning scenarios rather than operational
+requirements because supplier lead times and actual service-level targets
+were not available.
+
+```{r scenario-summary}
+scenario_summary <- scenarios %>%
+  group_by(
+    lead_time_days,
+    service_level
+  ) %>%
+  summarise(
+    stores = n_distinct(store_id),
+    average_reorder_point = mean(reorder_point),
+    maximum_reorder_point = max(reorder_point),
+    average_safety_stock = mean(safety_stock),
+    .groups = "drop"
+  )
+
+scenario_summary
+```
+
+## Reorder-Point Visualization
+
+```{r reorder-point-plot}
+ggplot(
+  scenarios,
+  aes(
+    x = lead_time_days,
+    y = reorder_point,
+    group = service_level,
+    linetype = factor(service_level)
+  )
+) +
+  geom_line() +
+  geom_point() +
+  facet_wrap(~ store_id) +
+  labs(
+    title = "Scenario Reorder Points",
+    x = "Lead Time (Days)",
+    y = "Reorder Point",
+    linetype = "Service Level"
+  ) +
+  theme_minimal()
+```
+
+The use of `facet_wrap()` provides separate views for each store.
+
+# 8. Phase 13 Consistency Check
+
+The R analysis should reproduce the principal store-level findings already
+established in Phase 13.
+
+```{r consistency}
+phase13_insights <- read_csv(
+  file.path(
+    analysis_dir,
+    "forecast_inventory_insights.csv"
+  ),
+  show_col_types = FALSE
+)
+
+phase13_highest_demand <- phase13_insights %>%
+  filter(
+    insight_type == "highest_average_demand"
+  ) %>%
+  slice(1)
+
+phase13_highest_variability <- phase13_insights %>%
+  filter(
+    insight_type == "highest_relative_variability"
+  ) %>%
+  slice(1)
+
+consistency <- tibble(
+  check = c(
+    "Highest average demand store",
+    "Highest relative variability store"
+  ),
+  phase_13 = c(
+    phase13_highest_demand$store_id,
+    phase13_highest_variability$store_id
+  ),
+  r_analysis = c(
+    highest_demand$store_id,
+    highest_variability$store_id
+  )
+) %>%
+  mutate(
+    match = phase_13 == r_analysis
+  )
+
+consistency
+```
+
+# 9. Interpretation
+
+The R analysis independently reproduces the principal Phase 13 store-level
+findings.
+
+The analysis shows that:
+
+- Store `r highest_demand$store_id` has the highest observed average daily
+  physical demand.
+- Store `r highest_variability$store_id` has the highest relative demand
+  variability.
+- Inventory scenarios vary with both assumed lead time and service level.
+- These inventory values should not be treated as actual procurement
+  requirements without operational information.
+
+# 10. Limitations
+
+The R analysis does not create a competing production forecasting model.
+
+The validated forecasting models remain those selected through the Python
+workflow in Phases 11 and 12.
+
+The dataset does not provide:
+
+- supplier lead times;
+- operational service-level requirements;
+- holding costs;
+- ordering costs;
+- stockout costs;
+- current inventory;
+- purchase orders;
+- warehouse capacity.
+
+Therefore, inventory values are scenario estimates.
+
+# 11. Reproducibility
+
+The report is generated from project files rather than manually entered
+results.
+
+The R script and this R Markdown document are version-controlled project
+artifacts.
+
+The report can be regenerated by running the Phase 14 R workflow from the
+repository root.
