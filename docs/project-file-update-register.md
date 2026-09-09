@@ -32,6 +32,16 @@ A file should only be listed as modified when the phase actually requires a chan
 
 None reported at the end of Phase 0.
 
+### Phase 17 audit modifications
+
+- `README.md`
+- `docs/phase-0/environment.md`
+- `docs/phase-0/project-state.md`
+- `docs/project-file-update-register.md`
+- `tests/test_phase0_project_setup.py`
+
+These changes are part of the Phase 17 re-audit of Phase 0 and correct documentation that had become stale relative to the completed project state.
+
 ---
 
 ## Phase 1 — Business Understanding & Planning
@@ -239,6 +249,6 @@ Files will be determined at Phase 16 start.
 
 ## Phase 17
 
-Not yet started.
+IN PROGRESS — Testing, Documentation & Final Audit
 
-Files will be determined at Phase 17 start.
+Phase 0 is currently being re-audited. See the Phase 0 section above for the audit-modification record.

@@ -92,34 +92,29 @@ Course concepts will only be marked as implemented when actual project evidence 
 | Phase 6 | Data Integration | COMPLETE |
 | Phase 7 | Exploratory Data Analysis | COMPLETE |
 | Phase 8 | Statistical & Analytical Analysis | COMPLETE |
-| Phase 9 | Time-Series Preparation | NOT STARTED |
-| Phase 10 | Feature Engineering | NOT STARTED |
-| Phase 11 | Forecasting Models | NOT STARTED |
-| Phase 12 | Model Evaluation & Tuning | NOT STARTED |
-| Phase 13 | Forecasting & Inventory Insights | NOT STARTED |
-| Phase 14 | R Analysis | NOT STARTED |
-| Phase 15 | Visualization & Tableau | NOT STARTED |
-| Phase 16 | Application Development & Deployment | NOT STARTED |
-| Phase 17 | Testing, Documentation & Final Audit | NOT STARTED |
+| Phase 9 | Time-Series Preparation | COMPLETE |
+| Phase 10 | Feature Engineering | COMPLETE |
+| Phase 11 | Forecasting Models | COMPLETE |
+| Phase 12 | Model Evaluation & Tuning | COMPLETE |
+| Phase 13 | Forecasting & Inventory Insights | COMPLETE |
+| Phase 14 | R Analysis | COMPLETE |
+| Phase 15 | Visualization & Tableau | COMPLETE |
+| Phase 16 | Application Development & Deployment | COMPLETE |
+| Phase 17 | Testing, Documentation & Final Audit | IN PROGRESS |
 
 ## Repository Structure
 
-The final repository will separate:
+The repository is organized into:
 
-- Documentation
-- Raw data
-- Processed data
-- Python source code
-- SQL
-- R analysis
-- Notebooks
-- Tests
-- Models
-- Results
-- Application code
-- Tableau artifacts
-
-The structure will evolve as later phases are implemented.
+- `app/` — Streamlit application code (Phase 16)
+- `data/` — raw, interim, processed, external and analysis data (raw and generated data excluded from Git; directory placeholders tracked)
+- `docs/` — phase-by-phase project documentation
+- `r/` — R analysis scripts and R Markdown report (Phase 14)
+- `reports/` — generated analysis reports and findings
+- `scripts/` — phase-owned Python data and analysis scripts
+- `sql/` — SQL schema and analysis queries (Phase 4)
+- `tableau/` — Tableau workbook and dashboard documentation (Phase 15)
+- `tests/` — pytest test suite
 
 ## Reproducibility
 

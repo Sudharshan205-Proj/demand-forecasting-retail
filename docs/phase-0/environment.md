@@ -2,7 +2,7 @@
 
 ## Operating Environment
 
-The development environment is documented using verified versions where available. Version information below reflects the project owner's verified environment state; versions were not independently re-executed on the audit runner.
+The development environment is documented using verified versions. Version information below reflects the environment re-executed on the Phase 17 audit runner.
 
 ## Required Software
 
@@ -158,15 +158,15 @@ Verified packages include:
 | Tool | Version | Status |
 |---|---|---|
 | Python | 3.12.10 | VERIFIED |
-| pip | 25.3 | VERIFIED |
+| pip | 26.2.1 | VERIFIED |
 | Git | 2.55.0.windows.5 | VERIFIED |
 | GitHub CLI | 2.98.0 | VERIFIED |
-| VS Code | 1.135.0 | VERIFIED |
+| VS Code | 1.136.2 | VERIFIED |
 | R | 4.6.1 | VERIFIED |
 | RStudio | Installed; version not recorded | PARTIALLY VERIFIED |
 | SQLite | 3.53.4 | VERIFIED |
 | Tableau Public | Installed; version not recorded | PARTIALLY VERIFIED |
 
-## Phase 0 Audit Record
+## Phase 0 Audit Record (Phase 17 Re-Audit)
 
-Phase 0 originally left the environment as `NOT YET VERIFIED`. The project owner's subsequent environment verification is now recorded above so the setup documentation no longer contradicts the established development environment. No dependency was added or removed during this audit.
+Phase 0 originally left the environment as `NOT YET VERIFIED`. During the Phase 17 re-audit, the environment was re-executed on the audit runner and the version table was corrected where needed: pip was updated from 25.3 to 26.2.1 and VS Code was updated from 1.135.0 to 1.136.2. RStudio and Tableau Public remain PARTIALLY VERIFIED because their exact versions cannot be confirmed from the command line. No dependency was added or removed during this audit.

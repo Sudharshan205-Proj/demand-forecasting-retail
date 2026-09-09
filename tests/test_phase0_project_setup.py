@@ -108,3 +108,14 @@ def test_pyproject_configures_pytest():
         setting for setting in required_settings if setting not in pyproject_text
     ]
     assert not missing, f"Missing required pyproject settings: {missing}"
+
+
+def test_phase_0_documents_are_non_empty():
+    """Every Phase 0 file and planning document must exist and contain content."""
+    missing_or_empty = [
+        path
+        for path in PHASE_0_FILES
+        if not (PROJECT_ROOT / path).is_file()
+        or not (PROJECT_ROOT / path).read_text(encoding="utf-8").strip()
+    ]
+    assert not missing_or_empty, f"Missing or empty Phase 0 files: {missing_or_empty}"
