@@ -65,14 +65,29 @@ None. The implementation phase created documentation only.
 
 ### Phase 17 audit modifications
 
+- `docs/phase-1/decision-log.md`
+- `docs/phase-1/hypothesis-register.md`
+- `docs/phase-1/kpi-definitions.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-1/scope-and-assumptions.md`
+- `docs/phase-1/stakeholder-analysis.md`
+- `tests/test_phase1_business_understanding.py`
+
+### Reference-only files
+
+The following Phase 1 documents are local reference files only and are not committed or pushed in any phase:
+
 - `docs/phase-1/analytical-questions.md`
 - `docs/phase-1/phase-1-checklist.md`
 - `docs/phase-1/requirements-traceability.md`
-- `tests/test_phase1_business_understanding.py`
+
+During the Phase 1 re-audit, `requirements-traceability.md` received content-only corrections but remains a reference-only file.
 
 ### Existing files requiring synchronization
 
+- `README.md`
 - `docs/phase-0/project-state.md`
+- `docs/project-file-update-register.md`
 
 These synchronization changes are recorded as part of the Phase 17 audit and do not alter the Phase 1 implementation architecture.
 
@@ -251,4 +266,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 is currently being re-audited. See the Phase 0 section above for the audit-modification record.
+Phase 0 has been re-audited and approved. Phase 1 is currently being re-audited. No git operations are performed during these audits; all re-audit changes remain in the working tree pending the project owner's review.

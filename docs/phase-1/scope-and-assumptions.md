@@ -76,25 +76,20 @@ The following are not guaranteed to be included unless the selected dataset and 
 
 ## 4. Forecasting Scope
 
-The forecasting unit will be determined after dataset inspection.
+The forecasting unit was determined after dataset inspection during the forecasting phases.
 
-Possible units include:
-
-- Product
-- Product-store
-- Product-category
-- Product-location
-
-The final unit must be selected based on data granularity and business usefulness.
+The implemented forecasting unit is documented in the Phase 9 time-series preparation and Phase 11 forecasting records.
 
 ## 5. Forecast Horizon
 
-The exact forecast horizon is TBD until:
+The exact forecast horizon was defined once:
 
-1. The dataset is selected.
-2. Its temporal frequency is understood.
-3. Its historical coverage is established.
-4. The business use case is finalized.
+1. The dataset was selected.
+2. Its temporal frequency was understood.
+3. Its historical coverage was established.
+4. The business use case was finalized.
+
+The defined horizon is recorded in the Phase 11 and Phase 12 forecasting records.
 
 ## 6. Geographic Scope
 
@@ -152,7 +147,7 @@ Potential constraints include:
 - Forecasting assumptions
 - Model limitations
 
-Actual constraints will be updated after Phase 2.
+Actual constraints were documented during Phase 2 after the dataset was acquired; see `docs/phase-2/initial-data-assessment.md` and the Phase 2 data-quality records.
 
 ## 10. Scope Change Rule
 

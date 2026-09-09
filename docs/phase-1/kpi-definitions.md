@@ -4,7 +4,7 @@
 
 This document defines the measurements that will be used throughout the project.
 
-No numerical values are reported here because analysis has not yet been performed.
+Numerical KPI values are not reported here; they belong to the phase results documents where each analysis is actually performed (for example the Phase 8 statistical results, Phase 11–12 model results, and Phase 13 inventory insights).
 
 ## 1. Historical Demand
 

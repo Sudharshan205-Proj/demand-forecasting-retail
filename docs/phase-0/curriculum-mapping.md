@@ -20,7 +20,7 @@ Actual evidence must exist.
 
 | Stage | Retail Project Application | Status |
 |---|---|---|
-| Ask | Define retail demand problem, stakeholders, objectives and SMART questions | ⬜ |
+| Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
 | Prepare | Acquire and understand sales, promotion and holiday data | ⬜ |
 | Process | Clean, validate, transform and integrate data | ⬜ |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | ⬜ |
@@ -31,14 +31,14 @@ Actual evidence must exist.
 
 | Topic | Project Evidence | Status |
 |---|---|---|
-| Data analytics | Methodology documentation | ⬜ |
-| Data-driven decisions | Business analysis | ⬜ |
-| Analytical thinking | Analytical questions | ⬜ |
-| Structured thinking | Project methodology | ⬜ |
-| Problem solving | Business problem decomposition | ⬜ |
-| Critical thinking | Analytical decisions | ⬜ |
-| Business understanding | Problem definition | ⬜ |
-| Stakeholders | Stakeholder analysis | ⬜ |
+| Data analytics | Methodology documentation | 📄 |
+| Data-driven decisions | Business analysis | 🟨 |
+| Analytical thinking | Analytical questions | 🟩 |
+| Structured thinking | Project methodology | 📄 |
+| Problem solving | Business problem decomposition | 🟩 |
+| Critical thinking | Analytical decisions | 🟨 |
+| Business understanding | Problem definition | 🟩 |
+| Stakeholders | Stakeholder analysis | 🟩 |
 | Quantitative data | Sales analysis | ⬜ |
 | Qualitative data | Context/documentation where applicable | ⬜ |
 | Data sources | Dataset documentation | ⬜ |
@@ -56,17 +56,17 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Prediction | Demand forecasting | ⬜ |
+| Prediction | Demand forecasting | 📄 |
 | Categorization | Product/demand categorization where applicable | ⬜ |
 | Spotting unusual behavior | Demand anomaly/outlier analysis where relevant | ⬜ |
 | Identifying themes | Retail demand patterns | ⬜ |
-| Discovering connections | Promotion/holiday/demand relationships | ⬜ |
-| Finding patterns | Seasonality/trends | ⬜ |
-| Critical thinking | Model and business decisions | ⬜ |
-| Root-cause thinking | Demand-driver investigation | ⬜ |
-| Problem decomposition | Analytical workflow | ⬜ |
-| Contextual thinking | Retail/inventory context | ⬜ |
-| SMART questions | Business questions | ⬜ |
+| Discovering connections | Promotion/holiday/demand relationships | 📄 |
+| Finding patterns | Seasonality/trends | 📄 |
+| Critical thinking | Model and business decisions | 🟨 |
+| Root-cause thinking | Demand-driver investigation | 📄 |
+| Problem decomposition | Analytical workflow | 🟩 |
+| Contextual thinking | Retail/inventory context | 🟩 |
+| SMART questions | Business questions | 🟩 |
 
 ## Course 3 — Data Preparation, Organization, Ethics and Privacy
 
@@ -245,6 +245,20 @@ Actual evidence must exist.
 | RMSE | Evaluation | ⬜ |
 | MAPE | Evaluation | ⬜ |
 | Inventory optimization | Business analysis | ⬜ |
+
+## Phase 1 Re-Audit Status
+
+The Phase 1 audit (Business Understanding & Planning) verified the business problem, stakeholders, analytical questions, hypotheses, KPIs, scope, assumptions and decision log. The Ask-stage and the Phase 1-delivered curriculum rows above are updated based on that verified documentation evidence.
+
+The status change rule applied here:
+
+- 🟩 marks rows where Phase 1 itself delivered the evidence (business understanding, problem decomposition, stakeholder analysis, analytical/SMART questions, contextual thinking, Ask-stage documentation).
+- 📄 marks rows where Phase 1 documented the plan or hypotheses (demand forecasting direction, promotion/holiday relationships, seasonality/trends, demand-driver investigation, methodology) but the verified implementation evidence belongs to later analysis and forecasting phases.
+- 🟨 marks rows where Phase 1 delivered part of the evidence and later phases deliver the rest (for example business analysis framing versus forecast-driven decisions, and the decision log versus model-selection decisions).
+
+Rows whose evidence belongs entirely to later phases (data acquisition, cleaning, SQL, spreadsheet, R, visualization, model evaluation) remain ⬜ and will be updated only as those phases are individually audited and their evidence is verified.
+
+The completed analysis and forecasting phases are not certified by this Phase 1 audit.
 
 ## Final Audit Rule
 

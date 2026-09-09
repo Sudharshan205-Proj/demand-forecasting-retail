@@ -66,7 +66,11 @@ The project should demonstrate the permitted forecasting approaches without intr
 
 ### Status
 
-PENDING DATASET REVIEW
+RESOLVED
+
+### Resolution
+
+The dataset and technical suitability were reviewed during the forecasting phases. Phase 11 records that Prophet and LSTM were not artificially added: the implemented models are the naive baseline, the seasonal-naive baseline and ARIMA(1,1,1). The decision to retain these approaches is documented in `docs/phase-11/course-content-coverage.md` and `data/analysis/forecasting_findings.txt`.
 
 ---
 
@@ -146,3 +150,7 @@ Major decisions concerning:
 - Deployment platform
 
 will be recorded here as they are made.
+
+### Phase 17 Re-Audit Note
+
+Decisions made after Phase 1 (dataset selection, forecast frequency and horizon, model selection, feature engineering and deployment platform) are recorded as they were made in their respective phase documentation: the dataset in Phase 2, the forecast frequency and horizon in Phases 9 and 11, model selection in Phase 12, feature engineering in Phase 10, and the deployment platform in Phase 16. Those records are owned by their respective phase audits and are not backfilled into this Phase 1 decision log.

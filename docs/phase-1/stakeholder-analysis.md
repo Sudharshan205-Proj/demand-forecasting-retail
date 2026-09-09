@@ -123,6 +123,6 @@ They should not be required to understand model implementation details to interp
 
 ## 6. Stakeholder Validation
 
-Stakeholder assumptions will be revisited after the dataset is selected.
+Stakeholder assumptions were revisited after the dataset was selected.
 
-If the dataset cannot support a stated stakeholder requirement, the requirement will be documented as a limitation rather than fabricated.
+Where the selected dataset cannot support a stated stakeholder requirement, the requirement is documented as a limitation rather than fabricated. Any resulting limitation is recorded in the corresponding phase documentation.

@@ -48,7 +48,7 @@ def test_phase_1_decisions_preserve_temporal_and_evidence_constraints():
     text = (PHASE_1_DIR / "decision-log.md").read_text(encoding="utf-8")
     required_phrases = (
         "ARIMA is mandatory.",
-        "PENDING DATASET REVIEW",
+        "RESOLVED",
         "Do not define the final forecast horizon until the dataset is inspected.",
         "Do not claim promotion or holiday effects as causal effects",
         "Do not select the final forecasting model before evaluation.",

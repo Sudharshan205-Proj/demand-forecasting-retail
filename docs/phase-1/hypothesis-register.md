@@ -168,3 +168,7 @@ Rules:
 3. Contradictory evidence must be reported.
 4. Correlation must not automatically be described as causation.
 5. Model superiority must be demonstrated through evaluation.
+
+## Phase 17 Re-Audit Note
+
+H1–H8 intentionally remain `NOT TESTED` in this Phase 1 register. Their outcomes are determined by the evidence produced by the analysis and forecasting phases (Phases 7–13) and will only be marked supported or rejected when those phases are audited and their evidence is verified. This register is a planning artifact, not a conclusions record.

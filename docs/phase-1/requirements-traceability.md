@@ -15,9 +15,9 @@
 | BR-002 | Promotions | Integrated dataset + analysis | 2–8 | ⬜ |
 | BR-003 | Holidays | Integrated dataset + analysis | 2–8 | ⬜ |
 | BR-004 | Forecasting | Forecasting pipeline | 9–13 | ⬜ |
-| BR-005 | Baseline | Baseline model | 10 | ⬜ |
-| BR-006 | ARIMA | ARIMA implementation | 10 | ⬜ |
-| BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 10 | ⬜ |
+| BR-005 | Baseline | Baseline model | 11 | ⬜ |
+| BR-006 | ARIMA | ARIMA implementation | 11 | ⬜ |
+| BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 11 | ⬜ |
 | BR-008 | RMSE/MAPE | Evaluation report | 12 | ⬜ |
 | BR-009 | Model comparison | Model comparison | 12 | ⬜ |
 | BR-010 | Inventory insights | Business analysis | 13 | ⬜ |
@@ -31,11 +31,11 @@
 
 | Course Stage | Project Evidence | Phase | Status |
 |---|---|---|---|
-| Ask | Business problem, stakeholders, questions | 1 | 🟨 |
+| Ask | Business problem, stakeholders, questions | 1 | 🟩 |
 | Prepare | Data acquisition and understanding | 2–3 | ⬜ |
 | Process | Cleaning and integration | 5–6 | ⬜ |
-| Analyze | Analysis and forecasting | 7–13 | ⬜ |
-| Share | Tableau/storytelling/presentation | 14–15 | ⬜ |
+| Analyze | Analysis and forecasting | 7–14 | ⬜ |
+| Share | Tableau/storytelling/presentation | 15 | ⬜ |
 | Act | Forecast-based recommendations | 13–16 | ⬜ |
 
 ## Course Analytical Problem Types

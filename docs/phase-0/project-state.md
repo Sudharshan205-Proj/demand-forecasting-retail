@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 0 — Project Setup & Curriculum Audit
+Phase 1 — Business Understanding & Planning
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is currently auditing completed phases individually. Phase 0 is the first audited phase.
+Phase 17 is currently auditing completed phases individually. Phase 0 has been re-audited and approved; Phase 1 is the current audit target.
 
 ## Git
 
@@ -50,7 +50,7 @@ d8e4c60 — Audit Phase 1 business understanding and planning (Phase 0 and Phase
 
 Git status:
 
-Two untracked reference documents are present (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`). No other uncommitted changes exist beyond the Phase 0 re-audit files.
+Two untracked reference documents are present (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`). The Phase 0 re-audit files and the Phase 1 re-audit files are uncommitted in the working tree pending the project owner's review. Per instruction, no git operations are performed during the Phase 1 audit.
 
 Phase branch:
 
@@ -85,6 +85,22 @@ The Phase 0 validation test (`tests/test_phase0_project_setup.py`) and the track
 - tests/test_phase0_project_setup.py
 
 No other project phase files are modified as part of the Phase 0 re-audit.
+
+## Files Modified During Phase 1 Re-Audit
+
+- .gitignore
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/project-file-update-register.md
+- docs/phase-1/decision-log.md
+- docs/phase-1/hypothesis-register.md
+- docs/phase-1/kpi-definitions.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-1/scope-and-assumptions.md
+- docs/phase-1/stakeholder-analysis.md
+- tests/test_phase1_business_understanding.py
+
+The three reference documents were reviewed during the Phase 1 re-audit. `analytical-questions.md` and `phase-1-checklist.md` were verified and left unchanged; `requirements-traceability.md` received content-only corrections (phase references and stage status). All three remain reference-only files per the project owner's instruction: they are not to be committed or pushed in any phase. No git operations were performed during this audit, so they remain tracked in the working copy.
 
 ## Important Decisions
 
@@ -155,6 +171,12 @@ AUDITED
 
 The README project-status table, environment version record, project-state record and project file-update register were corrected during the Phase 0 re-audit so the setup documentation matches the actual repository and environment. The curriculum mapping remains evidence-driven and was not globally rewritten.
 
+Phase 1 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 1 planning documents were reviewed against the completed project. The decision log, requirements traceability, scope and assumptions, KPI definitions and stakeholder validation statements were corrected where they had become stale relative to the completed dataset and forecasting phases.
+
 ## Tests
 
 Phase 0 validation:
@@ -162,6 +184,12 @@ Phase 0 validation:
 VERIFIED — 6 TESTS PASS
 
 The Phase 0 validation test verifies the setup contract: required files, data-directory placeholders, .gitignore rules, declared dependencies, pytest configuration and non-empty Phase 0 documentation.
+
+Phase 1 validation:
+
+VERIFIED — 5 TESTS PASS
+
+The Phase 1 validation test verifies the required documents exist and are non-empty, the business problem contains its scope boundary, the decision log preserves temporal and evidence constraints, the requirements cover the internship forecasting scope, and the KPI definitions document the zero-safe MAPE limitation. The decision-log assertion was updated to reflect the D004 `RESOLVED` status.
 
 ## Known Issues
 
@@ -187,6 +215,10 @@ The Phase 0 setup contract, planning documentation, environment record, reposito
 
 ## Phase 1 Re-Audit Status
 
-Phase 1 — Business Understanding & Planning is the next Phase 17 audit target.
+Phase 1 — Business Understanding & Planning has been re-audited as part of Phase 17.
 
-The earlier Phase 1 audit is superseded by the Phase 17 re-audit process and will be re-executed fresh after the Phase 0 re-audit is approved.
+AUDITED — COMPLETE
+
+The Phase 1 re-audit verified the business problem, stakeholders, analytical questions, hypotheses, KPIs, scope, assumptions, requirements and decision log against the completed project. The decision-log entry D004 was updated from `PENDING DATASET REVIEW` to `RESOLVED` because the dataset review and model decision were completed in the forecasting phases (Phase 11 implemented naive, seasonal-naive and ARIMA(1,1,1)). Phase-reference errors in the requirements traceability were corrected, and forecasting-unit, forecast-horizon, constraint and KPI statements that had become stale relative to the completed phases were revised. The application of the decision-log phrase "PENDING DATASET REVIEW" in the Phase 1 test was updated accordingly.
+
+The next Phase 17 audit target is Phase 2.
