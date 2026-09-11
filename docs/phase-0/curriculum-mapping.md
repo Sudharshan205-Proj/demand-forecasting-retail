@@ -21,7 +21,7 @@ Actual evidence must exist.
 | Stage | Retail Project Application | Status |
 |---|---|---|
 | Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
-| Prepare | Acquire and understand sales, promotion and holiday data | ⬜ |
+| Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
 | Process | Clean, validate, transform and integrate data | ⬜ |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | ⬜ |
 | Share | Tableau, charts, reports and storytelling | ⬜ |
@@ -72,34 +72,34 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Data types | Data dictionary | ⬜ |
-| Data structures | Dataset documentation | ⬜ |
-| Data sources | Source documentation | ⬜ |
-| Internal/external/open data | Source classification | ⬜ |
-| Data relevance | Dataset assessment | ⬜ |
-| Data credibility | ROCCC assessment | ⬜ |
-| Data validity | Validation | ⬜ |
-| Data reliability | Source assessment | ⬜ |
-| Data bias | Bias assessment | ⬜ |
-| Data context | Dataset documentation | ⬜ |
-| ROCCC | Dataset assessment | ⬜ |
+| Data types | Data dictionary | 🟩 |
+| Data structures | Dataset documentation | 🟩 |
+| Data sources | Source documentation | 🟩 |
+| Internal/external/open data | Source classification | 🟩 |
+| Data relevance | Dataset assessment | 🟩 |
+| Data credibility | ROCCC assessment | 📄 |
+| Data validity | Validation | 📄 |
+| Data reliability | Source assessment | 🟩 |
+| Data bias | Bias assessment | 🟨 |
+| Data context | Dataset documentation | 🟩 |
+| ROCCC | Dataset assessment | 📄 |
 | Databases | SQLite/SQL | ⬜ |
 | Relational tables | SQL database | ⬜ |
 | Keys | Database design | ⬜ |
 | Relationships | Data integration | ⬜ |
 | Normalization | Database design | ⬜ |
 | Schemas | SQL documentation | ⬜ |
-| Metadata | Data dictionary | ⬜ |
-| Data governance | Data-handling documentation | ⬜ |
-| File naming | Repository conventions | ⬜ |
-| Folder structure | Repository | ⬜ |
-| Versioning | Git | ⬜ |
-| Data security | Data-handling rules | ⬜ |
-| Access control | Security documentation | ⬜ |
-| Ownership | Data-source documentation | ⬜ |
-| Transparency | Methodology | ⬜ |
-| Consent | Dataset/source assessment | ⬜ |
-| Responsible data use | Ethics documentation | ⬜ |
+| Metadata | Data dictionary | 🟩 |
+| Data governance | Data-handling documentation | 🟨 |
+| File naming | Repository conventions | 🟩 |
+| Folder structure | Repository | 🟩 |
+| Versioning | Git | 🟩 |
+| Data security | Data-handling rules | 🟩 |
+| Access control | Security documentation | 🟨 |
+| Ownership | Data-source documentation | 🟨 |
+| Transparency | Methodology | 🟩 |
+| Consent | Dataset/source assessment | 🟨 |
+| Responsible data use | Ethics documentation | 🟩 |
 
 ## Course 4 — Data Processing and Cleaning
 
@@ -259,6 +259,16 @@ The status change rule applied here:
 Rows whose evidence belongs entirely to later phases (data acquisition, cleaning, SQL, spreadsheet, R, visualization, model evaluation) remain ⬜ and will be updated only as those phases are individually audited and their evidence is verified.
 
 The completed analysis and forecasting phases are not certified by this Phase 1 audit.
+
+## Phase 2 Re-Audit Status
+
+The Phase 2 audit (Data Acquisition & Data Understanding) verified the raw dataset and the Phase 2 documentation. The Prepare stage is marked 🟩. The Course 3 rows updated above are based on that verified evidence:
+
+- 🟩 marks rows where Phase 2 delivered the evidence (data types, data structures, data sources, source classification, data relevance, data reliability, data context, metadata, file naming, folder structure, versioning, data security, transparency, responsible data use).
+- 📄 marks rows where Phase 2 documented the assessment without a fully automated verification (data credibility, data validity, ROCCC) — these depend on the cleaning/validation phases for full evidence.
+- 🟨 marks rows where Phase 2 delivered part of the evidence and later phases deliver the rest (data bias, data governance, access control, ownership, consent).
+
+Rows whose evidence belongs entirely to later phases (SQL/database, integration, cleaning execution, modeling, visualization) remain ⬜ and will be updated only as those phases are individually audited and their evidence is verified.
 
 ## Final Audit Rule
 

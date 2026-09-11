@@ -24,24 +24,38 @@ retail-sales-forecasting-data
 
 ## Acquisition Status
 
-NOT YET VERIFIED LOCALLY
+VERIFIED LOCALLY
 
-The dataset has been selected as the preferred project dataset.
-
-The actual local acquisition must be verified by inspecting the repository's `data/raw/` directory.
+The dataset has been acquired and inspected from the repository's `data/raw/` directory.
 
 ## Known Dataset Description
 
 According to the Kaggle dataset description, the dataset contains sales information from four stores over approximately 25 months and is intended for demand forecasting.
 
-The dataset documentation identifies the following files:
+The dataset documentation identifies the following files; the actual raw directory additionally contains the supporting reference files used by later phases:
 
-- `sales.csv`
-- `online.csv`
-- `markdowns.csv`
-- `price_history.csv`
+- `sales.csv` — physical/store sales (verified)
+- `online.csv` — online sales (verified)
+- `markdowns.csv` — markdown sales (verified)
+- `price_history.csv` — price changes (verified)
+- `stores.csv` — store lookup (verified)
+- `catalog.csv` — product catalog (verified)
+- `discounts_history.csv` — promotion/discount activity (verified)
+- `actual_matrix.csv` — product/store coverage matrix (verified)
 
 The dataset also includes a one-month holdout period for forecasting.
+
+## Acquisition Date
+
+2026-09-06 to 2026-09-07 (local file modification timestamps for the downloaded raw files)
+
+## Dataset Version
+
+Version 1
+
+## License
+
+CC BY-NC-SA 4.0
 
 ## Expected Raw Data Location
 
@@ -93,21 +107,7 @@ If the direct API download returns an authentication or authorization error, use
 - Record the dataset license exactly as presented by Kaggle.
 - Record any download or extraction issues.
 
-## Acquisition Date
-
-NOT YET VERIFIED
-
-## Dataset Version
-
-NOT YET VERIFIED
-
-## License
-
-NOT YET VERIFIED
-
-The license must be recorded from the dataset's current Kaggle metadata rather than guessed.
-
-Phase 2 Verification
+## Phase 2 Verification
 
 The acquisition is considered verified only after:
 
@@ -120,3 +120,7 @@ The acquisition is considered verified only after:
 - Missing values are recorded.
 - Duplicate counts are recorded.
 - Raw files remain unchanged.
+
+## Phase 17 Re-Audit Record
+
+During the Phase 17 re-audit, the raw directory was verified to contain eight CSV files (the four originally documented plus `stores.csv`, `catalog.csv`, `discounts_history.csv` and `actual_matrix.csv`). The inspection script was made robust to the dataset's actual structural characteristics (leading unnamed index column, UTF-8 BOM on `catalog.csv`, and unquoted commas inside catalog text fields) and re-executed successfully over the full dataset. Acquisition date, version availability and the license limitation are recorded above.

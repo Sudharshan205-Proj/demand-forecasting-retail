@@ -12,71 +12,119 @@ https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data
 
 ## Expected Files
 
-| File | Expected Purpose | Exists Locally | Rows | Columns | Status |
-|---|---|---:|---:|---:|---|
-| `sales.csv` | Physical/store sales | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | Pending inspection |
-| `online.csv` | Online sales | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | Pending inspection |
-| `markdowns.csv` | Markdown sales | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | Pending inspection |
-| `price_history.csv` | Price changes | NOT VERIFIED | NOT VERIFIED | NOT VERIFIED | Pending inspection |
+| File | Expected Purpose | Exists Locally | Rows (Parsed) | Columns | Status |
+|---|---:|---:|---:|---|
+| `sales.csv` | Physical/store sales | YES | 7,432,685 | 6 | VERIFIED |
+| `online.csv` | Online sales | YES | 1,123,412 | 6 | VERIFIED |
+| `markdowns.csv` | Markdown sales | YES | 8,979 | 6 | VERIFIED |
+| `price_history.csv` | Price changes | YES | 698,626 | 5 | VERIFIED |
+| `stores.csv` | Store lookup | YES | 4 | 5 | VERIFIED |
+| `catalog.csv` | Product catalog | YES | 192,239 | 8 | VERIFIED |
+| `discounts_history.csv` | Promotion/discount activity | YES | 3,746,744 | 8 | VERIFIED |
+| `actual_matrix.csv` | Product/store coverage matrix | YES | 35,202 | 3 | VERIFIED |
+
+Note: `catalog.csv` contains 219,810 physical data lines; 27,571 lines contain unquoted commas inside text fields and are skipped by the parser because those attributes would otherwise be misaligned. The parsed row count above reflects the clean lines.
 
 ## Dataset-Level Characteristics
 
 | Characteristic | Value | Status |
 |---|---|---|
-| Stores | 4 according to source | Source documented |
-| Historical period | Approximately 25 months | Source documented |
-| Time granularity | Expected daily | Local verification required |
-| Product identifier | `item_id` | Source documented |
-| Store identifier | `store_id` | Source documented |
-| Candidate demand target | `quantity` | Source documented |
-| Pricing information | Yes | Source documented |
-| Markdown information | Yes | Source documented |
+| Stores | 4 | VERIFIED |
+| Historical period (sales) | 2022-08-28 to 2024-09-26 (≈25 months) | VERIFIED |
+| Time granularity | Daily | VERIFIED |
+| Product identifier | `item_id` | VERIFIED |
+| Store identifier | `store_id` | VERIFIED |
+| Candidate demand target | `quantity` | VERIFIED |
+| Pricing information | Yes | VERIFIED |
+| Markdown information | Yes | VERIFIED |
+| Promotion/discount information | Yes (`discounts_history.csv`) | VERIFIED |
 | Explicit holiday data | Not established | Requires inspection |
-| Holdout period | 1 month according to source | Requires inspection |
+| Holdout period | One month according to source | NOT IDENTIFIED IN RAW FILES |
 
 ## Verified File Statistics
 
-These values must be populated from the local inspection script.
+The values below were produced by the Phase 2 inspection script during the Phase 17 re-audit.
 
 ### `sales.csv`
 
-- Rows: NOT YET VERIFIED
-- Columns: NOT YET VERIFIED
-- Date minimum: NOT YET VERIFIED
-- Date maximum: NOT YET VERIFIED
-- Missing values: NOT YET VERIFIED
-- Duplicate rows: NOT YET VERIFIED
-- Unique products: NOT YET VERIFIED
-- Unique stores: NOT YET VERIFIED
+- Rows: 7,432,685
+- Columns: 6 (date, item_id, quantity, price_base, sum_total, store_id)
+- Date minimum: 2022-08-28
+- Date maximum: 2024-09-26
+- Missing values: 0
+- Duplicate rows: 0
+- Unique products: 28,182
+- Unique stores: 4
 
 ### `online.csv`
 
-- Rows: NOT YET VERIFIED
-- Columns: NOT YET VERIFIED
-- Date minimum: NOT YET VERIFIED
-- Date maximum: NOT YET VERIFIED
-- Missing values: NOT YET VERIFIED
-- Duplicate rows: NOT YET VERIFIED
-- Unique products: NOT YET VERIFIED
-- Unique stores: NOT YET VERIFIED
+- Rows: 1,123,412
+- Columns: 6 (date, item_id, quantity, price_base, sum_total, store_id)
+- Date minimum: 2022-08-28
+- Date maximum: 2024-09-26
+- Missing values: 0
+- Duplicate rows: 0
+- Unique products: 18,405
+- Unique stores: 2
 
 ### `markdowns.csv`
 
-- Rows: NOT YET VERIFIED
-- Columns: NOT YET VERIFIED
-- Date minimum: NOT YET VERIFIED
-- Date maximum: NOT YET VERIFIED
-- Missing values: NOT YET VERIFIED
-- Duplicate rows: NOT YET VERIFIED
+- Rows: 8,979
+- Columns: 6 (date, item_id, normal_price, price, quantity, store_id)
+- Date minimum: 2022-08-28
+- Date maximum: 2024-09-26
+- Missing values: 0
+- Duplicate rows: 268
+- Unique products: 313
+- Unique stores: 3
 
 ### `price_history.csv`
 
-- Rows: NOT YET VERIFIED
-- Columns: NOT YET VERIFIED
-- Date minimum: NOT YET VERIFIED
-- Date maximum: NOT YET VERIFIED
-- Missing values: NOT YET VERIFIED
-- Duplicate rows: NOT YET VERIFIED
+- Rows: 698,626
+- Columns: 5 (date, item_id, price, code, store_id)
+- Date minimum: 2022-08-28
+- Date maximum: 2024-09-26
+- Missing values: 0
+- Duplicate rows: 18,641
+- Unique products: 37,624
+- Unique stores: 4
+
+### `stores.csv`
+
+- Rows: 4
+- Columns: 5 (store_id, division, format, city, area)
+- Duplicate rows: 0
+- Unique stores: 4
+
+### `catalog.csv`
+
+- Rows (parsed): 192,239
+- Columns: 8 (item_id, dept_name, class_name, subclass_name, item_type, weight_volume, weight_netto, fatness)
+- Missing values (largest): fatness 185,408; item_type 155,271; weight_netto 150,033; weight_volume 120,805
+- Duplicate rows: 0
+- Unique products: 192,239
+
+### `discounts_history.csv`
+
+- Rows: 3,746,744
+- Columns: 8 (date, item_id, sale_price_before_promo, sale_price_time_promo, promo_type_code, doc_id, number_disc_day, store_id)
+- Date minimum: 2022-08-28
+- Date maximum: 2045-12-31 (contains future-dated records; see Initial Data Assessment)
+- Missing values: promo_type_code 317,846
+- Duplicate rows: 0
+- Unique products: 16,081
+- Unique stores: 4
+
+### `actual_matrix.csv`
+
+- Rows: 35,202
+- Columns: 3 (item_id, date, store_id)
+- Date minimum: 2019-10-17
+- Date maximum: 2024-09-26
+- Missing values: 0
+- Duplicate rows: 0
+- Unique products: 15,398
+- Unique stores: 4
 
 ## Data Relationships
 
@@ -88,9 +136,15 @@ This must be verified before integration.
 
 ## Holdout
 
-The source describes a one-month holdout sample.
+The source describes a one-month holdout sample intended for the internal Kaggle leaderboard. It is expected to be held out by Kaggle, so it is not present in the public training files.
 
-The exact holdout file and date range must be verified from the downloaded dataset.
+Status: NOT IDENTIFIED in the local raw files.
+
+## Structural Characteristics
+
+- Every raw CSV leads with an unnamed index column (`Unnamed: 0`), a file-format artifact excluded from later processing.
+- `catalog.csv` is UTF-8 with a byte-order mark.
+- `catalog.csv` has 27,571 ragged lines (unquoted commas in text fields) reported and skipped by the inspection tool.
 
 ## Raw Data Policy
 

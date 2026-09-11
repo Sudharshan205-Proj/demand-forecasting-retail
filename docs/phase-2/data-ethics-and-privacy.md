@@ -10,7 +10,7 @@ Retail Sales Forecasting Data
 
 ## Privacy Assessment
 
-The published dataset description indicates fields relating to:
+The inspected raw files contain fields relating to:
 
 - dates
 - products
@@ -20,16 +20,15 @@ The published dataset description indicates fields relating to:
 - sales values
 - markdowns
 - price changes
+- promotions/discounts
 
-No customer-level personally identifiable information is identified in the documented schema.
-
-Actual downloaded files must still be inspected before making a final privacy statement.
+No customer-level personally identifiable information is identified in the inspected fields.
 
 ## Personal Data
 
 Status:
 
-NOT IDENTIFIED FROM DOCUMENTED SCHEMA
+NOT IDENTIFIED FROM INSPECTED FIELDS
 
 The project will not introduce customer-level personal information.
 
@@ -49,7 +48,7 @@ Kaggle credentials, if required for acquisition, must remain outside the reposit
 
 The dataset is externally sourced from Kaggle.
 
-The original ownership and licensing terms must be verified from the current Kaggle dataset metadata.
+The original ownership and licensing terms must be verified from the current Kaggle dataset metadata (see the Phase 2 data-acquisition and data-source-assessment records; the license could not be confirmed programmatically during the re-audit).
 
 ## Consent
 
@@ -74,11 +73,13 @@ Observed relationships will be described as associations unless a valid causal a
 
 Potential limitations include:
 
-- limited store coverage
-- limited historical period
+- limited store coverage (4 stores)
+- limited historical period (≈25 months)
 - retailer-specific pricing practices
 - retailer-specific product mix
 - potential differences between physical and online sales
+- catalog attribute gaps and catalog text-formatting irregularities
+- future-dated discount records that require interpretation care
 
 These limitations must be considered when interpreting forecasts.
 
@@ -88,6 +89,6 @@ Only information necessary for the forecasting and analytical objectives should 
 
 ## Final Privacy Status
 
-PARTIALLY ASSESSED
+COMPLETE
 
-Final assessment will follow actual raw-data inspection.
+No PII was identified in the inspected fields during the Phase 17 re-audit.

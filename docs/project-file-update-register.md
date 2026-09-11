@@ -124,7 +124,24 @@ Expected locally but intentionally excluded from Git:
 
 ### End-of-phase status
 
-TO BE UPDATED AFTER PHASE 2 VERIFICATION.
+VERIFIED — all eight raw files acquired, inspected and documented during the Phase 17 re-audit.
+
+### Phase 17 audit modifications
+
+- `scripts/inspect_raw_data.py`
+- `tests/test_inspect_raw_data.py`
+- `docs/phase-2/data-acquisition.md`
+- `docs/phase-2/data-dictionary.md`
+- `docs/phase-2/dataset-inventory.md`
+- `docs/phase-2/initial-data-assessment.md`
+- `docs/phase-2/data-source-assessment.md`
+- `docs/phase-2/data-ethics-and-privacy.md`
+- `docs/phase-2/phase-2-checklist.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/project-file-update-register.md`
+
+The re-audit corrected the inspection script so it handles the dataset's structural characteristics (unnamed index column, BOM, unquoted commas in catalog text fields) and populated the documentation with verified statistics. The dataset license remains to be confirmed manually on Kaggle.
 
 ---
 
@@ -266,4 +283,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 has been re-audited and approved. Phase 1 is currently being re-audited. No git operations are performed during these audits; all re-audit changes remain in the working tree pending the project owner's review.
+Phase 0 and Phase 1 have been re-audited and approved. Phase 2 is currently being re-audited; its script, tests and documentation have been corrected and verified against the full raw dataset.

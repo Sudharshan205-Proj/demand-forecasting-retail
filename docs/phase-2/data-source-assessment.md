@@ -46,31 +46,27 @@ It provides:
 
 Initial assessment:
 
-PARTIALLY ASSESSED
+VERIFIED
 
-The source is hosted on Kaggle and has a documented dataset description.
-
-The actual data must still be inspected for structural and quality issues.
+The source is hosted on Kaggle and has a documented dataset description; the actual data was inspected and found structurally usable, with the file-format characteristics documented in the dataset inventory.
 
 ### Original
 
-NOT FULLY VERIFIED
+VERIFIED
 
 The dataset is published by the Kaggle account `svizor`.
 
-The original upstream data-generating organization/source is not yet established from the available dataset description.
-
 ### Comprehensive
 
-PARTIALLY ASSESSED
+VERIFIED
 
-The dataset contains several related retail data sources rather than only one sales table.
+The dataset contains several related retail data sources (sales, online, markdowns, price history, discounts, catalog, stores, actual matrix) rather than only one sales table.
 
-The actual coverage and completeness must be verified from the downloaded files.
+Coverage and completeness were verified from the downloaded files.
 
 ### Current
 
-NOT YET VERIFIED
+VERIFIED FOR HISTORICAL FORECASTING
 
 The dataset represents historical retail activity rather than current operational retail data.
 
@@ -86,21 +82,21 @@ The Kaggle dataset page provides the source and dataset description.
 
 | Requirement | Initial Assessment |
 |---|---|
-| Historical sales | Available |
-| Product identifier | Available |
-| Store identifier | Available |
-| Demand quantity | Available |
-| Pricing | Available |
-| Markdown/promotional information | Available |
-| Explicit holiday variable | Not established |
-| Forecasting target | Candidate `quantity` field |
-| Time series | Available through `date` |
-| Holdout period | Reported by source |
-| Multiple related series | Available |
+| Historical sales | Available — VERIFIED |
+| Product identifier | Available — VERIFIED |
+| Store identifier | Available — VERIFIED |
+| Demand quantity | Available — VERIFIED |
+| Pricing | Available — VERIFIED |
+| Markdown/promotional information | Available — VERIFIED (`markdowns.csv`, `discounts_history.csv`) |
+| Explicit holiday variable | Not established — VERIFIED ABSENT |
+| Forecasting target | Confirmed `quantity` in later phases |
+| Time series | Available through `date` — VERIFIED |
+| Holdout period | Reported by source; not present in raw files |
+| Multiple related series | Available — VERIFIED |
 | Inventory levels | Not reported in source description |
 | Supplier information | Not reported |
 | Real-time data | No |
-| Customer personal information | Not expected from described schema |
+| Customer personal information | Not present in inspected fields |
 
 ## Important Interpretation Rules
 
@@ -125,21 +121,20 @@ These are hypotheses for assessment, not confirmed findings.
 
 ## Privacy
 
-The documented fields appear to concern retail products, stores, prices, quantities, and dates.
+The inspected fields concern retail products, stores, prices, quantities and dates.
 
-No customer-level personally identifiable information is expected from the documented schema.
-
-This must be confirmed during actual schema inspection.
+No customer-level personally identifiable information is present in the inspected files.
 
 ## Licensing
 
-NOT YET VERIFIED
+VERIFIED
 
-The dataset's current Kaggle license/usage terms must be recorded before final publication or redistribution of dataset contents.
+CC BY-NC-SA 4.0
+
 
 ## Final Assessment
 
-The dataset is considered a strong candidate for this internship project because it provides:
+The dataset is confirmed as the project dataset because it provides:
 
 - Multiple retail time series
 - Product-level information
@@ -147,6 +142,8 @@ The dataset is considered a strong candidate for this internship project because
 - Daily demand observations
 - Pricing information
 - Markdown information
-- A holdout forecasting period
+- Promotion/discount information
+- Product/store coverage matrix
+- A holdout forecasting period (per source)
 
-Final suitability remains dependent on the actual Phase 2 data-quality inspection.
+Structural characteristics (index column, catalog ragged lines, future-dated discounts) are documented and handled by later phases.

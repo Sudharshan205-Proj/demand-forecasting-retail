@@ -2,78 +2,82 @@
 
 ## Data Acquisition
 
-- [ ] Phase branch created
-- [ ] Repository state verified
-- [ ] Dataset downloaded
-- [ ] Raw files extracted
-- [ ] Raw files stored under `data/raw/`
-- [ ] Raw data excluded from Git
-- [ ] Source URL recorded
-- [ ] Acquisition date recorded
-- [ ] Dataset version recorded where available
-- [ ] License recorded
+- [x] Phase branch created
+- [x] Repository state verified
+- [x] Dataset downloaded
+- [x] Raw files extracted
+- [x] Raw files stored under `data/raw/`
+- [x] Raw data excluded from Git
+- [x] Source URL recorded
+- [x] Acquisition date recorded
+- [x] Dataset version recorded where available
+- [x] License recorded
 
 ## Data Understanding
 
-- [ ] Dataset dimensions verified
-- [ ] Columns verified
-- [ ] Data types verified
-- [ ] Missing values measured
-- [ ] Duplicate records measured
-- [ ] Date ranges verified
-- [ ] Temporal granularity verified
-- [ ] Store count verified
-- [ ] Product count verified
-- [ ] Candidate target verified
-- [ ] Candidate forecasting unit verified
-- [ ] File relationships investigated
-- [ ] Holdout period identified
-- [ ] Holiday availability determined
-- [ ] Markdown/promotion availability determined
+- [x] Dataset dimensions verified
+- [x] Columns verified
+- [x] Data types verified
+- [x] Missing values measured
+- [x] Duplicate records measured
+- [x] Date ranges verified
+- [x] Temporal granularity verified
+- [x] Store count verified
+- [x] Product count verified
+- [x] Candidate target verified
+- [x] Candidate forecasting unit verified (confirmed in Phases 9/11)
+- [x] File relationships investigated
+- [x] Holdout period determined (not present in raw files)
+- [x] Holiday availability determined (absent)
+- [x] Markdown/promotion availability determined
 
 ## Data Quality
 
-- [ ] Initial quality assessment completed
-- [ ] Potential anomalies documented
-- [ ] Potential inconsistencies documented
-- [ ] No cleaning performed prematurely
+- [x] Initial quality assessment completed
+- [x] Potential anomalies documented
+- [x] Potential inconsistencies documented
+- [x] No cleaning performed prematurely
 
 ## Ethics and Governance
 
-- [ ] Privacy assessment completed
-- [ ] Security assessment completed
-- [ ] Ownership assessed
-- [ ] License recorded
-- [ ] Bias/representativeness risks documented
-- [ ] Responsible-use limitations documented
+- [x] Privacy assessment completed
+- [x] Security assessment completed
+- [x] Ownership assessed
+- [x] License recorded
+- [x] Bias/representativeness risks documented
+- [x] Responsible-use limitations documented
 
 ## Course Coverage
 
-- [ ] Prepare stage demonstrated
-- [ ] Data source assessment demonstrated
-- [ ] Data relevance assessed
-- [ ] Data reliability assessed
-- [ ] Data completeness assessed
-- [ ] Data context documented
-- [ ] ROCCC assessment documented
-- [ ] Metadata/data dictionary started
-- [ ] Data governance considered
-- [ ] Data privacy considered
-- [ ] Data ethics considered
+- [x] Prepare stage demonstrated
+- [x] Data source assessment demonstrated
+- [x] Data relevance assessed
+- [x] Data reliability assessed
+- [x] Data completeness assessed
+- [x] Data context documented
+- [x] ROCCC assessment documented
+- [x] Metadata/data dictionary completed
+- [x] Data governance considered
+- [x] Data privacy considered
+- [x] Data ethics considered
 
 ## Engineering
 
-- [ ] Raw-data inspection script created
-- [ ] Unit tests created
-- [ ] Script execution verified
-- [ ] Documentation synchronized
-- [ ] Project-state updated
-- [ ] Files-to-update register updated
+- [x] Raw-data inspection script created
+- [x] Unit tests created
+- [x] Script execution verified (completed successfully on the full dataset during the Phase 17 re-audit)
+- [x] Documentation synchronized
+- [x] Project-state updated
+- [x] Files-to-update register updated
 
 ## Git
 
-- [ ] Changes reviewed
-- [ ] Correct files staged
-- [ ] One logical Phase 2 commit created
-- [ ] Phase 2 branch pushed
-- [ ] Remote branch verified
+- [x] Changes reviewed
+- [x] Correct files staged
+- [x] One logical Phase 2 commit created
+- [x] Phase 2 branch pushed
+- [x] Remote branch verified
+
+## Phase Status
+
+AUDITED — see the Phase 2 re-audit record in `docs/phase-0/project-state.md`.
