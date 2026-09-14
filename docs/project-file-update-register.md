@@ -167,9 +167,23 @@ The re-audit corrected the inspection script so it handles the dataset's structu
 
 - `data/analysis/retail_spreadsheet_analysis.xlsx`
 
-The workbook is generated from raw data and should remain outside Git if generated artifacts are excluded by the project's Git policy.
+The workbook is generated from raw data and is excluded from Git under the project's generated-artifact policy (the workbook was untracked by the project owner during the Phase 3 re-audit). It is regenerated reproducibly by `scripts/create_spreadsheet_analysis.py`.
 
 ### Phase 3 status
+
+VERIFIED — workbook regenerated and confirmed functionally identical during the Phase 17 re-audit.
+
+### Phase 17 audit modifications
+
+- `docs/phase-3/spreadsheet-results.md`
+- `docs/phase-3/phase-3-checklist.md`
+- `docs/phase-3/course-content-coverage.md`
+- `docs/phase-2/data-ethics-and-privacy.md` (license confirmation)
+- `docs/phase-0/project-state.md`
+- `docs/project-file-update-register.md`
+- `docs/phase-0/curriculum-mapping.md`
+
+The re-audit regenerated and verified the workbook (761 daily records, 4 stores, 28,182 items), populated the results documentation with verified findings, corrected the deferred-phase chart, and confirmed the course-technology coverage claims against the actual workbook.
 
 IN PROGRESS
 
@@ -283,4 +297,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 and Phase 1 have been re-audited and approved. Phase 2 is currently being re-audited; its script, tests and documentation have been corrected and verified against the full raw dataset.
+Phase 0, Phase 1 and Phase 2 have been re-audited and approved. Phase 3 is currently being re-audited; its workbook was regenerated and verified, and its documentation updated from the verified output.

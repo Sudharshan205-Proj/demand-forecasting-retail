@@ -6,9 +6,9 @@ Phase 3 — Spreadsheet-Based Analysis
 
 ## Status
 
-IN PROGRESS
+COMPLETE — VERIFIED
 
-Actual numerical findings must be populated after the workbook-generation script has been executed.
+Numerical findings below were populated from the actual workbook generation during the Phase 17 re-audit (script re-executed successfully; workbook regenerated and cross-checked).
 
 ## Dataset
 
@@ -22,57 +22,83 @@ Raw records:
 
 This value was verified during Phase 2.
 
-## Planned Analysis
+## Verified Analysis
 
 ### Historical Demand Over Time
 
-The `Daily_Analysis` worksheet will be used to identify:
+The `Daily_Analysis` worksheet contains **761 daily records** covering **2022-08-28 to 2024-09-26**:
 
-- highest-demand dates
-- lowest-demand dates
-- broad changes over time
-- day-of-week differences
-- monthly patterns
+- Highest-demand date: **2023-12-30** (total quantity ≈ 154,066.88)
+- Lowest-demand date: **2023-01-01** (total quantity ≈ 19,245.05)
+- Total daily quantity across the period: ≈ **41,938,165**
+- Total daily sales value across the period: ≈ **5,658,351,681**
+- Day-of-week, month and year fields support day-of-week and monthly pattern inspection.
 
 ### Store Demand
 
-The `Store_Summary` worksheet will be used to compare:
+The `Store_Summary` worksheet contains **4 store records** (matching the Phase 2 verified 4 stores):
 
-- total quantity
-- total sales value
-- average price
-- active products
+| Store | Total Quantity | Total Sales Value | Average Price | Active Items |
+|---|---:|---:|---:|---|
+| 1 | 23,064,331.52 | 3,106,158,681.93 | 216.73 | 25,312 |
+| 2 | 4,898,827.56 | 492,059,912.92 | 152.35 | 9,842 |
+| 3 | 4,755,147.06 | 613,690,645.68 | 194.04 | 5,193 |
+| 4 | 9,219,859.06 | 1,446,442,440.18 | 240.13 | 17,680 |
+
+Store 1 is the highest-demand store by total quantity and sales value; stores 2 and 3 have substantially lower volumes.
 
 ### Product Demand
 
-The `Item_Summary` worksheet will be used to identify:
+The `Item_Summary` worksheet contains **28,182 item records** (matching the Phase 2 verified unique sales items):
 
-- highest-demand products
-- lowest-demand products
-- products with broad store coverage
-- sales-value differences
+- 28,167 items have positive total quantity; 15 items have zero/undetermined quantity after aggregation.
+- Highest-demand item: `b0d24502fb66` (total quantity 2,022,732; total sales value ≈ 15,116,885.83)
+- Highest sales-value item: `9a7e315f3f42` (sales value ≈ 334,093,618.12)
+- The sheet supports ranking, conditional formatting and high/low-demand product identification.
 
 ### Spreadsheet Calculations
 
-The `Formula_Analysis` worksheet demonstrates:
+The `Formula_Analysis` worksheet demonstrates and stores the following formulas:
 
-- SUM
-- AVERAGE
-- MAX
-- MIN
-- SUMPRODUCT
-- VLOOKUP
-- COUNTIF
+| Technique | Formula |
+|---|---|
+| SUM | `=SUM(Daily_Analysis!B2:B100)` |
+| AVERAGE | `=AVERAGE(Daily_Analysis!D2:D100)` |
+| MAX | `=MAX(Daily_Analysis!B2:B100)` |
+| MIN | `=MIN(Daily_Analysis!B2:B100)` |
+| SUMPRODUCT | `=SUMPRODUCT(Daily_Analysis!B2:B100,Daily_Analysis!D2:D100)` |
+| VLOOKUP | `=VLOOKUP(D2,Store_Summary!A:I,8,FALSE)` |
+| COUNTIF | `=COUNTIF(Daily_Analysis!F:F,"Monday")` |
 
-## Verified Findings
+### Data Validation
 
-NOT YET POPULATED
+The `Data_Validation` worksheet contains the following formula-based checks:
 
-No numerical findings will be recorded until the Phase 3 workbook has been generated and inspected.
+- Daily records: `=COUNTA(Daily_Analysis!A:A)-1`
+- Store records: `=COUNTA(Store_Summary!A:A)-1`
+- Item records: `=COUNTA(Item_Summary!A:A)-1`
+- Missing daily dates: `=COUNTBLANK(DailySalesTable[date])`
+- Negative daily quantity records: `=COUNTIF(DailySalesTable[total_quantity],"<0")`
+
+The store-selection cell (`Formula_Analysis` D2) uses a dynamic data-validation list sourced from the `Store_Summary` store_id column.
+
+### Workbook Structure Verified
+
+- 6 sheets: Workbook_ReadMe, Daily_Analysis, Store_Summary, Item_Summary, Formula_Analysis, Data_Validation
+- Excel tables with filters on Daily_Analysis (DailySalesTable), Store_Summary (StoreSummaryTable), Item_Summary (ItemSummaryTable)
+- Freeze panes at A2 on all analytical sheets
+- Conditional formatting (color scale) on Item_Summary demand ranking
 
 ## Business Interpretation
 
-Findings should answer the Phase 1 analytical questions without making unsupported causal claims.
+The findings answer the Phase 1 analytical questions by supporting:
+
+- identification of high-/low-demand time periods
+- store-level demand comparison
+- product-level demand ranking
+- pricing and demand-pattern inspection
+
+These results describe historical relationships and do not establish causal effects.
 
 ## Limitations
 
@@ -81,3 +107,7 @@ Findings should answer the Phase 1 analytical questions without making unsupport
 - It does not perform forecasting.
 - It does not establish causal relationships.
 - More complex relational analysis will be performed in SQL.
+
+## Phase 17 Re-Audit Record
+
+During the Phase 17 re-audit, the Phase 3 script was re-executed successfully (`python scripts/create_spreadsheet_analysis.py`), producing 761 daily records, 4 store records and 28,182 item records. The regenerated workbook was programmatically compared with the committed workbook and verified functionally identical (same sheets, dimensions, record counts, totals and key values). Following the project's generated-artifact policy, the workbook is no longer tracked in Git and is regenerated reproducibly by the script.

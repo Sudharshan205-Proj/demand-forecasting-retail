@@ -48,7 +48,7 @@ Kaggle credentials, if required for acquisition, must remain outside the reposit
 
 The dataset is externally sourced from Kaggle.
 
-The original ownership and licensing terms must be verified from the current Kaggle dataset metadata (see the Phase 2 data-acquisition and data-source-assessment records; the license could not be confirmed programmatically during the re-audit).
+The original ownership and licensing terms were verified from the Kaggle dataset metadata: CC BY-NC-SA 4.0, confirmed by the project owner. Derivatives and redistributions must carry the same license and attribute the source.
 
 ## Consent
 

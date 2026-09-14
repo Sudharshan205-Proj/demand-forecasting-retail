@@ -560,3 +560,101 @@ def test_store_selection_dropdown_is_dynamic_not_hardcoded(tmp_path):
     validations = list(formula_sheet.data_validations.dataValidation)
     assert len(validations) == 1
     assert validations[0].formula1 == "Store_Summary!$A$2:$A$3"
+def test_workbook_contains_all_required_course_formulas(tmp_path):
+    """The Formula_Analysis sheet must demonstrate the full course formula set.
+
+    The Phase 3 course-coverage documentation claims SUM, AVERAGE, MAX, MIN,
+    SUMPRODUCT, VLOOKUP and COUNTIF; the workbook must actually store each of
+    them as a formula rather than relying on SUM/VLOOKUP alone.
+    """
+    output_path = tmp_path / "analysis.xlsx"
+
+    daily = pd.DataFrame(
+        {
+            "date": pd.to_datetime(["2024-01-01"]),
+            "total_quantity": [100.0],
+            "total_sales_value": [1000.0],
+            "average_price": [10.0],
+            "active_items": [20],
+        }
+    )
+    store_summary = pd.DataFrame(
+        {
+            "store_id": [1],
+            "total_quantity": [100.0],
+            "total_sales_value": [1000.0],
+            "average_price": [10.0],
+            "active_items": [20],
+        }
+    )
+    item_summary = pd.DataFrame(
+        {
+            "item_id": ["A"],
+            "total_quantity": [100.0],
+            "total_sales_value": [1000.0],
+            "average_price": [10.0],
+            "active_store_count": [1],
+        }
+    )
+    stores = pd.DataFrame(
+        {
+            "store_id": [1],
+            "division": ["A"],
+            "format": ["Large"],
+            "city": ["City A"],
+            "area": [100],
+        }
+    )
+
+    create_workbook(
+        daily=daily,
+        store_summary=store_summary,
+        item_summary=item_summary,
+        stores=stores,
+        output_path=output_path,
+    )
+
+    workbook = load_workbook(output_path, data_only=False)
+    worksheet = workbook["Formula_Analysis"]
+
+    formula_cells = [
+        worksheet["B2"].value,
+        worksheet["B3"].value,
+        worksheet["B4"].value,
+        worksheet["B5"].value,
+        worksheet["B6"].value,
+        worksheet["B7"].value,
+        worksheet["B8"].value,
+    ]
+    combined = " ".join(str(value) for value in formula_cells)
+
+    for technique in ("SUM", "AVERAGE", "MAX", "MIN", "SUMPRODUCT", "VLOOKUP", "COUNTIF"):
+        assert technique in combined, f"Missing formula demonstration: {technique}"
+
+
+def test_aggregate_sales_ignores_unnamed_index_column(tmp_path):
+    """Raw files carry a spurious leading unnamed index column; aggregation
+    must produce the same results whether or not that column is present."""
+    rows = [
+        ("2024-01-01", "A", 5, 10, 50, 1),
+        ("2024-01-01", "A", 2, 10, 20, 2),
+    ]
+    dataframe = pd.DataFrame(
+        rows,
+        columns=["date", "item_id", "quantity", "price_base", "sum_total", "store_id"],
+    )
+
+    clean_path = tmp_path / "sales_clean.csv"
+    dataframe.to_csv(clean_path, index=False)
+
+    indexed_path = tmp_path / "sales_indexed.csv"
+    dataframe.to_csv(indexed_path, index=True)
+
+    clean_daily, clean_store, clean_item = aggregate_sales(clean_path, chunksize=2)
+    indexed_daily, indexed_store, indexed_item = aggregate_sales(indexed_path, chunksize=2)
+
+    for column in ("total_quantity", "total_sales_value"):
+        assert indexed_daily[column].equals(clean_daily[column])
+    assert indexed_daily["active_items"].equals(clean_daily["active_items"])
+    assert indexed_store["total_quantity"].equals(clean_store["total_quantity"])
+    assert indexed_item["total_quantity"].equals(clean_item["total_quantity"])

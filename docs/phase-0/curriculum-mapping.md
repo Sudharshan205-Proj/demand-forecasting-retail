@@ -132,19 +132,19 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Sorting | Spreadsheet analysis | ⬜ |
-| Filtering | Spreadsheet analysis | ⬜ |
-| Formulas | Spreadsheet analysis | ⬜ |
-| Functions | Spreadsheet analysis | ⬜ |
-| SUM | Spreadsheet analysis | ⬜ |
-| AVERAGE | Spreadsheet analysis | ⬜ |
-| MIN | Spreadsheet analysis | ⬜ |
-| MAX | Spreadsheet analysis | ⬜ |
-| Cell references | Spreadsheet analysis | ⬜ |
-| Conditional formatting | Spreadsheet analysis | ⬜ |
-| Pivot tables | Spreadsheet analysis | ⬜ |
-| Data validation | Spreadsheet analysis | ⬜ |
-| Organization | Spreadsheet analysis | ⬜ |
+| Sorting | Spreadsheet analysis | 🟩 |
+| Filtering | Spreadsheet analysis | 🟩 |
+| Formulas | Spreadsheet analysis | 🟩 |
+| Functions | Spreadsheet analysis | 🟩 |
+| SUM | Spreadsheet analysis | 🟩 |
+| AVERAGE | Spreadsheet analysis | 🟩 |
+| MIN | Spreadsheet analysis | 🟩 |
+| MAX | Spreadsheet analysis | 🟩 |
+| Cell references | Spreadsheet analysis | 🟩 |
+| Conditional formatting | Spreadsheet analysis | 🟩 |
+| Pivot tables | Spreadsheet analysis | 🟩 |
+| Data validation | Spreadsheet analysis | 🟩 |
+| Organization | Spreadsheet analysis | 🟩 |
 
 ### SQL
 
@@ -269,6 +269,12 @@ The Phase 2 audit (Data Acquisition & Data Understanding) verified the raw datas
 - 🟨 marks rows where Phase 2 delivered part of the evidence and later phases deliver the rest (data bias, data governance, access control, ownership, consent).
 
 Rows whose evidence belongs entirely to later phases (SQL/database, integration, cleaning execution, modeling, visualization) remain ⬜ and will be updated only as those phases are individually audited and their evidence is verified.
+
+## Phase 3 Re-Audit Status
+
+The Phase 3 audit (Spreadsheet-Based Analysis) verified the generated workbook against the raw sales data. The Course 5 Spreadsheets rows above are marked 🟩 based on that verified evidence: the workbook demonstrates sorting, filtering, formulas (SUM, AVERAGE, MIN, MAX, SUMPRODUCT, VLOOKUP, COUNTIF), conditional formatting, pivot-style summaries, data validation, and organizational/aggregation techniques. The workbook (761 daily records, 4 stores, 28,182 items) was regenerated and confirmed functionally identical during the audit.
+
+Rows whose evidence belongs to later phases remain ⬜ and will be updated only as those phases are individually audited.
 
 ## Final Audit Rule
 
