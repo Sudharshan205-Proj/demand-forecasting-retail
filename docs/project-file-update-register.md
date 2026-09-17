@@ -281,11 +281,56 @@ modified.
 
 ---
 
-## Phase 6
+## Phase 6 — Data Integration
 
-Not yet started.
+### Planned files
 
-Files will be determined at Phase 6 start.
+- `docs/phase-6/data-integration-plan.md`
+- `docs/phase-6/integration-methodology.md`
+- `docs/phase-6/integration-quality-framework.md`
+- `docs/phase-6/integration-results.md`
+- `docs/phase-6/course-content-coverage.md`
+- `docs/phase-6/phase-6-checklist.md`
+- `scripts/integrate_retail_data.py`
+- `tests/test_integrate_retail_data.py`
+
+### Generated local artifacts
+
+- `data/processed/integrated_retail_data.csv` (1.28 GB, 7,431,026 rows, 34 columns)
+- `data/processed/integration_quality_report.csv`
+
+The integrated dataset and its quality report are generated from raw data and
+are excluded from Git under the project's generated-artifact policy.
+
+### Phase 6 status
+
+VERIFIED — the integration pipeline was re-executed over the full dataset
+(350 seconds) and its output was independently validated during the Phase 17
+re-audit.
+
+### Phase 17 audit modifications
+
+- `scripts/integrate_retail_data.py`
+- `tests/test_integrate_retail_data.py`
+- `docs/phase-6/integration-results.md`
+- `docs/phase-6/integration-methodology.md`
+- `docs/phase-6/integration-quality-framework.md`
+- `docs/phase-6/data-integration-plan.md`
+- `docs/phase-6/course-content-coverage.md`
+- `docs/phase-6/phase-6-checklist.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-2/dataset-inventory.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/project-file-update-register.md`
+
+The re-audit added six validation metrics to the quality report (date coverage,
+unique items/stores, total demand and revenue), removed the stale
+`integration_quality_report.json` artifact that the current script cannot
+reproduce, documented the same-day price-event tie-break, and replaced a vacuous
+test with real coverage of the integration core (13 to 22 tests). No grain, join
+key or release policy was changed; the integrated output is byte-identical and
+no raw data files are modified.
 
 ---
 
@@ -373,4 +418,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 4 have been re-audited and approved. Phase 5 is currently being re-audited; its pipeline was re-executed over the full dataset, its artifacts inspected, and its documentation updated from the verified output (36,585 raw / 36,580 cleaned unmatched catalog rows reconciled with Phase 4 and Phase 6).
+Phase 0 through Phase 5 have been re-audited and approved. Phase 6 is currently being re-audited; its pipeline was re-executed over the full dataset (byte-identical 7,431,026-row output), its artifacts independently validated, the stale `integration_quality_report.json` removed, and its documentation updated from the verified output.

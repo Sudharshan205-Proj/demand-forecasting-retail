@@ -2,52 +2,115 @@
 
 ## Status
 
-NOT YET VERIFIED
+VERIFIED
 
-This document records the results of the Phase 6 integration pipeline after
-execution and validation.
+The Phase 6 integration pipeline was re-executed over the complete cleaned sales
+dataset and all seven auxiliary sources during the Phase 17 re-audit, and its
+outputs were inspected and independently validated.
 
 ## Input
 
 | Metric | Result |
 |---|---:|
-| Clean sales rows | NOT YET VERIFIED |
-| Stores rows | NOT YET VERIFIED |
-| Catalog rows | NOT YET VERIFIED |
-| Price history rows | NOT YET VERIFIED |
-| Markdown rows | NOT YET VERIFIED |
-| Discount rows | NOT YET VERIFIED |
-| Online rows | NOT YET VERIFIED |
-| Actual matrix rows | NOT YET VERIFIED |
+| Clean sales rows | 7,431,026 |
+| Stores rows | 4 |
+| Catalog rows | 219,810 (219,810 unique item_ids) |
+| Price history rows | 698,626 |
+| Markdown rows | 8,979 |
+| Discount rows | 3,746,744 |
+| Online rows | 1,123,412 |
+| Actual matrix rows | 35,202 |
 
 ## Output
 
 | Metric | Result |
 |---|---:|
-| Integrated rows | NOT YET VERIFIED |
-| Row-count difference | NOT YET VERIFIED |
-| Duplicate canonical-grain rows | NOT YET VERIFIED |
-| Unknown store rows | NOT YET VERIFIED |
-| Unmatched catalog rows | NOT YET VERIFIED |
+| Integrated rows | 7,431,026 |
+| Row-count difference | 0 |
+| Duplicate canonical-grain rows | 0 |
+| Unknown store rows | 0 |
+| Unmatched catalog rows | 36,580 |
+| Date coverage | 2022-08-28 to 2024-09-26 |
+| Unique items | 28,180 |
+| Unique stores | 4 |
+| Total demand quantity | 41,949,529.91 |
+| Total sales revenue | 5,659,219,309.90 |
+| Integrated columns | 34 |
 
 ## Validation
 
-- Row preservation: NOT YET VERIFIED
-- Canonical-grain uniqueness: NOT YET VERIFIED
-- Referential integrity: NOT YET VERIFIED
-- Join cardinality: NOT YET VERIFIED
-- Online-channel separation: NOT YET VERIFIED
-- Raw-data preservation: NOT YET VERIFIED
+- Row preservation: PASS — 7,431,026 integrated rows equals 7,431,026 cleaned
+  sales rows.
+- Canonical-grain uniqueness: PASS — 0 duplicate `date + item_id + store_id`
+  keys, re-verified independently by streaming the 1.28 GB output file.
+- Referential integrity: PASS — unknown store rows = 0; catalog references are
+  reported rather than enforced (see below).
+- Join cardinality: PASS — every auxiliary join is validated as many-to-one;
+  a non-unique auxiliary key raises an error (regression-tested).
+- Online-channel separation: PASS — online demand is carried in
+  `online_quantity`/`online_sales_value`/`online_average_price` and is never
+  added to the physical `quantity` measure.
+- Raw-data preservation: PASS — no raw file was modified (sizes and timestamps
+  unchanged).
+- Catalog-unmatched retained: PASS — 36,580 sales rows (948 distinct items)
+  have no catalog match and are retained with null product attributes.
 
 ## Test results
 
-NOT YET VERIFIED
+22 passed (Phase 6 test module); 169 passed (full project suite).
 
 ## Known issues
 
-Any issues discovered during execution will be recorded here.
+- 36,580 sales rows (948 distinct items) carry null catalog attributes. This is
+  the data-coverage gap first reported by Phase 4 Query 17 and reported by
+  Phase 5; it is retained rather than dropped, and its magnitude is unchanged
+  from the original phase run.
+- The inherited Phase 5 revenue mismatches (1,041,252 rows) are carried into the
+  integrated dataset unchanged.
+- Same-day price-change ties in `price_history` are resolved by file order
+  (documented in the integration methodology); the raw files are not
+  chronologically sorted.
+- Historical: an earlier implementation wrote
+  `data/processed/integration_quality_report.json`. The current pipeline writes a
+  single CSV quality report. The JSON was not referenced by any code or
+  documentation, could not be regenerated, and predated the CSV by several
+  hours. During the Phase 17 audit its validation metrics were folded into the
+  CSV report and the stale JSON was removed.
 
 ## Phase status
 
-NOT COMPLETE until implementation, tests, validation, documentation, and Git
-verification have all succeeded.
+COMPLETE — VERIFIED
+
+The implementation, tests, validation, documentation and artifact checks have
+all succeeded. Git state is managed by the project owner; the Phase 17 audit
+performs no Git operations.
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+The pipeline was re-executed over the full dataset during the Phase 17 re-audit
+(350 seconds) and produced a byte-identical integrated dataset (1,283,886,539
+bytes, 7,431,026 rows). Verified findings:
+
+1. The end-to-end run reproduces the original phase result exactly: row count,
+   canonical-grain uniqueness (0 duplicates), unknown stores (0) and unmatched
+   catalog rows (36,580) are unchanged.
+2. The quality report was extended with the validation metrics that were
+   previously only present in the orphan JSON: `date_min`, `date_max`,
+   `unique_items`, `unique_stores`, `total_demand_quantity` and
+   `total_sales_revenue`.
+3. The chunked aggregation strategy was audited for the mean-of-means bias:
+   `discounts_history` has 3,746,744 rows and 3,746,744 distinct canonical keys,
+   and `online` has 1,123,412 rows and 1,123,412 distinct keys, with **0 keys
+   spanning more than one 250,000-row chunk**. Comparing the pipeline's chunked
+   output with an exact sum/count reconstruction gives a maximum absolute
+   difference of 0.0 for every averaged field, so the chunking is numerically
+   exact for this dataset.
+4. Test coverage of the integration core was added: the previously untested
+   `aggregate_*` functions and `build_integration` are now covered (13 → 22
+   tests), replacing a pre-existing test whose assertion was vacuous.
+
+Date coverage (2022-08-28 to 2024-09-26) and the unmatched catalog count
+(36,580) reconcile with the Phase 5 cleaned-basis figures, and the raw-basis
+36,585 count reconciles with Phase 4 Query 17.

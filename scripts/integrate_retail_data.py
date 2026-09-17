@@ -151,6 +151,12 @@ def aggregate_price_history() -> pd.DataFrame:
     daily price series. Therefore Phase 6 records the price-change event
     rather than forward-filling future prices. Forward-filling belongs to
     later feature engineering and must respect chronological ordering.
+
+    When several price events share the same date/item/store key, ``last``
+    resolves the tie by file order. The raw files are not chronologically
+    sorted, so the representative price and code for such a same-day tie are
+    file-order dependent. This is a tie-break within one key (the key already
+    contains the date), not a temporal-ordering issue.
     """
     columns = [
         "date",
@@ -448,6 +454,12 @@ def build_integration() -> dict[str, int]:
     duplicate_output_rows = 0
     unknown_store_rows = 0
     unmatched_catalog_rows = 0
+    total_demand_quantity = 0.0
+    total_sales_revenue = 0.0
+    unique_item_ids: set[str] = set()
+    unique_store_ids: set[int] = set()
+    date_min: str | None = None
+    date_max: str | None = None
 
     first_write = True
 
@@ -459,6 +471,24 @@ def build_integration() -> dict[str, int]:
         chunk = normalise_keys(chunk)
 
         sales_rows += len(chunk)
+
+        unique_item_ids.update(chunk["item_id"].dropna().tolist())
+        unique_store_ids.update(chunk["store_id"].dropna().tolist())
+
+        chunk_dates = chunk["date"].dropna()
+
+        if not chunk_dates.empty:
+            chunk_min = chunk_dates.min()
+            chunk_max = chunk_dates.max()
+
+            if date_min is None or chunk_min < date_min:
+                date_min = chunk_min
+
+            if date_max is None or chunk_max > date_max:
+                date_max = chunk_max
+
+        total_demand_quantity += float(chunk["quantity"].sum())
+        total_sales_revenue += float(chunk["sum_total"].sum())
 
         chunk = chunk.merge(
             stores,
@@ -577,6 +607,30 @@ def build_integration() -> dict[str, int]:
                 "metric": "unmatched_catalog_rows",
                 "value": unmatched_catalog_rows,
             },
+            {
+                "metric": "date_min",
+                "value": date_min,
+            },
+            {
+                "metric": "date_max",
+                "value": date_max,
+            },
+            {
+                "metric": "unique_items",
+                "value": len(unique_item_ids),
+            },
+            {
+                "metric": "unique_stores",
+                "value": len(unique_store_ids),
+            },
+            {
+                "metric": "total_demand_quantity",
+                "value": round(total_demand_quantity, 2),
+            },
+            {
+                "metric": "total_sales_revenue",
+                "value": round(total_sales_revenue, 2),
+            },
         ]
     )
 
@@ -597,6 +651,8 @@ def build_integration() -> dict[str, int]:
 
     print("Retail data integration completed successfully.")
     print(f"Rows integrated: {output_rows:,}")
+    print(f"Date coverage: {date_min} to {date_max}")
+    print(f"Unique items: {len(unique_item_ids):,}")
     print(f"Integrated dataset: {OUTPUT_PATH}")
     print(f"Quality report: {QUALITY_REPORT_PATH}")
 

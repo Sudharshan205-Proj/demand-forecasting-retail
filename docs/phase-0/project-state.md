@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 5 — Data Cleaning & Quality Assurance
+Phase 6 — Data Integration
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is currently auditing completed phases individually. Phase 0 through Phase 4 have been re-audited and approved; Phase 5 has now been re-audited and is reported for the project owner's review.
+Phase 17 is currently auditing completed phases individually. Phase 0 through Phase 5 have been re-audited and approved; Phase 6 has now been re-audited and is reported for the project owner's review.
 
 ## Git
 
@@ -50,7 +50,7 @@ HEAD:
 
 Git status:
 
-The Phase 5 re-audit modifies the Phase 5 documentation, its script and tests, and the tracking docs; `data/processed/sales_clean.csv`, `data/processed/data_quality_report.csv` and `data/processed/cleaning_summary.csv` are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 6 re-audit modifies the Phase 6 documentation, its script and tests, and the tracking docs; `data/processed/integrated_retail_data.csv` and `data/processed/integration_quality_report.csv` are generated artifacts excluded from Git, and the stale `data/processed/integration_quality_report.json` was removed. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -163,6 +163,24 @@ The SQLite database and SQL query result files are reproducible generated artifa
 
 The cleaned dataset and quality reports are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
 
+## Files Modified During Phase 6 Re-Audit
+
+- scripts/integrate_retail_data.py
+- tests/test_integrate_retail_data.py
+- docs/phase-6/integration-results.md
+- docs/phase-6/integration-methodology.md
+- docs/phase-6/integration-quality-framework.md
+- docs/phase-6/data-integration-plan.md
+- docs/phase-6/course-content-coverage.md
+- docs/phase-6/phase-6-checklist.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-2/dataset-inventory.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/project-file-update-register.md
+
+The integrated dataset and its quality report are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -262,6 +280,12 @@ AUDITED — COMPLETE
 
 The Phase 5 documentation was brought in line with the executed pipeline. The results document was populated with verified execution figures, the methodology recorded the catalog reference check, the valid-date coverage and the chunk-local duplicate-detection limitation, the plan and quality framework received re-audit records, the course-content coverage mapped the Course 4 SQL topics to their Phase 4 evidence, and the checklist was completed.
 
+Phase 6 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 6 documentation was brought in line with the executed pipeline. The results document was populated with verified input/output figures and validation results, the methodology recorded the same-day price-event tie-break and the measured exactness of the chunked aggregation, the plan, quality framework and course-content coverage received re-audit records, and the checklist was completed.
+
 ## Tests
 
 Phase 0 validation:
@@ -299,6 +323,12 @@ Phase 5 validation:
 VERIFIED — 19 TESTS PASS
 
 The Phase 5 validation verifies required-column handling, store-id loading, negative quantity/price/revenue detection, invalid-date detection, unknown-store detection, revenue-mismatch reporting, record retention, duplicate detection, non-numeric coercion, the new catalog reference check, valid-date coverage, catalog-id loading, full cross-chunk pipeline output (single header, correct rows, reports written) and missing-sales-file handling (11 original + 8 audit-added tests).
+
+Phase 6 validation:
+
+VERIFIED — 22 TESTS PASS
+
+The Phase 6 validation covers key normalisation and required-column handling plus the previously untested integration core: catalog and store dimension deduplication, price-history event aggregation, markdown discount calculation, promotion aggregation, online-channel aggregation, the actual-matrix indicator, end-to-end `build_integration` row preservation and grain uniqueness (including unmatched-catalog retention, online/physical separation and the new validation metrics), the many-to-one row-multiplication guard, and missing-source-file handling (13 original, one vacuous test replaced, 9 tests added).
 
 ## Known Issues
 
@@ -365,4 +395,12 @@ AUDITED — COMPLETE
 
 The Phase 5 cleaning pipeline was re-executed over the complete raw dataset (113 seconds) and its three generated artifacts were inspected. Two checks that the phase plan and quality framework required were implemented (catalog-membership reference check; valid-date coverage), and the cleaning-summary "rows removed" reporting was corrected to `rows read - rows written` (1,659) while the previous overlapping rule count (2,837) is retained as a labelled diagnostic. The cleaning rules and the retained row set are unchanged (7,432,685 read, 7,431,026 written). The catalog gap (36,585 raw / 36,580 cleaned; 948 distinct items) reconciles with Phase 4 and Phase 6, and valid-date coverage (2022-08-28 to 2024-09-26) reconciles with Phase 2 and Phase 4. Phase 5 tests increased from 11 to 19 and the full suite passes (160 tests).
 
-The next Phase 17 audit target is Phase 6.
+## Phase 6 Re-Audit Status
+
+Phase 6 — Data Integration has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 6 integration pipeline was re-executed over the complete dataset (350 seconds) and produced a byte-identical 1,283,886,539-byte output with 7,431,026 rows. Independent output validation confirmed row preservation and canonical-grain uniqueness (0 duplicates), unknown stores (0) and 36,580 unmatched catalog rows (reconciling with the Phase 4 raw count of 36,585). The stale, unreproducible `integration_quality_report.json` was removed and its validation metrics folded into the CSV report (date coverage 2022-08-28 to 2024-09-26; 28,180 unique items; 4 stores; total demand 41,949,529.91; total sales revenue 5,659,219,309.90). The chunked aggregation was measured to be numerically exact (no key spans a chunk; maximum difference 0.0). Phase 6 tests increased from 13 to 22 and the full suite passes (169 tests).
+
+The next Phase 17 audit target is Phase 7.

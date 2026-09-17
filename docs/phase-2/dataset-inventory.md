@@ -132,7 +132,10 @@ The expected relationship is:
 
 `store_id + item_id + date`
 
-This must be verified before integration.
+Verified during the Phase 17 audit: the relationship holds at the Phase 5
+cleaned-sales key normalisation and at the Phase 6 canonical-grain check, where
+the integrated dataset contains 7,431,026 rows with 7,431,026 unique
+`date + item_id + store_id` keys and 0 duplicates.
 
 ## Holdout
 

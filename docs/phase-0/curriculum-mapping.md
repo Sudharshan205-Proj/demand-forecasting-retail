@@ -22,7 +22,7 @@ Actual evidence must exist.
 |---|---|---|
 | Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
 | Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
-| Process | Clean, validate, transform and integrate data | 🟨 |
+| Process | Clean, validate, transform and integrate data | 🟩 |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟨 |
 | Share | Tableau, charts, reports and storytelling | ⬜ |
 | Act | Forecast demand and produce inventory recommendations | ⬜ |
@@ -306,7 +306,23 @@ the integration work belongs to Phase 6. The Course 5 SQL "Temporary tables" row
 remains ⬜: Phase 5 uses pandas chunked processing rather than SQL, and Phase 4
 demonstrates a CTE rather than explicit temporary tables.
 
-The next Phase 17 audit target is Phase 6.
+## Phase 6 Re-Audit Status
+
+The Phase 6 audit (Data Integration) verified the integration pipeline against
+the complete cleaned sales dataset and all seven auxiliary sources. The `Process`
+stage is now 🟩 because both halves of its evidence are verified: Phase 5
+cleaning/validation and Phase 6 integration.
+
+The Course 3 "Relationships | Data integration" row remains 🟩 and is now backed
+by an independently validated result: 7,431,026 integrated rows with a unique
+`date + item_id + store_id` grain and 0 duplicate keys, plus many-to-one join
+cardinality enforced in code and covered by tests.
+
+The Course 6 (Visualization), Course 7 (R) and Course 8 (Capstone) rows and the
+retail-specific requirements remain untracked by this audit and will be updated
+only as their phases are individually audited.
+
+The next Phase 17 audit target is Phase 7.
 
 ## Final Audit Rule
 

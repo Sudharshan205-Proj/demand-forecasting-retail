@@ -85,3 +85,25 @@ The integration must satisfy:
 6. Online sales remain separate from physical sales.
 7. Raw data are never modified.
 8. Generated processed data remain excluded from Git.
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+All eight quality requirements were verified against a fresh full execution
+(350 seconds):
+
+1. Output row count equals cleaned-sales row count — 7,431,026.
+2. Canonical grain is unique — 0 duplicates.
+3. No many-to-many multiplication — every join validated many-to-one.
+4. Store references remain valid — 0 unknown store rows.
+5. Missing catalog matches reported, not discarded — 36,580 rows retained.
+6. Online sales remain separate from physical sales.
+7. Raw data unchanged.
+8. Generated processed data remain excluded from Git.
+
+No grain, join key, policy or output schema was changed by this audit. The
+quality report gained six additional validation metrics (date coverage, unique
+items/stores, total demand and revenue) that were previously held in a stale,
+unreproducible JSON artifact; that file was removed. See
+`integration-results.md`.

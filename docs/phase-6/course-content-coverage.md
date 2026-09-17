@@ -89,3 +89,22 @@ Output:
 Quality report:
 
 `data/processed/integration_quality_report.csv`
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+Each concept above was checked against the executed pipeline during the Phase 17
+re-audit. The joins, many-to-one cardinality validation, pre-join aggregation and
+validation checks are all present and now covered by tests (13 → 22 in the
+Phase 6 module), including end-to-end tests of `build_integration` that assert
+row preservation, canonical-grain uniqueness, unmatched-catalog retention and
+online/physical separation.
+
+The "Feature engineering" deferral remains correct: Phase 6 records same-day
+price-change events and does not forward-fill prices into future dates.
+
+One artifact change was made during this audit: the quality report
+(`integration_quality_report.csv`) now also carries date coverage, unique
+item/store counts and demand/revenue totals, which were previously only present
+in a stale, unreproducible JSON file that has been removed.

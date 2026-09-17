@@ -38,6 +38,12 @@ Price history, markdowns, and discounts can contain multiple records for the sam
 
 They are therefore aggregated before integration.
 
+When several price-change events share the same date/item/store key, the
+representative price and code are resolved by file order (``last``). The raw
+source files are not chronologically sorted, so such a same-day tie is
+file-order dependent. This is a tie-break inside a single key that already
+contains the date; it is not a temporal-ordering or leakage issue.
+
 Examples include:
 
 * number of price changes
@@ -79,3 +85,31 @@ Any future-looking feature construction belongs to chronological feature enginee
 ## 10. Reproducibility
 
 The integration is implemented in a deterministic Python script using project-relative paths and existing project dependencies.
+
+## 11. Chunked aggregation correctness
+
+Discounts and online sales are read in fixed-size chunks and aggregated before
+integration. Where a chunk-level mean is combined across chunks, the result
+would differ from the true mean if a single canonical key spanned more than one
+chunk.
+
+The Phase 17 re-audit measured this directly. Both sources carry a unique
+canonical key — `discounts_history` has 3,746,744 rows and 3,746,744 distinct
+keys, and `online` has 1,123,412 rows and 1,123,412 distinct keys — and no key
+spans more than one chunk. Comparing the pipeline output with an exact
+sum/count reconstruction gives a maximum absolute difference of 0.0 for every
+averaged field. The chunked aggregation is therefore numerically exact for this
+dataset; the accumulation is kept as-is and the reason is recorded rather than
+changed.
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+The methodology was reconciled against the executed script during the Phase 17
+re-audit. Two additions were made so the document matches the implementation:
+
+1. Section 4 now records the same-day price-event tie-break behaviour.
+2. Section 11 records the measured exactness of the chunked aggregation.
+
+No integration rule, join key, grain or output schema was changed.
