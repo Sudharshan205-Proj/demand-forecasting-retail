@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 4 — SQL & Database Analysis
+Phase 5 — Data Cleaning & Quality Assurance
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is currently auditing completed phases individually. Phase 0 through Phase 3 have been re-audited and approved; Phase 4 is the current audit target.
+Phase 17 is currently auditing completed phases individually. Phase 0 through Phase 4 have been re-audited and approved; Phase 5 has now been re-audited and is reported for the project owner's review.
 
 ## Git
 
@@ -50,7 +50,7 @@ HEAD:
 
 Git status:
 
-The Phase 4 re-audit modifies the Phase 4 documentation, tests and tracking docs; `data/analysis/retail_demand.db` and `data/analysis/sql_results/` are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 5 re-audit modifies the Phase 5 documentation, its script and tests, and the tracking docs; `data/processed/sales_clean.csv`, `data/processed/data_quality_report.csv` and `data/processed/cleaning_summary.csv` are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -146,6 +146,23 @@ The spreadsheet workbook is a reproducible generated artifact and is not source-
 
 The SQLite database and SQL query result files are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
 
+## Files Modified During Phase 5 Re-Audit
+
+- scripts/clean_retail_data.py
+- tests/test_clean_retail_data.py
+- docs/phase-5/data-quality-results.md
+- docs/phase-5/data-cleaning-methodology.md
+- docs/phase-5/data-cleaning-plan.md
+- docs/phase-5/data-quality-framework.md
+- docs/phase-5/course-content-coverage.md
+- docs/phase-5/phase-5-checklist.md
+- docs/phase-4/sql-results.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/project-file-update-register.md
+
+The cleaned dataset and quality reports are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -239,6 +256,12 @@ AUDITED — COMPLETE
 
 The Phase 4 SQL documentation was reviewed against the rebuilt database and re-executed queries. The results document was populated with verified table row counts, the 18 query summaries and the Query 17 data-coverage finding; the schema plan and course-content coverage received re-audit records confirming execution.
 
+Phase 5 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 5 documentation was brought in line with the executed pipeline. The results document was populated with verified execution figures, the methodology recorded the catalog reference check, the valid-date coverage and the chunk-local duplicate-detection limitation, the plan and quality framework received re-audit records, the course-content coverage mapped the Course 4 SQL topics to their Phase 4 evidence, and the checklist was completed.
+
 ## Tests
 
 Phase 0 validation:
@@ -271,6 +294,12 @@ VERIFIED — 11 TESTS PASS
 
 The Phase 4 validation verifies SQLite schema creation, row counting and aggregation (database tests), plus SQL analytical patterns (GROUP BY, joins, HAVING, subqueries, CTEs) and the SQL runner's query parser and missing-file handling (9 original + 2 QA-added tests).
 
+Phase 5 validation:
+
+VERIFIED — 19 TESTS PASS
+
+The Phase 5 validation verifies required-column handling, store-id loading, negative quantity/price/revenue detection, invalid-date detection, unknown-store detection, revenue-mismatch reporting, record retention, duplicate detection, non-numeric coercion, the new catalog reference check, valid-date coverage, catalog-id loading, full cross-chunk pipeline output (single header, correct rows, reports written) and missing-sales-file handling (11 original + 8 audit-added tests).
+
 ## Known Issues
 
 - The repository's original Phase 0 commit did not contain the Phase 0 test source even though a compiled `test_phase0_project_setup` bytecode artifact existed locally.
@@ -279,6 +308,7 @@ The Phase 4 validation verifies SQLite schema creation, row counting and aggrega
 - BigQuery is not required by the current project implementation.
 - Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
 - Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
+- The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
 
 ## Unresolved Decisions
 
@@ -327,4 +357,12 @@ AUDITED — COMPLETE
 
 The Phase 4 re-audit rebuilt the SQLite database from the Phase 2 raw files and re-executed all 18 SQL analysis queries. Verified row counts match the Phase 2 facts (stores 4, catalog 219,810, sales 7,432,685, markdowns 8,979, price_history 698,626; sales date range 2022-08-28 to 2024-09-26). Two QA tests were added (SQL query parser + missing-input handling; 9 → 11 tests). A genuine data-coverage finding was documented: 36,585 sales rows (948 distinct items) have no matching catalog record (Query 17). The database and query results remain untracked generated artifacts.
 
-The next Phase 17 audit target is Phase 5.
+## Phase 5 Re-Audit Status
+
+Phase 5 — Data Cleaning & Quality Assurance has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 5 cleaning pipeline was re-executed over the complete raw dataset (113 seconds) and its three generated artifacts were inspected. Two checks that the phase plan and quality framework required were implemented (catalog-membership reference check; valid-date coverage), and the cleaning-summary "rows removed" reporting was corrected to `rows read - rows written` (1,659) while the previous overlapping rule count (2,837) is retained as a labelled diagnostic. The cleaning rules and the retained row set are unchanged (7,432,685 read, 7,431,026 written). The catalog gap (36,585 raw / 36,580 cleaned; 948 distinct items) reconciles with Phase 4 and Phase 6, and valid-date coverage (2022-08-28 to 2024-09-26) reconciles with Phase 2 and Phase 4. Phase 5 tests increased from 11 to 19 and the full suite passes (160 tests).
+
+The next Phase 17 audit target is Phase 6.

@@ -231,11 +231,53 @@ The re-audit rebuilt the SQLite database, re-executed all 18 queries, verified r
 
 ---
 
-## Phase 5
+## Phase 5 — Data Cleaning & Quality Assurance
 
-Not yet started.
+### Planned files
 
-Files will be determined at Phase 5 start.
+- `docs/phase-5/data-cleaning-plan.md`
+- `docs/phase-5/data-quality-framework.md`
+- `docs/phase-5/data-cleaning-methodology.md`
+- `docs/phase-5/data-quality-results.md`
+- `docs/phase-5/course-content-coverage.md`
+- `docs/phase-5/phase-5-checklist.md`
+- `scripts/clean_retail_data.py`
+- `tests/test_clean_retail_data.py`
+
+### Generated local artifacts
+
+- `data/processed/sales_clean.csv` (322.8 MB, 7,431,026 rows)
+- `data/processed/data_quality_report.csv`
+- `data/processed/cleaning_summary.csv`
+
+The cleaned dataset and quality reports are generated from raw data and are
+excluded from Git under the project's generated-artifact policy.
+
+### Phase 5 status
+
+VERIFIED — the cleaning pipeline was re-executed over the full dataset and all
+three generated artifacts were inspected during the Phase 17 re-audit.
+
+### Phase 17 audit modifications
+
+- `scripts/clean_retail_data.py`
+- `tests/test_clean_retail_data.py`
+- `docs/phase-5/data-quality-results.md`
+- `docs/phase-5/data-cleaning-methodology.md`
+- `docs/phase-5/data-cleaning-plan.md`
+- `docs/phase-5/data-quality-framework.md`
+- `docs/phase-5/course-content-coverage.md`
+- `docs/phase-5/phase-5-checklist.md`
+- `docs/phase-4/sql-results.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/project-file-update-register.md`
+
+The re-audit added the catalog-membership reference check and valid-date
+coverage that the phase plan and quality framework required, corrected the
+cleaning-summary rows-removed reporting, and added eight tests (11 to 19). The
+cleaning rules and retained row set are unchanged; no raw data files are
+modified.
 
 ---
 
@@ -331,4 +373,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 3 have been re-audited and approved. Phase 4 is currently being re-audited; its database was rebuilt, its 18 SQL queries re-executed, and its documentation updated from the verified output.
+Phase 0 through Phase 4 have been re-audited and approved. Phase 5 is currently being re-audited; its pipeline was re-executed over the full dataset, its artifacts inspected, and its documentation updated from the verified output (36,585 raw / 36,580 cleaned unmatched catalog rows reconciled with Phase 4 and Phase 6).

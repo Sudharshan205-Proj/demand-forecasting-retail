@@ -54,6 +54,11 @@ data-coverage finding (not a parsing artifact) and indicates that some sold
 items do not appear in the catalog table. Later phases should account for this
 when joining sales to catalog metadata.
 
+**Resolution (Phase 17):** Phase 5 now reports this gap as an informational
+reference check (36,585 rows / 948 distinct items on the raw basis; 36,580 rows
+on the cleaned basis), and Phase 6 handles it with a left join that retains the
+unmatched sales rows and records `unmatched_catalog_rows`.
+
 ## Important limitation
 
 The SQL analysis is descriptive.

@@ -22,7 +22,7 @@ Actual evidence must exist.
 |---|---|---|
 | Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
 | Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
-| Process | Clean, validate, transform and integrate data | ⬜ |
+| Process | Clean, validate, transform and integrate data | 🟨 |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟨 |
 | Share | Tableau, charts, reports and storytelling | ⬜ |
 | Act | Forecast demand and produce inventory recommendations | ⬜ |
@@ -105,26 +105,26 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Data preparation | Processing pipeline | ⬜ |
-| Data cleaning | Cleaning scripts | ⬜ |
-| Data integrity | Validation | ⬜ |
-| Completeness | Quality report | ⬜ |
-| Accuracy | Quality report | ⬜ |
-| Consistency | Quality report | ⬜ |
-| Data validation | Validation scripts | ⬜ |
-| Formatting | Processing | ⬜ |
-| Type conversion | Processing | ⬜ |
-| Missing data | Data-quality analysis | ⬜ |
-| Duplicates | Data-quality analysis | ⬜ |
-| Incorrect values | Data-quality analysis | ⬜ |
-| Outliers | EDA | ⬜ |
-| Transformation | Processing | ⬜ |
-| Tidy data | Analytical dataset | ⬜ |
-| Change logs | Documentation | ⬜ |
-| Troubleshooting | Error records | ⬜ |
-| Error checking | Validation | ⬜ |
-| Verification | Validation reports | ⬜ |
-| Business alignment | Processing requirements | ⬜ |
+| Data preparation | Processing pipeline | 🟩 |
+| Data cleaning | Cleaning scripts | 🟩 |
+| Data integrity | Validation | 🟩 |
+| Completeness | Quality report | 🟩 |
+| Accuracy | Quality report | 🟩 |
+| Consistency | Quality report | 🟩 |
+| Data validation | Validation scripts | 🟩 |
+| Formatting | Processing | 🟩 |
+| Type conversion | Processing | 🟩 |
+| Missing data | Data-quality analysis | 🟩 |
+| Duplicates | Data-quality analysis | 🟩 |
+| Incorrect values | Data-quality analysis | 🟩 |
+| Outliers | EDA | 🟨 |
+| Transformation | Processing | 🟩 |
+| Tidy data | Analytical dataset | 🟩 |
+| Change logs | Documentation | 🟩 |
+| Troubleshooting | Error records | 🟩 |
+| Error checking | Validation | 🟩 |
+| Verification | Validation reports | 🟩 |
+| Business alignment | Processing requirements | 🟩 |
 
 ## Course 5 — Data Analysis and Organization
 
@@ -283,6 +283,30 @@ The Phase 4 audit (SQL & Database Analysis) verified the SQLite database and the
 Normalization remains 🟨: the schema separates stores, catalog, sales, markdowns and price history into related tables, but a formal normalization assessment is not documented. "Temporary tables" remains ⬜: the analysis uses common table expressions (CTEs) rather than explicit temporary tables. The Analyze stage is 🟨 (SQL and spreadsheet analysis complete; Python, R and forecasting analysis belong to later phases).
 
 The next Phase 17 audit target is Phase 5.
+
+## Phase 5 Re-Audit Status
+
+The Phase 5 audit (Data Cleaning & Quality Assurance) verified the cleaning
+pipeline against the complete raw sales dataset. The Course 4 rows above are
+marked based on that verified evidence: the pipeline reports required-field,
+duplicate, invalid-date, negative quantity/price/revenue, store referential
+integrity, catalog reference and revenue consistency checks, records valid-date
+coverage, converts types, writes a tidy analytical dataset, and produces a
+cleaning summary and quality report.
+
+The status change rule applied here:
+
+- 🟩 marks rows where Phase 5 itself delivered verified execution evidence.
+- 🟨 marks "Outliers": Phase 5 screens potential quantity outliers (99th
+  percentile, chunk-local) but does not resolve them; full outlier analysis
+  belongs to the Phase 7 exploratory analysis.
+
+The `Process` stage is now 🟨 because cleaning and validation are verified while
+the integration work belongs to Phase 6. The Course 5 SQL "Temporary tables" row
+remains ⬜: Phase 5 uses pandas chunked processing rather than SQL, and Phase 4
+demonstrates a CTE rather than explicit temporary tables.
+
+The next Phase 17 audit target is Phase 6.
 
 ## Final Audit Rule
 

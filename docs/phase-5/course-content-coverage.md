@@ -11,6 +11,7 @@ Course 4 — Processing and Cleaning Data for Data Analysis
 | Data preparation | Phase 5 cleaning pipeline | Implemented |
 | Data cleaning | `scripts/clean_retail_data.py` | Implemented |
 | Data integrity | Schema, identifier and consistency checks | Implemented |
+| Referential integrity | Store and catalog reference checks | Implemented |
 | Data completeness | Missing required-field checks | Implemented |
 | Data accuracy | Numeric and revenue validation | Implemented |
 | Data consistency | Revenue consistency checks | Implemented |
@@ -59,6 +60,24 @@ because doing so would discard potentially useful demand observations.
 The project therefore documents the reason rather than claiming false
 coverage.
 
+### Cleaning with SQL and temporary tables
+
+Course 4 also teaches cleaning with SQL and temporary tables.
+
+Those topics are not demonstrated in this Python cleaning pipeline because it
+uses pandas chunked processing rather than SQL.
+
+The evidence for SQL-based validation already exists in Phase 4:
+
+- `sql/retail_analysis.sql` queries 16 and 17 are SQL validation queries
+  (unmatched store and unmatched catalog records).
+- Query 11 uses a common table expression (CTE), which the curriculum treats as
+  a temporary analytical result; explicit temporary tables are not used.
+
+Adding a second SQL cleaning path inside Phase 5 would duplicate the Phase 4
+work without adding analytical value, so the coverage is recorded as delivered
+by Phase 4 instead.
+
 ## Course principle demonstrated
 
 The cleaning workflow follows:
@@ -66,3 +85,17 @@ The cleaning workflow follows:
 **Inspect → Validate → Clean → Document → Verify**
 
 rather than modifying data without evidence.
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+Every concept listed above was checked against the executed script during the
+Phase 17 re-audit. The catalog reference check was added to the pipeline during
+this audit, so a "Referential integrity" row was added to the coverage table and
+the Course 4 SQL-cleaning/temporary-table topics are now explicitly mapped to
+their actual Phase 4 evidence.
+
+The "Outliers" concept remains a screening capability in this phase (potential
+quantity outliers are reported but not resolved); full outlier analysis belongs
+to the Phase 7 exploratory analysis.

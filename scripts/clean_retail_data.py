@@ -23,6 +23,7 @@ PROCESSED_DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 SALES_PATH = RAW_DATA_DIR / "sales.csv"
 STORES_PATH = RAW_DATA_DIR / "stores.csv"
+CATALOG_PATH = RAW_DATA_DIR / "catalog.csv"
 
 CLEAN_SALES_PATH = PROCESSED_DATA_DIR / "sales_clean.csv"
 QUALITY_REPORT_PATH = PROCESSED_DATA_DIR / "data_quality_report.csv"
@@ -66,7 +67,27 @@ def load_store_ids(path: Path) -> set[str]:
     )
 
 
-def initialise_quality_metrics() -> dict[str, int | float]:
+def load_catalog_item_ids(path: Path) -> set[str]:
+    """Load catalogued item identifiers for the reference check.
+
+    Catalog membership is an informational integrity check rather than a
+    deletion rule because catalog coverage and sales coverage can differ.
+    """
+    catalog = pd.read_csv(
+        path,
+        usecols=["item_id"],
+        dtype={"item_id": "string"},
+    )
+
+    return set(
+        catalog["item_id"]
+        .dropna()
+        .astype(str)
+        .str.strip()
+    )
+
+
+def initialise_quality_metrics() -> dict[str, int | float | str | None]:
     """Create counters used by the quality report."""
     return {
         "rows_read": 0,
@@ -78,15 +99,21 @@ def initialise_quality_metrics() -> dict[str, int | float]:
         "negative_price_rows": 0,
         "negative_revenue_rows": 0,
         "unknown_store_rows": 0,
+        "unmatched_catalog_rows": 0,
+        "unmatched_catalog_item_ids": 0,
         "revenue_mismatch_rows": 0,
         "potential_outlier_quantity_rows": 0,
+        "earliest_valid_date": None,
+        "latest_valid_date": None,
     }
 
 
 def update_quality_metrics(
-    metrics: dict[str, int | float],
+    metrics: dict[str, int | float | str | None],
     chunk: pd.DataFrame,
     valid_store_ids: set[str],
+    valid_item_ids: set[str] | None = None,
+    unmatched_items: set[str] | None = None,
 ) -> pd.DataFrame:
     """Validate a chunk and return the rows that pass cleaning rules."""
     metrics["rows_read"] += len(chunk)
@@ -101,6 +128,24 @@ def update_quality_metrics(
         chunk["date"],
         errors="coerce",
     )
+
+    valid_dates = chunk["date"].dropna()
+
+    if not valid_dates.empty:
+        chunk_min = valid_dates.min()
+        chunk_max = valid_dates.max()
+
+        if (
+            metrics["earliest_valid_date"] is None
+            or chunk_min < pd.Timestamp(metrics["earliest_valid_date"])
+        ):
+            metrics["earliest_valid_date"] = chunk_min.strftime("%Y-%m-%d")
+
+        if (
+            metrics["latest_valid_date"] is None
+            or chunk_max > pd.Timestamp(metrics["latest_valid_date"])
+        ):
+            metrics["latest_valid_date"] = chunk_max.strftime("%Y-%m-%d")
 
     invalid_dates = chunk["date"].isna()
     metrics["invalid_date_rows"] += int(invalid_dates.sum())
@@ -143,6 +188,18 @@ def update_quality_metrics(
     )
     metrics["unknown_store_rows"] += int(unknown_store.sum())
 
+    if valid_item_ids is not None:
+        unmatched_catalog = (
+            ~chunk["item_id"].isin(valid_item_ids)
+            & chunk["item_id"].notna()
+        )
+        metrics["unmatched_catalog_rows"] += int(unmatched_catalog.sum())
+
+        if unmatched_items is not None:
+            unmatched_items.update(
+                chunk.loc[unmatched_catalog, "item_id"].dropna().tolist()
+            )
+
     expected_revenue = chunk["quantity"] * chunk["price_base"]
 
     revenue_mismatch = (
@@ -183,7 +240,7 @@ def update_quality_metrics(
 
 
 def write_quality_report(
-    metrics: dict[str, int | float],
+    metrics: dict[str, int | float | str | None],
     output_path: Path,
 ) -> None:
     """Write the quality metrics as a CSV report."""
@@ -202,11 +259,15 @@ def write_quality_report(
 
 
 def write_cleaning_summary(
-    metrics: dict[str, int | float],
+    metrics: dict[str, int | float | str | None],
     output_path: Path,
 ) -> None:
     """Write a human-readable cleaning action summary."""
-    rows_removed = (
+    rows_read = int(metrics["rows_read"])
+    rows_written = int(metrics["rows_written"])
+    rows_removed = rows_read - rows_written
+
+    rule_failures = (
         int(metrics["missing_required_rows"])
         + int(metrics["duplicate_rows"])
         + int(metrics["invalid_date_rows"])
@@ -220,18 +281,27 @@ def write_cleaning_summary(
         [
             {
                 "action": "Rows read",
-                "count": metrics["rows_read"],
+                "count": rows_read,
                 "reason": "All raw sales records inspected.",
             },
             {
                 "action": "Rows written",
-                "count": metrics["rows_written"],
+                "count": rows_written,
                 "reason": "Records passing documented cleaning rules.",
             },
             {
-                "action": "Rows removed by quality rules",
+                "action": "Rows removed",
                 "count": rows_removed,
-                "reason": "Records failing one or more validity checks.",
+                "reason": (
+                    "Rows read minus rows written (unique records dropped)."
+                ),
+            },
+            {
+                "action": "Rule failures (diagnostic)",
+                "count": rule_failures,
+                "reason": (
+                    "Individual rule hits; a row may fail more than one rule."
+                ),
             },
             {
                 "action": "Potential quantity outliers",
@@ -243,6 +313,11 @@ def write_cleaning_summary(
                 "count": metrics["revenue_mismatch_rows"],
                 "reason": "Reported because discounts/rounding may explain differences.",
             },
+            {
+                "action": "Sales rows missing catalog reference",
+                "count": metrics["unmatched_catalog_rows"],
+                "reason": "Reported for integration; not removed by cleaning.",
+            },
         ]
     )
 
@@ -252,7 +327,7 @@ def write_cleaning_summary(
     )
 
 
-def clean_sales() -> dict[str, int | float]:
+def clean_sales() -> dict[str, int | float | str | None]:
     """Clean the sales dataset and return quality metrics."""
     if not SALES_PATH.exists():
         raise FileNotFoundError(
@@ -264,12 +339,19 @@ def clean_sales() -> dict[str, int | float]:
             f"Stores file not found: {STORES_PATH}"
         )
 
+    if not CATALOG_PATH.exists():
+        raise FileNotFoundError(
+            f"Catalog file not found: {CATALOG_PATH}"
+        )
+
     PROCESSED_DATA_DIR.mkdir(
         parents=True,
         exist_ok=True,
     )
 
     valid_store_ids = load_store_ids(STORES_PATH)
+    valid_item_ids = load_catalog_item_ids(CATALOG_PATH)
+    unmatched_items: set[str] = set()
     metrics = initialise_quality_metrics()
 
     first_chunk = True
@@ -284,6 +366,8 @@ def clean_sales() -> dict[str, int | float]:
             metrics,
             chunk,
             valid_store_ids,
+            valid_item_ids,
+            unmatched_items,
         )
 
         cleaned.to_csv(
@@ -295,6 +379,8 @@ def clean_sales() -> dict[str, int | float]:
 
         metrics["rows_written"] += len(cleaned)
         first_chunk = False
+
+    metrics["unmatched_catalog_item_ids"] = len(unmatched_items)
 
     write_quality_report(
         metrics,
@@ -318,6 +404,9 @@ def main() -> None:
     print("Sales cleaning completed successfully.")
     print(f"Rows read: {metrics['rows_read']:,}")
     print(f"Rows written: {metrics['rows_written']:,}")
+    print(f"Unmatched catalog reference rows: {metrics['unmatched_catalog_rows']:,}")
+    print(f"Earliest valid date: {metrics['earliest_valid_date']}")
+    print(f"Latest valid date: {metrics['latest_valid_date']}")
     print(f"Quality report: {QUALITY_REPORT_PATH}")
     print(f"Cleaning summary: {CLEANING_SUMMARY_PATH}")
     print(f"Clean dataset: {CLEAN_SALES_PATH}")

@@ -2,63 +2,65 @@
 
 ## Repository
 
-- [ ] Phase branch created
-- [ ] Working tree checked
-- [ ] Existing changes reviewed
+- [x] Phase branch created
+- [x] Working tree checked
+- [x] Existing changes reviewed
 
 ## Data quality
 
-- [ ] Raw sales schema inspected
-- [ ] Required fields validated
-- [ ] Missing values assessed
-- [ ] Duplicate records assessed
-- [ ] Invalid dates assessed
-- [ ] Numeric fields validated
-- [ ] Store IDs validated
-- [ ] Revenue consistency checked
-- [ ] Potential outliers reported
-- [ ] Temporal coverage checked
+- [x] Raw sales schema inspected
+- [x] Required fields validated
+- [x] Missing values assessed
+- [x] Duplicate records assessed
+- [x] Invalid dates assessed
+- [x] Numeric fields validated
+- [x] Store IDs validated
+- [x] Revenue consistency checked
+- [x] Potential outliers reported
+- [x] Temporal coverage checked
 
 ## Cleaning
 
-- [ ] Raw data preserved
-- [ ] Data types standardized
-- [ ] Invalid required records removed
-- [ ] Confirmed duplicates removed
-- [ ] Clean dataset generated
-- [ ] Cleaning actions documented
+- [x] Raw data preserved
+- [x] Data types standardized
+- [x] Invalid required records removed
+- [x] Confirmed duplicates removed
+- [x] Clean dataset generated
+- [x] Cleaning actions documented
 
 ## QA
 
-- [ ] Quality report generated
-- [ ] Cleaning summary generated
-- [ ] Post-cleaning validation performed
-- [ ] Unit tests pass
-- [ ] Syntax validation passes
+- [x] Quality report generated
+- [x] Cleaning summary generated
+- [x] Post-cleaning validation performed
+- [x] Unit tests pass
+- [x] Syntax validation passes
+- [x] Catalog reference check implemented
+- [x] Valid-date coverage recorded
 
 ## Course coverage
 
-- [ ] Data integrity demonstrated
-- [ ] Completeness demonstrated
-- [ ] Accuracy checks demonstrated
-- [ ] Consistency checks demonstrated
-- [ ] Duplicate handling demonstrated
-- [ ] Missing-data handling demonstrated
-- [ ] Type conversion demonstrated
-- [ ] Error checking demonstrated
-- [ ] Verification demonstrated
-- [ ] Documentation demonstrated
+- [x] Data integrity demonstrated
+- [x] Completeness demonstrated
+- [x] Accuracy checks demonstrated
+- [x] Consistency checks demonstrated
+- [x] Duplicate handling demonstrated
+- [x] Missing-data handling demonstrated
+- [x] Type conversion demonstrated
+- [x] Error checking demonstrated
+- [x] Verification demonstrated
+- [x] Documentation demonstrated
 
 ## Documentation
 
-- [ ] Data-cleaning plan complete
-- [ ] Quality framework complete
-- [ ] Cleaning methodology complete
-- [ ] Quality results updated with verified results
-- [ ] Course-content coverage complete
-- [ ] README updated
-- [ ] Project state updated
-- [ ] File-update register updated
+- [x] Data-cleaning plan complete
+- [x] Quality framework complete
+- [x] Cleaning methodology complete
+- [x] Quality results updated with verified results
+- [x] Course-content coverage complete
+- [x] README updated
+- [x] Project state updated
+- [x] File-update register updated
 
 ## Git
 
@@ -69,9 +71,25 @@
 - [ ] Push verified
 - [ ] Working tree clean
 
+Note: the Phase 17 audit performs no Git operations. These items record the
+original Phase 5 workflow and are managed and verified by the project owner.
+The local and remote `phase-5-data-cleaning-and-quality-assurance` branches
+exist in the repository.
+
 ## Phase completion
 
-- [ ] All completion criteria satisfied
-- [ ] Phase marked COMPLETE
-- [ ] Full project checklist updated
-- [ ] Phase 6 starting point documented
+- [x] All completion criteria satisfied
+- [x] Phase marked COMPLETE
+- [x] Full project checklist updated
+- [x] Phase 6 starting point documented
+
+## Phase 17 Re-Audit Status
+
+VERIFIED — 19 TESTS PASS; pipeline re-executed over the full dataset in 113
+seconds; all three generated artifacts inspected; catalog reference count (36,585
+raw / 36,580 cleaned, 948 distinct items) reconciled with Phase 4 and Phase 6;
+valid-date coverage (2022-08-28 to 2024-09-26) reconciled with Phase 2 and
+Phase 4. Two plan-required checks (catalog reference, date coverage) were
+implemented and the cleaning-summary rows-removed reporting was corrected. README
+required no change. Git items are not re-asserted because the Phase 17 audit
+performs no Git operations.

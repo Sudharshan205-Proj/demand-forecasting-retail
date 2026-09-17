@@ -10,22 +10,25 @@ The raw dataset is never loaded into memory as one complete DataFrame.
 The processing flow is:
 
 1. Load the store lookup.
-2. Read sales records in chunks.
-3. Validate the required schema.
-4. Convert dates.
-5. Convert numeric fields.
-6. Detect missing required values.
-7. Detect duplicates.
-8. Detect invalid dates.
-9. Detect invalid quantities.
-10. Detect invalid prices.
-11. Detect invalid revenue.
-12. Detect unknown stores.
-13. Check revenue consistency.
-14. Identify potential quantity outliers.
-15. Write valid records to the processed dataset.
-16. Write quality metrics.
-17. Write the cleaning summary.
+2. Load the catalog item reference.
+3. Read sales records in chunks.
+4. Validate the required schema.
+5. Convert dates.
+6. Record valid-date coverage.
+7. Convert numeric fields.
+8. Detect missing required values.
+9. Detect duplicates.
+10. Detect invalid dates.
+11. Detect invalid quantities.
+12. Detect invalid prices.
+13. Detect invalid revenue.
+14. Detect unknown stores.
+15. Check the catalog-membership reference.
+16. Check revenue consistency.
+17. Identify potential quantity outliers.
+18. Write valid records to the processed dataset.
+19. Write quality metrics.
+20. Write the cleaning summary.
 
 ## Raw data preservation
 
@@ -57,6 +60,12 @@ Duplicate rows are identified using the complete row contents.
 Duplicate rows after the first occurrence are removed.
 
 The number detected is recorded in the quality report.
+
+Duplicate detection is chunk-local: it identifies duplicates within each
+processed chunk. A duplicate pair split across a chunk boundary would not be
+detected by this screen. The raw sales dataset contains no duplicate rows
+(verified in Phase 2), so this limitation does not affect the current results;
+it is recorded so the behaviour is not overstated.
 
 ## Missing values
 
@@ -113,3 +122,41 @@ The pipeline produces:
 - `cleaning_summary.csv`
 
 All outputs are reproducible from the raw dataset and script.
+
+## Catalog reference check
+
+Sales item identifiers are compared with the catalog item list.
+
+Rows whose `item_id` has no matching catalog record are counted and reported.
+
+They are not removed. Catalog coverage can legitimately differ from sales
+coverage, so a missing catalog match is a reference-integrity observation rather
+than a reason to discard a genuine demand record. The count is reported on the
+same raw basis as the Phase 4 validation query, and the distinct unmatched item
+count is reported alongside it.
+
+## Date coverage
+
+The minimum and maximum successfully parsed sale dates are recorded across all
+processed chunks.
+
+Coverage is computed over every valid date that is read, not only over the rows
+that survive cleaning, so it describes the temporal span of the source data.
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+The methodology was reconciled against the executed script during the Phase 17
+re-audit. Three changes were made so the document matches the implementation and
+does not overstate its behaviour:
+
+1. The processing flow now lists the catalog item load, the valid-date coverage
+   step and the catalog-membership reference check.
+2. The duplicate-handling section records that duplicate detection is
+   chunk-local.
+3. New "Catalog reference check" and "Date coverage" sections document the two
+   checks that the phase plan and quality framework required but the earlier
+   implementation omitted.
+
+See `data-quality-results.md` for the verified execution figures.

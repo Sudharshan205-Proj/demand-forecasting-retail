@@ -220,3 +220,22 @@ This phase focuses on data cleaning and quality assurance.
 
 Forecasting models, feature engineering, model training, hyperparameter
 tuning, and application development belong to later phases.
+
+## Phase 17 Re-Audit Record
+
+AUDITED — COMPLETE
+
+The planned cleaning checks were reconciled against the executed pipeline.
+Two checks that the plan required were not implemented in the original script
+and were added during this audit:
+
+- catalog membership reported as an informational reference check
+  ("Item identifiers" and check 10), and
+- valid-date coverage recording (check 12).
+
+No cleaning rule, threshold or output schema was changed: 7,432,685 rows are
+read and 7,431,026 are written, exactly as before. All other checks
+(required columns, types, missing values, duplicates, invalid dates, invalid
+quantities, invalid prices, invalid revenue, store referential integrity and
+revenue consistency) were verified against the executed output in
+`data-quality-results.md`.
