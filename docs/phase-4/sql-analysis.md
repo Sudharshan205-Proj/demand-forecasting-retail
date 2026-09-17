@@ -71,3 +71,30 @@ The database can be rebuilt using:
 The SQL results can be regenerated using:
 
 `scripts/run_sql_analysis.py`
+
+## Phase 17 Re-Audit Record
+
+The Phase 4 SQL analysis was re-verified during the Phase 17 audit. The
+database was rebuilt and all 18 queries re-executed successfully.
+
+Verified analytical areas:
+
+- **Store performance:** 4 stores ranked by total quantity and sales value;
+  stores 1 and 4 lead. Store aggregation totals match the Phase 3 workbook.
+- **Product demand:** 28,182 distinct sales items; top item by quantity
+  `b0d24502fb66` (2,022,732).
+- **Department analysis:** sales joined to catalog metadata; top departments
+  include Auxiliary Group, Bread and Fruits by quantity.
+- **Time patterns:** 761 daily records from 2022-08-28 to 2024-09-26; monthly
+  aggregation supports trend inspection.
+- **Markdown activity:** markdown records summarized by store (stores 1, 2, 4);
+  average markdown percentage ≈ 38–44% by store.
+
+### Data-integrity finding (Query 17)
+
+Query 17 found **36,585 sales rows (948 distinct items) with no matching
+catalog record**. This is a genuine data-coverage finding: some sold items are
+absent from the catalog. Later phases that join sales to catalog metadata must
+account for this (e.g., LEFT JOIN with null handling). The catalog table also
+retains the 27,571 ragged lines described in Phase 2 (garbled trailing
+attributes), but these do not affect the `item_id` join key.

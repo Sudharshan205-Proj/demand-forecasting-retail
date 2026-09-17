@@ -40,3 +40,13 @@ R programming belongs to the later R-analysis phase.
 Visualization and Tableau belong to the visualization phase.
 
 Advanced statistical modelling belongs to later forecasting phases.
+
+## Phase 17 Re-Audit Record
+
+The SQL concepts listed above were verified against the actual executed
+analysis during the Phase 17 audit. `sql/retail_analysis.sql` contains 18
+labelled queries; `scripts/run_sql_analysis.py` parses and executes all 18
+(regression-tested). Each claimed concept (SELECT, WHERE, ORDER BY, GROUP BY,
+HAVING, COUNT/COUNT DISTINCT, SUM, AVG, calculated fields, aliases, JOIN,
+LEFT JOIN, subquery, CTE, validation, aggregation) is evidenced by the stored
+SQL and regenerated result files.

@@ -23,7 +23,7 @@ Actual evidence must exist.
 | Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
 | Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
 | Process | Clean, validate, transform and integrate data | ⬜ |
-| Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | ⬜ |
+| Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟨 |
 | Share | Tableau, charts, reports and storytelling | ⬜ |
 | Act | Forecast demand and produce inventory recommendations | ⬜ |
 
@@ -83,12 +83,12 @@ Actual evidence must exist.
 | Data bias | Bias assessment | 🟨 |
 | Data context | Dataset documentation | 🟩 |
 | ROCCC | Dataset assessment | 📄 |
-| Databases | SQLite/SQL | ⬜ |
-| Relational tables | SQL database | ⬜ |
-| Keys | Database design | ⬜ |
-| Relationships | Data integration | ⬜ |
-| Normalization | Database design | ⬜ |
-| Schemas | SQL documentation | ⬜ |
+| Databases | SQLite/SQL | 🟩 |
+| Relational tables | SQL database | 🟩 |
+| Keys | Database design | 🟩 |
+| Relationships | Data integration | 🟩 |
+| Normalization | Database design | 🟨 |
+| Schemas | SQL documentation | 🟩 |
 | Metadata | Data dictionary | 🟩 |
 | Data governance | Data-handling documentation | 🟨 |
 | File naming | Repository conventions | 🟩 |
@@ -150,24 +150,24 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| SELECT | SQL scripts | ⬜ |
-| FROM | SQL scripts | ⬜ |
-| WHERE | SQL scripts | ⬜ |
-| ORDER BY | SQL scripts | ⬜ |
-| GROUP BY | SQL scripts | ⬜ |
-| HAVING | SQL scripts | ⬜ |
-| COUNT | SQL scripts | ⬜ |
-| COUNT DISTINCT | SQL scripts | ⬜ |
-| SUM | SQL scripts | ⬜ |
-| AVG | SQL scripts | ⬜ |
-| JOIN | SQL scripts | ⬜ |
-| Aliases | SQL scripts | ⬜ |
-| Subqueries | SQL scripts | ⬜ |
+| SELECT | SQL scripts | 🟩 |
+| FROM | SQL scripts | 🟩 |
+| WHERE | SQL scripts | 🟩 |
+| ORDER BY | SQL scripts | 🟩 |
+| GROUP BY | SQL scripts | 🟩 |
+| HAVING | SQL scripts | 🟩 |
+| COUNT | SQL scripts | 🟩 |
+| COUNT DISTINCT | SQL scripts | 🟩 |
+| SUM | SQL scripts | 🟩 |
+| AVG | SQL scripts | 🟩 |
+| JOIN | SQL scripts | 🟩 |
+| Aliases | SQL scripts | 🟩 |
+| Subqueries | SQL scripts | 🟩 |
 | Temporary tables | SQL scripts | ⬜ |
-| Calculated fields | SQL scripts | ⬜ |
-| Validation queries | SQL scripts | ⬜ |
-| Filtering | SQL scripts | ⬜ |
-| Aggregation | SQL scripts | ⬜ |
+| Calculated fields | SQL scripts | 🟩 |
+| Validation queries | SQL scripts | 🟩 |
+| Filtering | SQL scripts | 🟩 |
+| Aggregation | SQL scripts | 🟩 |
 
 ## Course 6 — Visualization and Storytelling
 
@@ -275,6 +275,14 @@ Rows whose evidence belongs entirely to later phases (SQL/database, integration,
 The Phase 3 audit (Spreadsheet-Based Analysis) verified the generated workbook against the raw sales data. The Course 5 Spreadsheets rows above are marked 🟩 based on that verified evidence: the workbook demonstrates sorting, filtering, formulas (SUM, AVERAGE, MIN, MAX, SUMPRODUCT, VLOOKUP, COUNTIF), conditional formatting, pivot-style summaries, data validation, and organizational/aggregation techniques. The workbook (761 daily records, 4 stores, 28,182 items) was regenerated and confirmed functionally identical during the audit.
 
 Rows whose evidence belongs to later phases remain ⬜ and will be updated only as those phases are individually audited.
+
+## Phase 4 Re-Audit Status
+
+The Phase 4 audit (SQL & Database Analysis) verified the SQLite database and the executed SQL analysis. The Course 3 database rows (Databases, Relational tables, Keys, Relationships, Schemas) and the Course 5 SQL rows are marked 🟩 based on that verified evidence: the regenerated database contains five tables with primary keys, foreign keys and indexes, and 18 queries demonstrate filtering, sorting, grouping, HAVING, aggregation, calculated fields, aliases, joins, subqueries, CTEs and validation.
+
+Normalization remains 🟨: the schema separates stores, catalog, sales, markdowns and price history into related tables, but a formal normalization assessment is not documented. "Temporary tables" remains ⬜: the analysis uses common table expressions (CTEs) rather than explicit temporary tables. The Analyze stage is 🟨 (SQL and spreadsheet analysis complete; Python, R and forecasting analysis belong to later phases).
+
+The next Phase 17 audit target is Phase 5.
 
 ## Final Audit Rule
 

@@ -206,3 +206,30 @@ def test_cte_monthly_aggregation():
         ("2024-01", 1, 30.0),
         ("2024-01", 2, 30.0),
     ]
+
+
+def test_load_queries_parses_all_labelled_queries():
+    """Every labelled query in the production SQL file must be parseable.
+
+    Guards the SQL parser against a malformed `-- Query N` section header,
+    which would silently drop a required analysis query.
+    """
+    from scripts.run_sql_analysis import load_queries
+
+    queries = load_queries()
+
+    numbers = [number for number, _ in queries]
+
+    assert numbers == [str(number) for number in range(1, 19)]
+
+
+def test_require_inputs_reports_missing_database(tmp_path, monkeypatch):
+    """The SQL runner must fail clearly when the database is missing."""
+    import pytest
+
+    import scripts.run_sql_analysis as runner
+
+    monkeypatch.setattr(runner, "DATABASE_PATH", tmp_path / "missing.db")
+
+    with pytest.raises(FileNotFoundError):
+        runner.require_inputs()

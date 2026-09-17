@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 3 — Spreadsheet-Based Analysis
+Phase 4 — SQL & Database Analysis
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is currently auditing completed phases individually. Phase 0, Phase 1 and Phase 2 have been re-audited and approved; Phase 3 is the current audit target.
+Phase 17 is currently auditing completed phases individually. Phase 0 through Phase 3 have been re-audited and approved; Phase 4 is the current audit target.
 
 ## Git
 
@@ -46,11 +46,11 @@ phase-17-testing-documentation-final-audit
 
 HEAD:
 
-481443d — Phase 2 Audit (Phase 0, Phase 1 and Phase 2 audits committed; Phase 3 re-audit in progress)
+365c6c1 — Phase 3 audit (Phase 0–3 audits committed; Phase 4 re-audit in progress)
 
 Git status:
 
-The Phase 3 re-audit modifies the Phase 3 documentation and tracking docs; `data/analysis/retail_spreadsheet_analysis.xlsx` is excluded from Git under the generated-artifact policy (workbook untracking staged by the project owner). The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 4 re-audit modifies the Phase 4 documentation, tests and tracking docs; `data/analysis/retail_demand.db` and `data/analysis/sql_results/` are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -130,6 +130,21 @@ No raw data files are modified; the raw dataset remains immutable.
 - docs/phase-0/curriculum-mapping.md
 
 The spreadsheet workbook is a reproducible generated artifact and is not source-controlled. No raw data files are modified.
+
+## Files Modified During Phase 4 Re-Audit
+
+- docs/phase-4/sql-results.md
+- docs/phase-4/phase-4-checklist.md
+- docs/phase-4/sql-analysis.md
+- docs/phase-4/database-schema.md
+- docs/phase-4/sql-analysis-plan.md
+- docs/phase-4/course-content-coverage.md
+- tests/test_sql_analysis.py
+- docs/phase-0/project-state.md
+- docs/project-file-update-register.md
+- docs/phase-0/curriculum-mapping.md
+
+The SQLite database and SQL query result files are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
 
 ## Important Decisions
 
@@ -218,6 +233,12 @@ AUDITED — COMPLETE
 
 The Phase 3 spreadsheet documentation was reviewed against the regenerated workbook. The results document was populated with verified analytical findings (761 daily records, 4-store summary, 28,182-item summary, formula and validation details) and the course-content coverage chart was corrected to the project's actual phase numbering (R, Visualization, Tableau, Forecasting).
 
+Phase 4 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 4 SQL documentation was reviewed against the rebuilt database and re-executed queries. The results document was populated with verified table row counts, the 18 query summaries and the Query 17 data-coverage finding; the schema plan and course-content coverage received re-audit records confirming execution.
+
 ## Tests
 
 Phase 0 validation:
@@ -243,6 +264,12 @@ Phase 3 validation:
 VERIFIED — 10 TESTS PASS
 
 The Phase 3 validation test verifies the spreadsheet pipeline: store lookup loading, required workbook sheets, required course formulas, exact aggregation across chunk boundaries, invalid-date exclusion from the daily sheet only, table-reference handling, autofilter/table conflicts, VLOOKUP store-cell targets, bounded validation references, and the dynamic (non-hardcoded) store-selection dropdown.
+
+Phase 4 validation:
+
+VERIFIED — 11 TESTS PASS
+
+The Phase 4 validation verifies SQLite schema creation, row counting and aggregation (database tests), plus SQL analytical patterns (GROUP BY, joins, HAVING, subqueries, CTEs) and the SQL runner's query parser and missing-file handling (9 original + 2 QA-added tests).
 
 ## Known Issues
 
@@ -292,4 +319,12 @@ AUDITED — COMPLETE
 
 The Phase 3 re-audit reviewed the spreadsheet pipeline against the actual workbook. The regeneration script was re-executed successfully and its output was programmatically compared with the committed workbook: identical sheets, dimensions, record counts (761 daily, 4 store, 28,182 items), totals and key values. The results documentation was populated with the verified findings, the course-content coverage chart was corrected to the project's actual phase numbering, and the phase checklist was verified. The workbook is treated as a reproducible generated artifact and is no longer tracked in Git.
 
-The next Phase 17 audit target is Phase 4.
+## Phase 4 Re-Audit Status
+
+Phase 4 — SQL & Database Analysis has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 4 re-audit rebuilt the SQLite database from the Phase 2 raw files and re-executed all 18 SQL analysis queries. Verified row counts match the Phase 2 facts (stores 4, catalog 219,810, sales 7,432,685, markdowns 8,979, price_history 698,626; sales date range 2022-08-28 to 2024-09-26). Two QA tests were added (SQL query parser + missing-input handling; 9 → 11 tests). A genuine data-coverage finding was documented: 36,585 sales rows (948 distinct items) have no matching catalog record (Query 17). The database and query results remain untracked generated artifacts.
+
+The next Phase 17 audit target is Phase 5.

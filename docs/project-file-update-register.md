@@ -189,11 +189,45 @@ IN PROGRESS
 
 ---
 
-## Phase 4
+## Phase 4 — SQL & Database Analysis
 
-Not yet started.
+### Planned files
 
-Files will be determined at Phase 4 start.
+- `docs/phase-4/sql-analysis.md`
+- `docs/phase-4/sql-analysis-plan.md`
+- `docs/phase-4/database-schema.md`
+- `docs/phase-4/sql-results.md`
+- `docs/phase-4/course-content-coverage.md`
+- `docs/phase-4/phase-4-checklist.md`
+- `scripts/create_sqlite_database.py`
+- `scripts/run_sql_analysis.py`
+- `tests/test_create_sqlite_database.py`
+- `tests/test_sql_analysis.py`
+- `sql/schema.sql`
+- `sql/retail_analysis.sql`
+
+### Generated local artifacts
+
+- `data/analysis/retail_demand.db` (1.06 GB SQLite database)
+- `data/analysis/sql_results/query_1.csv` through `query_18.csv`
+
+The database and query results are generated from raw data and are excluded from Git under the project's generated-artifact policy.
+
+### Phase 4 status
+
+VERIFIED — database rebuilt and all 18 SQL queries re-executed during the Phase 17 re-audit.
+
+### Phase 17 audit modifications
+
+- `docs/phase-4/sql-results.md`
+- `docs/phase-4/phase-4-checklist.md`
+- `docs/phase-4/sql-analysis.md`
+- `docs/phase-4/database-schema.md`
+- `docs/phase-4/sql-analysis-plan.md`
+- `docs/phase-4/course-content-coverage.md`
+- `tests/test_sql_analysis.py`
+
+The re-audit rebuilt the SQLite database, re-executed all 18 queries, verified row counts against Phase 2 facts, documented the Query 17 data-coverage finding (36,585 unmatched catalog rows / 948 distinct items), and added SQL-parser and missing-input regression tests.
 
 ---
 
@@ -297,4 +331,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0, Phase 1 and Phase 2 have been re-audited and approved. Phase 3 is currently being re-audited; its workbook was regenerated and verified, and its documentation updated from the verified output.
+Phase 0 through Phase 3 have been re-audited and approved. Phase 4 is currently being re-audited; its database was rebuilt, its 18 SQL queries re-executed, and its documentation updated from the verified output.
