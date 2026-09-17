@@ -58,8 +58,8 @@ Actual evidence must exist.
 |---|---|---|
 | Prediction | Demand forecasting | 📄 |
 | Categorization | Product/demand categorization where applicable | ⬜ |
-| Spotting unusual behavior | Demand anomaly/outlier analysis where relevant | ⬜ |
-| Identifying themes | Retail demand patterns | ⬜ |
+| Spotting unusual behavior | Demand anomaly/outlier analysis where relevant | 🟨 |
+| Identifying themes | Retail demand patterns | 🟨 |
 | Discovering connections | Promotion/holiday/demand relationships | 📄 |
 | Finding patterns | Seasonality/trends | 📄 |
 | Critical thinking | Model and business decisions | 🟨 |
@@ -117,7 +117,7 @@ Actual evidence must exist.
 | Missing data | Data-quality analysis | 🟩 |
 | Duplicates | Data-quality analysis | 🟩 |
 | Incorrect values | Data-quality analysis | 🟩 |
-| Outliers | EDA | 🟨 |
+| Outliers | EDA | 🟩 |
 | Transformation | Processing | 🟩 |
 | Tidy data | Analytical dataset | 🟩 |
 | Change logs | Documentation | 🟩 |
@@ -173,14 +173,14 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Charts | Python/R/Tableau | ⬜ |
-| Histograms | EDA | ⬜ |
-| Line charts | Time series | ⬜ |
-| Bar charts | Product analysis | ⬜ |
+| Charts | Python/R/Tableau | 🟨 |
+| Histograms | EDA | 🟨 |
+| Line charts | Time series | 🟨 |
+| Bar charts | Product analysis | 🟨 |
 | Scatter plots | Driver analysis | ⬜ |
-| Distribution visualization | EDA | ⬜ |
+| Distribution visualization | EDA | 🟨 |
 | Correlation visualization | Analytical analysis | ⬜ |
-| Static visualization | Python/R | ⬜ |
+| Static visualization | Python/R | 🟨 |
 | Dynamic visualization | Tableau/application | ⬜ |
 | Dashboards | Tableau | ⬜ |
 | Filters | Tableau | ⬜ |
@@ -323,6 +323,47 @@ retail-specific requirements remain untracked by this audit and will be updated
 only as their phases are individually audited.
 
 The next Phase 17 audit target is Phase 7.
+
+## Phase 7 Re-Audit Status
+
+The Phase 7 audit (Exploratory Data Analysis) verified the EDA pipeline against
+the complete integrated dataset and inspected all seven summary files and five
+figures. Course 2 and Course 6 rows were updated on that evidence:
+
+- Course 2 "Spotting unusual behavior" is now 🟨: Phase 7 identifies unusual
+demand at item level using the interquartile-range upper fence (4,007 items
+above 1,716.0 units, holding 85.27% of demand) and explicitly removes nothing.
+- Course 2 "Identifying themes" is now 🟨: temporal and product themes are
+quantified and documented, including monthly record counts that separate a
+coverage change from a demand change (a level shift between 2023-11 and
+2023-12).
+- Course 6 "Charts", "Histograms", "Line charts", "Bar charts",
+"Distribution visualization" and "Static visualization" are now 🟨: Phase 7
+generates a monthly line chart, monthly and store bar charts, a department bar
+chart and an item-demand histogram in Python. Tableau, R and the final
+dashboard remain with later phases, and "Scatter plots" and "Correlation
+visualization" remain ⬜ because Phase 7 produces a correlation table rather
+than a correlation graphic.
+- Course 5 "Outliers" is now 🟩: the concept is demonstrated end to end, with
+record-level validity screening in Phase 5 and descriptive item-level outlier
+identification in Phase 7, in both cases without removing observations.
+
+The `Analyze` stage remains 🟨. Python exploratory analysis is now verified,
+but the stage also covers R and forecasting analysis, and the remaining phases
+have not yet been individually re-audited.
+
+Correlation evidence note: the Phase 7 correlation summary is now calculated
+from the complete 7,431,026-row dataset with pairwise-complete Pearson
+coefficients, replacing a deterministic 4% per-chunk sample whose values
+differed from the exact ones by up to 0.179 and changed sign on one pair. The
+result is deterministic and independent of the installed pandas version, and
+the price/demand coefficient (-0.04442) matches Phase 8's independent value.
+
+Course 7 (R) and Course 8 (Capstone) rows and the retail-specific
+requirements remain untracked by this audit and will be updated only as their
+phases are individually audited.
+
+The next Phase 17 audit target is Phase 8.
 
 ## Final Audit Rule
 

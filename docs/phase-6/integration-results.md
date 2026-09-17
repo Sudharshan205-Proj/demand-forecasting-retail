@@ -114,3 +114,17 @@ bytes, 7,431,026 rows). Verified findings:
 Date coverage (2022-08-28 to 2024-09-26) and the unmatched catalog count
 (36,580) reconcile with the Phase 5 cleaned-basis figures, and the raw-basis
 36,585 count reconciles with Phase 4 Query 17.
+
+### Flagged by the Phase 7 re-audit: non-finite discount values
+
+The discount aggregation derives `discount_rate = 1 - sale_price_time_promo /
+sale_price_before_promo` without guarding a zero denominator. 21,419 of the
+3,746,744 raw discount records have `sale_price_before_promo == 0`, which
+produces 21,391 infinite rates and leaves 6,760 infinite `promo_discount_rate`
+values in the integrated dataset; a further 28 records have both prices equal
+to zero, so `1 - 0/0` is NaN and 22 integrated rows carry a missing rate
+despite having a discount record. Two `markdown_discount` values are also
+infinite. Phase 7 now excludes non-finite values from its pairwise statistics
+explicitly and reports them as `infinite_<column>` counts, but the division
+guard belongs to this phase and was deliberately not changed during the
+Phase 7 audit. It is recorded here for the Phase 6 remediation pass.

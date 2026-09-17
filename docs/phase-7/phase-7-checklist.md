@@ -2,48 +2,58 @@
 
 ## Planning
 
-* [ ] Define EDA questions.
-* [ ] Define analytical grain.
-* [ ] Define required summaries.
-* [ ] Define visualization requirements.
-* [ ] Define quality controls.
+* [x] Define EDA questions.
+* [x] Define analytical grain.
+* [x] Define required summaries.
+* [x] Define visualization requirements.
+* [x] Define quality controls.
 
 ## Implementation
 
-* [ ] Validate integrated dataset schema.
-* [ ] Process integrated data in chunks.
-* [ ] Calculate overall demand.
-* [ ] Calculate temporal summaries.
-* [ ] Calculate store summaries.
-* [ ] Calculate product summaries.
-* [ ] Calculate department summaries.
-* [ ] Calculate correlation analysis.
-* [ ] Generate findings.
-* [ ] Generate visualizations.
+* [x] Validate integrated dataset schema.
+* [x] Validate that the integrated dataset exists, with an actionable message.
+* [x] Process integrated data in chunks.
+* [x] Calculate overall demand.
+* [x] Calculate temporal summaries.
+* [x] Calculate store summaries.
+* [x] Calculate product summaries.
+* [x] Calculate department summaries.
+* [x] Calculate correlation analysis.
+* [x] Calculate item-level distribution, outlier and concentration metrics.
+* [x] Calculate promotion and markdown record frequency.
+* [x] Generate findings.
+* [x] Generate visualizations.
 
 ## Testing
 
-* [ ] Validate required columns.
-* [ ] Validate schema failure handling.
-* [ ] Validate temporal aggregation.
-* [ ] Validate store aggregation.
-* [ ] Validate item aggregation.
-* [ ] Validate correlation behaviour.
-* [ ] Validate deterministic sampling.
-* [ ] Run Python compilation.
-* [ ] Run Phase 7 tests.
-* [ ] Validate generated outputs.
+* [x] Validate required columns.
+* [x] Validate schema failure handling.
+* [x] Validate missing input file handling.
+* [x] Validate temporal aggregation.
+* [x] Validate store aggregation.
+* [x] Validate item aggregation.
+* [x] Validate department aggregation.
+* [x] Validate correlation behaviour.
+* [x] Validate correlation against a pandas oracle.
+* [x] Validate pairwise handling of missing and infinite values.
+* [x] Validate chunk-size independence.
+* [x] Validate item-level distribution and concentration metrics.
+* [x] Validate findings content.
+* [x] Validate figure generation, including a category with no value.
+* [x] Run Python compilation.
+* [x] Run Phase 7 tests.
+* [x] Validate generated outputs.
 
 ## Documentation
 
-* [ ] EDA plan.
-* [ ] EDA methodology.
-* [ ] EDA quality framework.
-* [ ] EDA results.
-* [ ] Course-content coverage.
-* [ ] Project state.
-* [ ] File-update register.
-* [ ] README.
+* [x] EDA plan.
+* [x] EDA methodology.
+* [x] EDA quality framework.
+* [x] EDA results.
+* [x] Course-content coverage.
+* [x] Project state.
+* [x] File-update register.
+* [x] README (verified: it already lists Phase 7 correctly and required no change).
 
 ## Git
 
@@ -56,10 +66,47 @@
 * [ ] Verify remote state.
 * [ ] Verify clean working tree.
 
+The Git items remain unchecked because the Phase 17 audit is executed without
+Git commands, as instructed. The change set is recorded in
+`docs/project-file-update-register.md` and in the Phase 17 Re-Audit Record in
+`eda-results.md`.
+
 ## Completion
 
-* [ ] All checklist items complete.
-* [ ] No unresolved test failures.
-* [ ] Documentation matches implementation.
-* [ ] Actual results recorded.
-* [ ] Phase marked COMPLETE.
+* [x] All checklist items complete.
+* [x] No unresolved test failures.
+* [x] Documentation matches implementation.
+* [x] Actual results recorded.
+* [x] Phase marked COMPLETE.
+
+## Evidence
+
+```text
+Command:  .venv\Scripts\python.exe -m pytest tests/test_exploratory_data_analysis.py -q
+Result:   34 passed
+
+Command:  .venv\Scripts\python.exe -m pytest -q
+Result:   193 passed, 1 warning (pre-existing Phase 5 warning)
+
+Command:  .venv\Scripts\python.exe scripts/exploratory_data_analysis.py
+Result:   exit status 0, 61-63 seconds
+```
+
+Artifacts verified: `eda_summary.csv` (45 metric rows), `eda_monthly_demand.csv`
+(26 months), `eda_store_summary.csv` (4 stores), `eda_category_summary.csv`
+(182 rows), `eda_top_items.csv` (100 items), `eda_correlation.csv` (7x7 matrix,
+diagonal exactly 1.0, all 21 coefficients validated independently),
+`eda_findings.txt`, and five `eda_*.png` figures.
+
+## Phase 17 Re-Audit Record
+
+**Audit status:** AUDITED — COMPLETE
+
+Previously unchecked. Checked during the Phase 17 re-audit after the pipeline
+was executed against the complete integrated dataset, its artifacts were
+inspected against the summaries they derive from, and the test suite was
+extended from 10 to 34 tests that exercise the module rather than pandas.
+
+The Git section is intentionally left unchecked: the audit instruction for
+Phase 17 forbids Git commands, so no commit, push or remote verification is
+performed here.

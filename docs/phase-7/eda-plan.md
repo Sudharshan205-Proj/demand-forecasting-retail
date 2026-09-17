@@ -74,6 +74,8 @@ They are not added to the physical sales target.
 * Department summary
 * Top-item summary
 * Correlation summary
+* Item-level distribution and concentration summary
+* Promotion and markdown record frequency
 * Descriptive findings
 * Exploratory visualizations
 
@@ -89,4 +91,34 @@ The complete analysis is executed by:
 
 `scripts/exploratory_data_analysis.py`
 
-The script uses a fixed random seed when sampling data for correlation analysis.
+The script uses no sampling and no random seed. Correlation is calculated
+from the complete integrated dataset using chunked pairwise moments, so the
+output is deterministic for a given input file and does not depend on the
+random-number behaviour of the installed pandas version.
+
+## Phase 17 Re-Audit Record
+
+**Audit status:** AUDITED — COMPLETE
+
+Changes applied during the re-audit, recorded against the sections above:
+
+* **Analysis outputs** — the item-level distribution and concentration
+  summary and the promotion/markdown record frequency are now produced as
+  `eda_summary.csv` metrics and appear in `eda_findings.txt`. They answer the
+  "Is demand concentrated among a small number of products?" and
+  "How frequently do promotion/markdown records occur?" questions, which
+  previously had no implemented output.
+* **Reproducibility** — the original plan stated that the script "uses a
+  fixed random seed when sampling data for correlation analysis". Sampling
+  was removed, so that statement was replaced. The change was justified by
+  measurement: the sample gave equal weight to every chunk regardless of its
+  size and reused one seed per chunk, and its coefficients differed from the
+  exact full-dataset values by up to 0.179, including a sign change on one
+  pair.
+* **Anomalies, distributions and relationships** — no EDA question was
+  removed, added or reworded. Unusual demand is now identified at item level
+  (interquartile-range upper fence) without removing any observation, which is
+  how the phase purpose and the methodology already described it.
+
+Verification: 34 Phase 7 tests and 193 tests overall pass; the pipeline ran
+to completion in 61-63 seconds and every artifact was verified.

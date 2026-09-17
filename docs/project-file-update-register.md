@@ -334,11 +334,68 @@ no raw data files are modified.
 
 ---
 
-## Phase 7
+## Phase 7 — Exploratory Data Analysis
 
-Not yet started.
+### Planned files
 
-Files will be determined at Phase 7 start.
+- `docs/phase-7/eda-plan.md`
+- `docs/phase-7/eda-methodology.md`
+- `docs/phase-7/eda-quality-framework.md`
+- `docs/phase-7/eda-results.md`
+- `docs/phase-7/course-content-coverage.md`
+- `docs/phase-7/phase-7-checklist.md`
+- `scripts/exploratory_data_analysis.py`
+- `tests/test_exploratory_data_analysis.py`
+
+### Generated local artifacts
+
+- `data/analysis/eda_summary.csv` (45 metric rows)
+- `data/analysis/eda_monthly_demand.csv` (26 months)
+- `data/analysis/eda_store_summary.csv` (4 stores)
+- `data/analysis/eda_category_summary.csv` (182 rows)
+- `data/analysis/eda_top_items.csv` (100 items)
+- `data/analysis/eda_correlation.csv` (7x7 matrix)
+- `data/analysis/eda_findings.txt`
+- `reports/figures/eda_demand_over_time.png`
+- `reports/figures/eda_monthly_demand.png`
+- `reports/figures/eda_store_demand.png`
+- `reports/figures/eda_top_categories.png`
+- `reports/figures/eda_demand_distribution.png`
+
+The EDA summaries and figures are regenerated from the integrated dataset and
+are excluded from Git under the project's generated-artifact policy.
+
+### Phase 7 status
+
+VERIFIED — the EDA pipeline was re-executed over the complete integrated
+dataset (61-63 seconds) and all seven summary files and five figures were
+inspected against the summaries they derive from during the Phase 17 re-audit.
+
+### Phase 17 audit modifications
+
+- `scripts/exploratory_data_analysis.py`
+- `tests/test_exploratory_data_analysis.py`
+- `docs/phase-7/eda-results.md`
+- `docs/phase-7/eda-methodology.md`
+- `docs/phase-7/eda-plan.md`
+- `docs/phase-7/eda-quality-framework.md`
+- `docs/phase-7/course-content-coverage.md`
+- `docs/phase-7/phase-7-checklist.md`
+- `docs/phase-6/integration-results.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/project-file-update-register.md`
+
+The re-audit replaced the sampled correlation matrix with an exact full-dataset
+pairwise-complete calculation, added item-level distribution, outlier and
+concentration metrics plus promotion/markdown record frequency and non-finite
+counters, fixed a chart-label failure when a category has no value, replaced
+sixteen per-chunk missingness passes with one vectorized pass, and added
+twenty-four tests (10 to 34). No raw data files are modified.
+
+No Git commands were run during this audit, so no commit or push is recorded
+for Phase 7.
 
 ---
 

@@ -34,7 +34,7 @@
 | Ask | Business problem, stakeholders, questions | 1 | 🟩 |
 | Prepare | Data acquisition and understanding | 2–3 | 🟩 |
 | Process | Cleaning and integration | 5–6 | 🟩 |
-| Analyze | Analysis and forecasting | 7–14 | ⬜ |
+| Analyze | Analysis and forecasting | 7–14 | 🟨 |
 | Share | Tableau/storytelling/presentation | 15 | ⬜ |
 | Act | Forecast-based recommendations | 13–16 | ⬜ |
 

@@ -22,6 +22,10 @@ Figures:
     reports/figures/eda_store_demand.png
     reports/figures/eda_top_categories.png
     reports/figures/eda_demand_distribution.png
+
+The correlation summary is calculated from the complete integrated dataset
+using chunked pairwise moments. Non-finite values (missing or infinite) are
+excluded pairwise instead of being sampled.
 """
 
 from __future__ import annotations
@@ -29,6 +33,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +49,8 @@ ANALYSIS_DIR = PROJECT_ROOT / "data" / "analysis"
 FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
 
 CHUNK_SIZE = 250_000
+
+DTYPE_SAMPLE_ROWS = 10_000
 
 REQUIRED_COLUMNS = [
     "date",
@@ -67,6 +74,16 @@ OPTIONAL_COLUMNS = [
     "price_change_count",
 ]
 
+CORRELATION_COLUMNS = [
+    "quantity",
+    "price_base",
+    "sum_total",
+    "online_quantity",
+    "markdown_quantity",
+    "promo_discount_rate",
+    "price_change_count",
+]
+
 
 def validate_input_columns(columns: list[str]) -> None:
     """Validate that the integrated dataset contains required fields."""
@@ -75,6 +92,15 @@ def validate_input_columns(columns: list[str]) -> None:
     if missing:
         raise ValueError(
             f"Integrated dataset is missing required columns: {missing}"
+        )
+
+
+def validate_input_file() -> None:
+    """Validate that the integrated dataset exists before analysis."""
+    if not INPUT_PATH.exists():
+        raise FileNotFoundError(
+            f"Integrated dataset not found: {INPUT_PATH}. "
+            "Run scripts/integrate_retail_data.py (Phase 6) first."
         )
 
 
@@ -91,17 +117,299 @@ def initialise_directories() -> None:
     )
 
 
-def get_columns() -> list[str]:
+def read_header() -> pd.DataFrame:
     """Read only the header of the integrated dataset."""
     return pd.read_csv(
         INPUT_PATH,
         nrows=0,
-    ).columns.tolist()
+    )
+
+
+def get_columns() -> list[str]:
+    """Read only the column names of the integrated dataset."""
+    return read_header().columns.tolist()
+
+
+def read_numeric_columns(columns: list[str]) -> list[str]:
+    """Identify numeric columns from a small sample of the dataset.
+
+    The header row alone does not carry usable dtypes, so a small sample is
+    read to determine which columns support numeric integrity checks.
+    """
+    sample = pd.read_csv(
+        INPUT_PATH,
+        usecols=columns,
+        nrows=DTYPE_SAMPLE_ROWS,
+    )
+
+    return [
+        column
+        for column in columns
+        if pd.api.types.is_numeric_dtype(sample[column])
+    ]
+
+
+def correlation_offsets(columns: list[str]) -> dict[str, float]:
+    """Calculate a centering constant per column from finite values.
+
+    The constants only keep the pairwise accumulators well conditioned.
+    Any constant produces the same correlation, so the mean of the finite
+    values is used because it keeps the accumulated terms small.
+    """
+    totals = np.zeros(len(columns))
+    counts = np.zeros(len(columns))
+
+    for chunk in pd.read_csv(
+        INPUT_PATH,
+        usecols=columns,
+        chunksize=CHUNK_SIZE,
+    ):
+        values = chunk[columns].to_numpy(dtype="float64")
+
+        finite = np.isfinite(values)
+
+        counts += finite.sum(axis=0)
+        totals += np.where(finite, values, 0.0).sum(axis=0)
+
+    offsets = np.divide(
+        totals,
+        counts,
+        out=np.zeros_like(totals),
+        where=counts > 0,
+    )
+
+    return dict(
+        zip(columns, offsets)
+    )
+
+
+def accumulate_correlation(
+    columns: list[str],
+    offsets: dict[str, float],
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Accumulate centered pairwise moments across every chunk.
+
+    Returns the pairwise counts, centered sums, centered products and
+    centered squares. Non-finite values are excluded pairwise.
+    """
+    size = len(columns)
+
+    offset_values = np.array(
+        [offsets[column] for column in columns],
+        dtype="float64",
+    )
+
+    counts = np.zeros((size, size))
+    centered_sums = np.zeros((size, size))
+    centered_products = np.zeros((size, size))
+    centered_squares = np.zeros((size, size))
+
+    for chunk in pd.read_csv(
+        INPUT_PATH,
+        usecols=columns,
+        chunksize=CHUNK_SIZE,
+    ):
+        values = chunk[columns].to_numpy(dtype="float64")
+
+        finite = np.isfinite(values)
+
+        centered = np.where(
+            finite,
+            values - offset_values,
+            0.0,
+        )
+
+        weights = finite.astype("float64")
+
+        counts += weights.T @ weights
+        centered_sums += centered.T @ weights
+        centered_products += centered.T @ centered
+        centered_squares += (centered * centered).T @ weights
+
+    return (
+        counts,
+        centered_sums,
+        centered_products,
+        centered_squares,
+    )
+
+
+def pearson_from_accumulators(
+    counts: np.ndarray,
+    centered_sums: np.ndarray,
+    centered_products: np.ndarray,
+    centered_squares: np.ndarray,
+    columns: list[str],
+) -> pd.DataFrame:
+    """Derive the pairwise-complete Pearson matrix from accumulators.
+
+    Each correlation uses only the rows where both variables are finite.
+    A variable correlates with itself as exactly 1. Pairs with fewer than
+    two usable rows, or without variation, are reported as not available.
+    """
+    size = len(columns)
+
+    matrix = np.full((size, size), np.nan)
+
+    for i in range(size):
+        for j in range(size):
+            usable = counts[i, j]
+
+            if usable < 2:
+                continue
+
+            covariance = (
+                centered_products[i, j]
+                - centered_sums[i, j] * centered_sums[j, i] / usable
+            )
+
+            variance_i = (
+                centered_squares[i, j]
+                - centered_sums[i, j] * centered_sums[i, j] / usable
+            )
+
+            variance_j = (
+                centered_squares[j, i]
+                - centered_sums[j, i] * centered_sums[j, i] / usable
+            )
+
+            if variance_i <= 0 or variance_j <= 0:
+                continue
+
+            if i == j:
+                matrix[i, j] = 1.0
+                continue
+
+            matrix[i, j] = covariance / np.sqrt(
+                variance_i * variance_j
+            )
+
+    correlation = pd.DataFrame(
+        np.clip(matrix, -1.0, 1.0),
+        index=columns,
+        columns=columns,
+    )
+
+    return correlation.reset_index().rename(
+        columns={"index": "variable"}
+    )
+
+
+def build_correlation() -> pd.DataFrame:
+    """Calculate the exact full-dataset correlation matrix in chunks."""
+    header_columns = get_columns()
+
+    columns = [
+        column
+        for column in CORRELATION_COLUMNS
+        if column in header_columns
+    ]
+
+    if len(columns) < 2:
+        return pd.DataFrame()
+
+    offsets = correlation_offsets(columns)
+
+    (
+        counts,
+        centered_sums,
+        centered_products,
+        centered_squares,
+    ) = accumulate_correlation(columns, offsets)
+
+    return pearson_from_accumulators(
+        counts,
+        centered_sums,
+        centered_products,
+        centered_squares,
+        columns,
+    )
+
+
+def describe_item_demand(items: pd.DataFrame) -> list[dict[str, object]]:
+    """Describe the item-level demand distribution and concentration.
+
+    Unusual item-level demand is identified for investigation only.
+    No observation is removed, filtered or modified.
+    """
+    if items.empty:
+        return []
+
+    demand = (
+        items["quantity"]
+        .astype("float64")
+        .sort_values(ascending=False)
+        .reset_index(drop=True)
+    )
+
+    total = float(demand.sum())
+
+    if total <= 0 or len(demand) < 2:
+        return []
+
+    q1 = float(demand.quantile(0.25))
+    median = float(demand.quantile(0.5))
+    q3 = float(demand.quantile(0.75))
+
+    upper_fence = q3 + 1.5 * (q3 - q1)
+
+    tail = demand[demand > upper_fence]
+
+    top_count = max(1, int(round(len(demand) * 0.01)))
+
+    return [
+        {
+            "metric": "item_demand_q1",
+            "value": q1,
+        },
+        {
+            "metric": "item_demand_median",
+            "value": median,
+        },
+        {
+            "metric": "item_demand_q3",
+            "value": q3,
+        },
+        {
+            "metric": "item_demand_upper_fence",
+            "value": upper_fence,
+        },
+        {
+            "metric": "items_above_upper_fence",
+            "value": len(tail),
+        },
+        {
+            "metric": "items_above_upper_fence_demand_share",
+            "value": round(float(tail.sum()) / total, 6),
+        },
+        {
+            "metric": "top_1pct_item_count",
+            "value": top_count,
+        },
+        {
+            "metric": "top_1pct_item_demand_share",
+            "value": round(
+                float(demand.head(top_count).sum()) / total,
+                6,
+            ),
+        },
+        {
+            "metric": "top_10_item_demand_share",
+            "value": round(
+                float(demand.head(10).sum()) / total,
+                6,
+            ),
+        },
+    ]
 
 
 def build_eda_summaries() -> dict[str, object]:
     """Process the integrated dataset in chunks."""
-    columns = get_columns()
+    validate_input_file()
+
+    header = read_header()
+
+    columns = header.columns.tolist()
 
     validate_input_columns(columns)
 
@@ -110,6 +418,8 @@ def build_eda_summaries() -> dict[str, object]:
         for column in REQUIRED_COLUMNS + OPTIONAL_COLUMNS
         if column in columns
     ]
+
+    numeric_columns = read_numeric_columns(use_columns)
 
     total_rows = 0
     total_quantity = 0.0
@@ -123,12 +433,11 @@ def build_eda_summaries() -> dict[str, object]:
     category_rows: list[pd.DataFrame] = []
     item_rows: list[pd.DataFrame] = []
 
-    correlation_parts: list[pd.DataFrame] = []
+    missing_totals = np.zeros(len(use_columns), dtype="int64")
+    infinite_totals = np.zeros(len(numeric_columns), dtype="int64")
 
-    missing_counts = {
-        column: 0
-        for column in use_columns
-    }
+    discount_record_rows = 0
+    markdown_record_rows = 0
 
     for chunk in pd.read_csv(
         INPUT_PATH,
@@ -142,8 +451,8 @@ def build_eda_summaries() -> dict[str, object]:
             errors="coerce",
         )
 
-        total_quantity += chunk["quantity"].sum()
-        total_revenue += chunk["sum_total"].sum()
+        total_quantity += float(chunk["quantity"].sum())
+        total_revenue += float(chunk["sum_total"].sum())
 
         chunk_min_date = chunk["date"].min()
         chunk_max_date = chunk["date"].max()
@@ -160,9 +469,29 @@ def build_eda_summaries() -> dict[str, object]:
         ):
             max_date = chunk_max_date
 
-        for column in use_columns:
-            missing_counts[column] += int(
-                chunk[column].isna().sum()
+        missing_totals += (
+            chunk[use_columns]
+            .isna()
+            .to_numpy()
+            .sum(axis=0)
+        )
+
+        if numeric_columns:
+            infinite_totals += (
+                np.isinf(
+                    chunk[numeric_columns].to_numpy(dtype="float64")
+                )
+                .sum(axis=0)
+            )
+
+        if "discount_record_count" in chunk.columns:
+            discount_record_rows += int(
+                (chunk["discount_record_count"] > 0).sum()
+            )
+
+        if "markdown_record_count" in chunk.columns:
+            markdown_record_rows += int(
+                (chunk["markdown_record_count"] > 0).sum()
             )
 
         chunk["year_month"] = (
@@ -216,29 +545,6 @@ def build_eda_summaries() -> dict[str, object]:
                 records=("quantity", "size"),
             )
         )
-
-        correlation_columns = [
-            column
-            for column in [
-                "quantity",
-                "price_base",
-                "sum_total",
-                "online_quantity",
-                "markdown_quantity",
-                "promo_discount_rate",
-                "price_change_count",
-            ]
-            if column in chunk.columns
-        ]
-
-        if len(correlation_columns) >= 2:
-            correlation_parts.append(
-                chunk[correlation_columns]
-                .sample(
-                    n=min(10_000, len(chunk)),
-                    random_state=42,
-                )
-            )
 
     monthly = (
         pd.concat(
@@ -322,24 +628,7 @@ def build_eda_summaries() -> dict[str, object]:
         )
     )
 
-    if correlation_parts:
-        correlation_sample = pd.concat(
-            correlation_parts,
-            ignore_index=True,
-        )
-
-        correlation = (
-            correlation_sample
-            .corr(
-                numeric_only=True
-            )
-            .reset_index()
-            .rename(
-                columns={"index": "variable"}
-            )
-        )
-    else:
-        correlation = pd.DataFrame()
+    correlation = build_correlation()
 
     summary_rows = [
         {
@@ -383,9 +672,34 @@ def build_eda_summaries() -> dict[str, object]:
     summary_rows.extend(
         {
             "metric": f"missing_{column}",
-            "value": count,
+            "value": int(count),
         }
-        for column, count in missing_counts.items()
+        for column, count in zip(use_columns, missing_totals)
+    )
+
+    summary_rows.extend(
+        {
+            "metric": f"infinite_{column}",
+            "value": int(count),
+        }
+        for column, count in zip(numeric_columns, infinite_totals)
+    )
+
+    summary_rows.extend(
+        [
+            {
+                "metric": "rows_with_discount_record",
+                "value": discount_record_rows,
+            },
+            {
+                "metric": "rows_with_markdown_record",
+                "value": markdown_record_rows,
+            },
+        ]
+    )
+
+    summary_rows.extend(
+        describe_item_demand(items)
     )
 
     summary = pd.DataFrame(summary_rows)
@@ -430,6 +744,23 @@ def build_eda_summaries() -> dict[str, object]:
     }
 
 
+def chart_labels(
+    values: pd.Series,
+    fallback: str = "(unknown)",
+) -> pd.Series:
+    """Return categorical chart labels without missing or non-string values.
+
+    Missing labels keep an explicit name instead of being dropped, because
+    unmatched catalog records are a documented part of the analytical data.
+    """
+    return (
+        values
+        .astype("object")
+        .where(values.notna(), fallback)
+        .astype(str)
+    )
+
+
 def create_figures(results: dict[str, object]) -> None:
     """Create the main Phase 7 exploratory visualizations."""
     monthly = results["monthly"]
@@ -445,7 +776,7 @@ def create_figures(results: dict[str, object]) -> None:
     # Demand over time.
     plt.figure(figsize=(12, 6))
     plt.plot(
-        monthly["year_month"].astype(str),
+        chart_labels(monthly["year_month"]),
         monthly["quantity"],
     )
     plt.xticks(rotation=45)
@@ -462,7 +793,7 @@ def create_figures(results: dict[str, object]) -> None:
     # Monthly demand.
     plt.figure(figsize=(12, 6))
     plt.bar(
-        monthly["year_month"].astype(str),
+        chart_labels(monthly["year_month"]),
         monthly["quantity"],
     )
     plt.xticks(rotation=45)
@@ -479,7 +810,7 @@ def create_figures(results: dict[str, object]) -> None:
     # Store demand.
     plt.figure(figsize=(8, 5))
     plt.bar(
-        stores["store_id"].astype(str),
+        chart_labels(stores["store_id"]),
         stores["quantity"],
     )
     plt.xlabel("Store")
@@ -498,7 +829,10 @@ def create_figures(results: dict[str, object]) -> None:
 
         plt.figure(figsize=(12, 7))
         plt.barh(
-            top_categories["dept_name"].astype(str),
+            chart_labels(
+                top_categories["dept_name"],
+                fallback="(unmatched)",
+            ),
             top_categories["quantity"],
         )
         plt.xlabel("Demand Quantity")
@@ -528,6 +862,32 @@ def create_figures(results: dict[str, object]) -> None:
     plt.close()
 
 
+def format_metric(value: object, digits: int = 3) -> str:
+    """Format a numeric metric for the findings file."""
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+
+    if not np.isfinite(number):
+        return str(value)
+
+    return f"{number:,.{digits}f}"
+
+
+def format_identifier(value: object) -> str:
+    """Format an identifier without floating-point artefacts."""
+    try:
+        number = float(value)
+    except (TypeError, ValueError):
+        return str(value)
+
+    if number.is_integer():
+        return str(int(number))
+
+    return f"{number:g}"
+
+
 def write_findings(results: dict[str, object]) -> None:
     """Write automatically derived descriptive findings."""
     summary = results["summary"]
@@ -555,12 +915,12 @@ def write_findings(results: dict[str, object]) -> None:
         "These findings are descriptive observations generated from the",
         "integrated dataset. They are not forecasting-model results.",
         "",
-        f"Rows analysed: {metrics.get('rows')}",
-        f"Total quantity: {metrics.get('total_quantity')}",
-        f"Total revenue: {metrics.get('total_revenue')}",
+        f"Rows analysed: {format_metric(metrics.get('rows'), 0)}",
+        f"Total quantity: {format_metric(metrics.get('total_quantity'))}",
+        f"Total revenue: {format_metric(metrics.get('total_revenue'))}",
         f"Date range: {metrics.get('date_min')} to {metrics.get('date_max')}",
-        f"Unique stores: {metrics.get('unique_stores')}",
-        f"Unique items: {metrics.get('unique_items')}",
+        f"Unique stores: {format_metric(metrics.get('unique_stores'), 0)}",
+        f"Unique items: {format_metric(metrics.get('unique_items'), 0)}",
         "",
     ]
 
@@ -579,12 +939,12 @@ def write_findings(results: dict[str, object]) -> None:
                 (
                     "Highest-demand month: "
                     f"{highest_month['year_month']} "
-                    f"({highest_month['quantity']})"
+                    f"({format_metric(highest_month['quantity'])})"
                 ),
                 (
                     "Lowest-demand month: "
                     f"{lowest_month['year_month']} "
-                    f"({lowest_month['quantity']})"
+                    f"({format_metric(lowest_month['quantity'])})"
                 ),
                 "",
             ]
@@ -598,8 +958,8 @@ def write_findings(results: dict[str, object]) -> None:
                 "Store observations:",
                 (
                     f"Highest-demand store: "
-                    f"{highest_store['store_id']} "
-                    f"({highest_store['quantity']})"
+                    f"{format_identifier(highest_store['store_id'])} "
+                    f"({format_metric(highest_store['quantity'])})"
                 ),
                 "",
             ]
@@ -614,7 +974,68 @@ def write_findings(results: dict[str, object]) -> None:
                 (
                     "Highest-demand department: "
                     f"{highest_category['dept_name']} "
-                    f"({highest_category['quantity']})"
+                    f"({format_metric(highest_category['quantity'])})"
+                ),
+                "",
+            ]
+        )
+
+    if metrics.get("items_above_upper_fence") is not None:
+        lines.extend(
+            [
+                "Distribution and concentration observations:",
+                (
+                    "Item-level demand quartiles (Q1 / median / Q3): "
+                    f"{format_metric(metrics.get('item_demand_q1'))} / "
+                    f"{format_metric(metrics.get('item_demand_median'))} / "
+                    f"{format_metric(metrics.get('item_demand_q3'))}"
+                ),
+                (
+                    "Item-level upper fence (Q3 + 1.5 x IQR): "
+                    f"{format_metric(metrics.get('item_demand_upper_fence'))}"
+                ),
+                (
+                    "Items above the upper fence: "
+                    f"{format_metric(metrics.get('items_above_upper_fence'), 0)} "
+                    "(share of total demand: "
+                    f"{format_metric(metrics.get('items_above_upper_fence_demand_share'), 4)})"
+                ),
+                (
+                    "Top 1% of items "
+                    f"({format_metric(metrics.get('top_1pct_item_count'), 0)}): "
+                    "share of total demand "
+                    f"{format_metric(metrics.get('top_1pct_item_demand_share'), 4)}"
+                ),
+                (
+                    "Top 10 items: share of total demand "
+                    f"{format_metric(metrics.get('top_10_item_demand_share'), 4)}"
+                ),
+                "",
+            ]
+        )
+
+    if metrics.get("rows_with_discount_record") is not None:
+        infinite_total = sum(
+            int(value)
+            for metric, value in metrics.items()
+            if str(metric).startswith("infinite_")
+        )
+
+        lines.extend(
+            [
+                "Promotion and markdown observations:",
+                (
+                    "Rows with a discount record: "
+                    f"{format_metric(metrics.get('rows_with_discount_record'), 0)}"
+                ),
+                (
+                    "Rows with a markdown record: "
+                    f"{format_metric(metrics.get('rows_with_markdown_record'), 0)}"
+                ),
+                (
+                    "Rows with non-finite analytical values "
+                    "(excluded from correlation): "
+                    f"{format_metric(infinite_total, 0)}"
                 ),
                 "",
             ]
@@ -627,6 +1048,15 @@ def write_findings(results: dict[str, object]) -> None:
                 "The descriptive findings should be interpreted together "
                 "with the underlying summary tables and visualizations. "
                 "Observed associations do not establish causation."
+            ),
+            "",
+            "Data note:",
+            (
+                "Missing promotion and markdown values mean that no "
+                "matching auxiliary record exists for that date, item and "
+                "store after the Phase 6 left joins. They are not cleaning "
+                "failures. Non-finite values are excluded from the pairwise "
+                "correlation calculation."
             ),
         ]
     )
