@@ -40,6 +40,14 @@ CHUNK_SIZE = 250_000
 
 KEY_COLUMNS = ["date", "item_id", "store_id"]
 
+# Raw records whose derived rate is undefined because the denominator is zero
+# or missing. The derived value is left missing instead of becoming infinite,
+# and the counts are recorded by the integration quality report.
+UNDEFINED_RATE_RECORDS = {
+    "markdown_discount": 0,
+    "promo_discount_rate": 0,
+}
+
 SALES_COLUMNS = [
     "date",
     "item_id",
@@ -216,11 +224,22 @@ def aggregate_markdowns() -> pd.DataFrame:
             errors="coerce",
         )
 
+    valid_normal_price = frame["normal_price"].where(
+        frame["normal_price"] > 0
+    )
+
+    UNDEFINED_RATE_RECORDS["markdown_discount"] = int(
+        (
+            frame["normal_price"].notna()
+            & valid_normal_price.isna()
+        ).sum()
+    )
+
     frame["markdown_discount"] = (
         1
         - (
             frame["price"]
-            / frame["normal_price"]
+            / valid_normal_price
         )
     )
 
@@ -257,6 +276,8 @@ def aggregate_discounts() -> pd.DataFrame:
 
     parts: list[pd.DataFrame] = []
 
+    UNDEFINED_RATE_RECORDS["promo_discount_rate"] = 0
+
     for chunk in frame:
         chunk = normalise_keys(chunk)
 
@@ -270,11 +291,22 @@ def aggregate_discounts() -> pd.DataFrame:
                 errors="coerce",
             )
 
+        valid_price_before_promo = chunk[
+            "sale_price_before_promo"
+        ].where(chunk["sale_price_before_promo"] > 0)
+
+        UNDEFINED_RATE_RECORDS["promo_discount_rate"] += int(
+            (
+                chunk["sale_price_before_promo"].notna()
+                & valid_price_before_promo.isna()
+            ).sum()
+        )
+
         chunk["discount_rate"] = (
             1
             - (
                 chunk["sale_price_time_promo"]
-                / chunk["sale_price_before_promo"]
+                / valid_price_before_promo
             )
         )
 
@@ -454,6 +486,7 @@ def build_integration() -> dict[str, int]:
     duplicate_output_rows = 0
     unknown_store_rows = 0
     unmatched_catalog_rows = 0
+    undefined_discount_rate_rows = 0
     total_demand_quantity = 0.0
     total_sales_revenue = 0.0
     unique_item_ids: set[str] = set()
@@ -533,6 +566,13 @@ def build_integration() -> dict[str, int]:
             validate="many_to_one",
         )
 
+        undefined_discount_rate_rows += int(
+            (
+                (chunk["discount_record_count"] > 0)
+                & chunk["promo_discount_rate"].isna()
+            ).sum()
+        )
+
         chunk = chunk.merge(
             online,
             on=KEY_COLUMNS,
@@ -606,6 +646,18 @@ def build_integration() -> dict[str, int]:
             {
                 "metric": "unmatched_catalog_rows",
                 "value": unmatched_catalog_rows,
+            },
+            {
+                "metric": "undefined_markdown_discount_records",
+                "value": UNDEFINED_RATE_RECORDS["markdown_discount"],
+            },
+            {
+                "metric": "undefined_promo_discount_rate_records",
+                "value": UNDEFINED_RATE_RECORDS["promo_discount_rate"],
+            },
+            {
+                "metric": "promoted_rows_with_undefined_discount_rate",
+                "value": undefined_discount_rate_rows,
             },
             {
                 "metric": "date_min",

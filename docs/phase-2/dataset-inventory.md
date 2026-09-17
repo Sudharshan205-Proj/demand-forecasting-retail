@@ -55,6 +55,9 @@ The values below were produced by the Phase 2 inspection script during the Phase
 - Duplicate rows: 0
 - Unique products: 28,182
 - Unique stores: 4
+- Store coverage: stores 1-3 span the full range; store 4 first appears on
+  2023-12-13 (established in the Phase 8 re-audit), which explains the monthly
+  level shift between 2023-11 and 2023-12 as a coverage change
 
 ### `online.csv`
 
@@ -77,6 +80,8 @@ The values below were produced by the Phase 2 inspection script during the Phase
 - Duplicate rows: 268
 - Unique products: 313
 - Unique stores: 3
+- Records with a zero `normal_price`: 2 (the derived markdown discount is
+  undefined for these records)
 
 ### `price_history.csv`
 
@@ -114,6 +119,9 @@ The values below were produced by the Phase 2 inspection script during the Phase
 - Duplicate rows: 0
 - Unique products: 16,081
 - Unique stores: 4
+- Records with a zero `sale_price_before_promo`: 21,419, of which 28 also have
+  a zero promotional price (the derived discount rate is undefined for all
+  21,419)
 
 ### `actual_matrix.csv`
 
@@ -148,6 +156,13 @@ Status: NOT IDENTIFIED in the local raw files.
 - Every raw CSV leads with an unnamed index column (`Unnamed: 0`), a file-format artifact excluded from later processing.
 - `catalog.csv` is UTF-8 with a byte-order mark.
 - `catalog.csv` has 27,571 ragged lines (unquoted commas in text fields) reported and skipped by the inspection tool.
+- Two derived rate columns divide by a raw price: `1 - sale_price_time_promo /
+  sale_price_before_promo` and `1 - price / normal_price`. The denominators are
+  zero for 21,419 discount records and 2 markdown records. The Phase 8 re-audit
+  guarded both divisions in Phase 6, so the derived rate is left missing rather
+  than infinite and the affected counts are recorded in the integration quality
+  report (`undefined_promo_discount_rate_records`,
+  `undefined_markdown_discount_records`).
 
 ## Raw Data Policy
 

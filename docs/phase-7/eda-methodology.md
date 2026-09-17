@@ -147,7 +147,9 @@ Potential considerations include:
 * price relationships
 * promotion effects
 * the apparent level shift between 2023-11 and 2023-12, which must be
-  distinguished from demand growth before it is modelled as trend
+  distinguished from demand growth before it is modelled as trend; the Phase 8
+  re-audit later established that it is a coverage and assortment change
+  (store 4 first appears on 2023-12-13) rather than demand growth
 
 ## 12. Leakage prevention
 

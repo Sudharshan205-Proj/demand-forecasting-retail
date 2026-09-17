@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 7 — Exploratory Data Analysis
+Phase 9 — Time-Series Preparation
 
 ## Overall Status
 
@@ -411,6 +411,12 @@ AUDITED — COMPLETE
 
 The Phase 7 EDA pipeline was re-executed over the complete integrated dataset (61-63 seconds) and every generated artifact was inspected against the summaries it derives from. Reconciliation with Phase 6 is exact: 7,431,026 rows, total demand 41,949,529.910, total revenue 5,659,219,309.900, 2022-08-28 to 2024-09-26, 4 stores and 28,180 items. The correlation summary was moved from a deterministic 4% per-chunk sample to an exact full-dataset pairwise-complete calculation; the sampled coefficients differed from the exact values by up to 0.179 and one pair changed sign, and the price coefficient now agrees with Phase 8's independent value (-0.04442). Item-level distribution, outlier and concentration metrics plus promotion/markdown record frequency were added, closing requirements that the phase purpose, the EDA questions, the methodology and the course-content coverage already claimed. A latent chart-label failure was fixed (pandas 3 `astype(str)` preserves missing values as float NaN, which matplotlib rejects). Phase 7 tests increased from 10 to 34 and the full suite passes (193 tests). One cross-phase issue was flagged for Phase 6: 21,419 raw discount records have `sale_price_before_promo == 0`, so the derived discount rate divides by zero and 6,760 `promo_discount_rate` values are infinite.
 
-The next Phase 17 audit target is Phase 8.
+## Phase 8 Re-Audit Status
 
-The next Phase 17 audit target is Phase 7.
+Phase 8 — Statistical & Analytical Analysis has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 8 statistical pipeline was re-executed over the complete integrated dataset (40.8 seconds, peak 736.1 MB) and every generated artifact was inspected. Documentation that had never been updated after execution was rewritten, and three substantive defects were corrected. The promotion comparison now follows the phase plan — presence of a discount record (1,518,622 versus 5,912,404 rows) rather than two subsets of promoted rows — with the rate-sign breakdown retained as a labelled secondary comparison; the corrected result reverses the direction previously reported. The retained 594.5 MB analysis frame (about 1,189 MB peak) was replaced by streaming accumulators, so the documented chunked strategy now holds: the aggregation peaks at 483.4 MB with no reported statistic computed from a sample. Underflowed p-values are reported as `< 1e-300`, identifiers and magnitudes no longer print float artefacts, and the trend is reported with Newey-West (HAC) inference (standard error 4.30 versus OLS 2.07) because OLS inference is invalid for autocorrelated daily demand. Covariance and a 56-metric `statistical_quality_report.csv` close the framework's validation requirements, and a new `statistical_monthly_activity.csv` diagnoses the 2023-12 level shift as a coverage and assortment change: store 4 first appears in `data/raw/sales.csv` on 2023-12-13, with distinct items per month rising from about 12,600 to about 15,400. The streaming rewrite was verified to reproduce the previous implementation exactly (regression slope identical, correlations agreeing to 1.3e-13, category, store, daily and autocorrelation outputs identical, all against the unmodified dataset). The Phase 6 zero-denominator issue flagged by Phase 7 was fixed at source — 21,419 raw discount records have a zero base price, and the 6,782 affected promoted rows now carry a missing rate instead of an infinite one, verified by an independent scan reporting 0 infinite values — and the fix was confirmed analytically neutral apart from the two guard counters. Phase 8 tests increased from 10 to 46, Phase 6 tests from 22 to 24, and the full suite passes (231 tests). `requirements.txt` is now pinned to the verified environment, closing the Phase 7 reproducibility item.
+
+The next Phase 17 audit target is Phase 9.

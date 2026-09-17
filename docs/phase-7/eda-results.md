@@ -34,14 +34,20 @@ See:
 |---|---:|
 | Missing `dept_name` / `class_name` / `subclass_name` | 36,580 |
 | Missing `markdown_quantity` | 7,422,317 |
-| Missing `promo_discount_rate` | 5,912,426 |
+| Missing `promo_discount_rate` | 5,919,186 |
 | Rows with a discount record | 1,518,622 |
 | Rows with a markdown record | 8,709 |
-| Rows with non-finite values (`infinite_promo_discount_rate`) | 6,760 |
+| Rows with non-finite values (`infinite_promo_discount_rate`) | 0 |
 
 Missing promotion and markdown values mean that no matching auxiliary record
 exists for that date, item and store after the Phase 6 left joins. They are
 not cleaning failures.
+
+Both counters changed when the Phase 8 re-audit guarded the two zero
+denominators in Phase 6: 6,760 values that were infinite are now missing, so
+`missing_promo_discount_rate` moved from 5,912,426 to 5,919,186 and
+`infinite_promo_discount_rate` from 6,760 to 0. Two `markdown_discount` values
+changed in the same way. No other metric in this document is affected.
 
 Promotion and markdown frequency is reported from
 `discount_record_count > 0` and `markdown_record_count > 0` rather than from
@@ -135,10 +141,15 @@ model comparison.
 - 1,518,622 rows (20.4% of the dataset) carry a discount record.
 - `promo_discount_rate` vs `quantity`: -0.0654.
   `promo_discount_rate` vs `markdown_quantity`: -0.2182.
-- Phase 8's promotion comparison over the same data reports a lower mean
-  quantity on promoted rows (5.36, median 2, n = 1,215,172) than on
-  non-promoted rows (8.30, median 3, n = 303,428), consistent with the weak
-  negative association observed here.
+- Phase 8's promotion comparison over the same data reports a slightly higher
+  mean quantity on rows that carry a discount record (5.95, median 2,
+  n = 1,518,622) than on rows without one (5.57, median 2, n = 5,912,404), and
+  within the promoted rows a lower mean on rows with a positive discount rate
+  (5.36, median 2, n = 1,215,172) than on rows with a non-positive rate (8.36,
+  median 3, n = 296,668). The rate-sign figures are the ones consistent with
+  the weak negative association observed here; the presence comparison shows
+  that the difference between promoted and unpromoted rows is small relative
+  to the spread of the data.
 - This is an association, not a causal effect. Promotion targeting is not
   random and item and store composition differ between the two groups.
 
@@ -243,9 +254,13 @@ label instead of failing to plot; see the re-audit record below.
 
 - Only 26 months of history across 4 stores. The series is short, so simple
   regularised models are likely to be more reliable than complex ones.
-- The level shift between 2023-11 and 2023-12 must be handled deliberately.
-  If it reflects coverage or assortment change rather than demand, models
-  trained across the break can learn a spurious trend.
+- The level shift between 2023-11 and 2023-12 is a **documented coverage and
+  assortment change rather than demand growth**, as the Phase 8 re-audit
+  established: `data/raw/sales.csv` contains store 4 only from 2023-12-13,
+  distinct stores per month rise from 3 to 4 in 2023-12, distinct items per
+  month rise from about 12,600 to about 15,400, and quantity per row stays near
+  5.5-6.0 throughout. Models trained across the break can still learn the
+  coverage change as a spurious trend, so it must be handled deliberately.
 - Item-level concentration means a handful of items dominate aggregate error
   metrics; forecast quality should be reported for representative items as
   well as for aggregate demand.
@@ -296,7 +311,7 @@ complete for Phase 7.
 | F5 | "Is demand concentrated among a small number of products?" was never answered | plan question; only an unranked top-100 item list existed | Medium |
 | F6 | Promotion/markdown frequency was only implied by null counts | plan questions; `missing_promo_discount_rate` cannot distinguish "no record" from "unusable record" | Medium |
 | F7 | Chart labels fail when a category has no value under pandas 3 or later | `Series.astype(str)` preserves missing values as float NaN, which matplotlib's category converter rejects; reproduced with a fixture whose unmatched department ranks in the top 15 | High (latent) |
-| F8 | Non-finite values reach the analytical columns | 6,760 `inf` in `promo_discount_rate` and 2 in `markdown_discount`; pandas 3.0.5 silently ignores non-finite values in `corr()` while pandas below 3 returns NaN, and `requirements.txt` is unpinned | Medium (cross-phase) |
+| F8 | Non-finite values reached the analytical columns | 6,760 `inf` in `promo_discount_rate` and 2 in `markdown_discount`; pandas 3.0.5 silently ignores non-finite values in `corr()` while pandas below 3 returns NaN, and `requirements.txt` was unpinned. **Resolved in the Phase 8 re-audit:** both Phase 6 divisions are guarded, both columns now contain 0 infinite values, and dependencies are pinned | Medium (cross-phase) |
 | F9 | Findings file contained float artefacts | `Highest-demand store: 1.0`; `41949529.910000004`; `3111278.0` | Low |
 | F10 | Missingness was counted with 16 separate passes per chunk | column-wise `isna()` loop inside the chunk loop | Low |
 | F11 | The framework's "input file exists" check was not implemented | raw `FileNotFoundError` with no path or remediation hint | Low |
@@ -376,18 +391,23 @@ Result:      "Exploratory data analysis completed successfully."
 
 ### Remaining issues
 
-- **Flagged for Phase 6:** `promo_discount_rate` contains 6,760 `inf` values
-  and `markdown_discount` 2, because 21,419 of the 3,746,744 raw discount
-  records have `sale_price_before_promo == 0`, so `1 - during/before` divides
-  by zero. A further 28 records have both prices equal to zero, which yields a
-  NaN rate for 22 integrated rows and explains the 22-row difference between
-  the record count (1,518,622) and the usable rate count (1,518,600). Phase 7
-  excludes non-finite values explicitly; guarding the division belongs to the
-  Phase 6 script and was not changed during this audit.
-- **Dependency pinning:** `requirements.txt` lists unpinned packages. Chart
-  and correlation behaviour differs between pandas 2 and pandas 3, so pinning
-  would improve reproducibility. Not changed here.
-- **Deferred:** row-level price spread statistics are not produced by Phase 7;
-  Phase 8 owns the price/demand analysis. The 2023-12 level shift is
-  documented but not diagnosed, because Phase 7 has no data-source lineage
-  beyond the raw files.
+- **Resolved in the Phase 8 re-audit (was flagged for Phase 6):**
+  `promo_discount_rate` contained 6,760 `inf` values and `markdown_discount`
+  2, because 21,419 of the 3,746,744 raw discount records have
+  `sale_price_before_promo == 0`, so `1 - during/before` divided by zero. A
+  further 28 records have both prices equal to zero, which yielded a NaN rate
+  for 22 integrated rows and explained the 22-row difference between the
+  record count (1,518,622) and the usable rate count (1,518,600). Both
+  divisions are now guarded in `scripts/integrate_retail_data.py`, the
+  integrated dataset was regenerated, and an independent scan reports 0
+  infinite values in both columns; the two counters in this document were
+  updated accordingly.
+- **Resolved in the Phase 8 re-audit:** `requirements.txt` is now pinned to
+  the verified environment (Python 3.12.10; pandas 3.0.5; numpy 2.5.2; scipy
+  1.18.1; matplotlib 3.11.1; statsmodels 0.15.0), because chart and correlation
+  behaviour differs between pandas 2 and pandas 3.
+- **Resolved in the Phase 8 re-audit:** the 2023-12 level shift is diagnosed as
+  a coverage and assortment change (store 4 first appears in the raw sales file
+  on 2023-12-13), recorded in `data/analysis/statistical_monthly_activity.csv`.
+  Row-level price spread statistics remain Phase 8 work and are not duplicated
+  here.

@@ -401,9 +401,38 @@ for Phase 7.
 
 ## Phase 8
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit).
 
-Files will be determined at Phase 8 start.
+Files:
+
+- `scripts/statistical_analytical_analysis.py`
+- `tests/test_statistical_analytical_analysis.py`
+- `docs/phase-8/statistical-analysis-plan.md`
+- `docs/phase-8/statistical-methodology.md`
+- `docs/phase-8/statistical-quality-framework.md`
+- `docs/phase-8/statistical-results.md`
+- `docs/phase-8/course-content-coverage.md`
+- `docs/phase-8/phase-8-checklist.md`
+- `data/analysis/statistical_summary.csv`
+- `data/analysis/statistical_correlations.csv`
+- `data/analysis/statistical_store_analysis.csv`
+- `data/analysis/statistical_category_analysis.csv`
+- `data/analysis/statistical_price_demand.csv`
+- `data/analysis/statistical_promotion_analysis.csv`
+- `data/analysis/statistical_autocorrelation.csv`
+- `data/analysis/statistical_trend.csv`
+- `data/analysis/statistical_monthly_activity.csv` (added in the re-audit)
+- `data/analysis/statistical_quality_report.csv` (added in the re-audit)
+- `data/analysis/statistical_findings.txt`
+- `reports/figures/statistical_demand_trend.png`
+- `reports/figures/statistical_price_demand.png`
+- `reports/figures/statistical_store_variability.png`
+- `reports/figures/statistical_demand_autocorrelation.png`
+
+The re-audit also corrected the promotion comparison, replaced the retained
+analysis frame with streaming accumulators, added covariance and quality
+validation, added Newey-West trend inference, and synchronised the Phase 0-7
+records that carry Phase 8 findings.
 
 ---
 

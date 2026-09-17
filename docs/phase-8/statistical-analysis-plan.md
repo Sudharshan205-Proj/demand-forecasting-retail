@@ -42,26 +42,41 @@ The physical-store demand measure is kept separate from online demand.
 ### Relationship analysis
 
 - Pearson correlation
-- Covariance where applicable
+- Covariance
 - Simple linear regression for price-demand analysis
 
 ### Temporal analysis
 
-- Daily demand trend
-- Lagged autocorrelation
+- Daily demand trend, with ordinary least squares and Newey-West (HAC)
+  robust inference
+- Lagged autocorrelation for 14 daily lags
 
 ### Group comparison
 
-- Store-level demand comparison
-- Department-level demand comparison
-- Promotion versus non-promotion comparison
+- Store-level demand comparison (descriptive, with share of demand)
+- Department-level demand comparison (descriptive)
+- Promotion versus non-promotion comparison: presence of a discount record,
+  with a secondary breakdown of promoted records by discount-rate sign
 
 ### Statistical significance
 
 Where assumptions permit, significance tests are calculated and reported
-using p-values.
+using p-values: a two-sided Mann-Whitney U test for each promotion
+comparison, and a trend test with autocorrelation-robust standard errors.
+
+Store and department comparisons are reported descriptively rather than
+tested, because the store groups contain only four units and department rows
+are far from independent; a significance test on millions of non-independent
+observations would add no information beyond the reported magnitudes.
 
 Statistical significance is not treated as evidence of causation.
+
+### Data integrity and validation
+
+- Row, quantity, revenue, date and monthly reconciliation
+- Per-variable observation and exclusion counts
+- Correlation-range, p-value, regression and output finiteness checks
+- Recorded in `data/analysis/statistical_quality_report.csv`
 
 ## Reproducibility
 
@@ -69,6 +84,29 @@ The analysis:
 
 - uses deterministic processing;
 - uses fixed analytical definitions;
-- processes the source dataset in chunks;
+- processes the source dataset in chunks of 100,000 rows without retaining it;
+- computes every reported statistic from the complete dataset;
+- uses a deterministic systematic sample only for the price/demand figure;
 - preserves chronological ordering;
 - does not modify source data.
+
+## Phase 17 re-audit record
+
+The plan was reviewed against the implementation during the Phase 17 re-audit.
+Two clarifications were needed and are recorded above:
+
+1. **Covariance** was listed as "where applicable" but was never produced; it
+   is now reported in `statistical_correlations.csv`.
+2. **"Promotion versus non-promotion"** was implemented as a comparison of
+   promoted rows by discount-rate sign, which excluded the 5,912,426 rows with
+   no discount record. The comparison is now presence-based as specified, with
+   the rate-sign breakdown retained as a labelled secondary comparison.
+
+The plan's store and department "group comparison" requirement is satisfied by
+descriptive magnitude reporting, and the reason significance testing is not
+applied is stated rather than left implicit.
+
+An addition beyond the original plan was made deliberately: a monthly activity
+diagnostic (`statistical_monthly_activity.csv`) that distinguishes a coverage
+or assortment change from a demand change before a level shift is modelled as
+trend.

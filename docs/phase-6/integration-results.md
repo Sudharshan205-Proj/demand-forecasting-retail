@@ -115,7 +115,7 @@ Date coverage (2022-08-28 to 2024-09-26) and the unmatched catalog count
 (36,580) reconcile with the Phase 5 cleaned-basis figures, and the raw-basis
 36,585 count reconciles with Phase 4 Query 17.
 
-### Flagged by the Phase 7 re-audit: non-finite discount values
+### Resolved in the Phase 8 re-audit: non-finite discount values
 
 The discount aggregation derives `discount_rate = 1 - sale_price_time_promo /
 sale_price_before_promo` without guarding a zero denominator. 21,419 of the
@@ -124,7 +124,29 @@ produces 21,391 infinite rates and leaves 6,760 infinite `promo_discount_rate`
 values in the integrated dataset; a further 28 records have both prices equal
 to zero, so `1 - 0/0` is NaN and 22 integrated rows carry a missing rate
 despite having a discount record. Two `markdown_discount` values are also
-infinite. Phase 7 now excludes non-finite values from its pairwise statistics
-explicitly and reports them as `infinite_<column>` counts, but the division
-guard belongs to this phase and was deliberately not changed during the
-Phase 7 audit. It is recorded here for the Phase 6 remediation pass.
+infinite.
+
+**Resolved.** The Phase 8 re-audit guarded both divisions at source: each
+denominator is replaced by a missing value when it is zero, negative or
+missing, so a derived rate is never infinite. The affected counts are now
+reported explicitly instead of silently:
+
+| Metric | Result |
+|---|---:|
+| `undefined_markdown_discount_records` | 2 |
+| `undefined_promo_discount_rate_records` | 21,419 |
+| `promoted_rows_with_undefined_discount_rate` | 6,782 |
+
+The counts reconcile exactly: the 21,419 raw records with a zero base price
+include the 28 records whose promotional price is also zero, so 6,760 rows
+that previously carried an infinite rate plus 22 rows that already carried a
+missing rate now make 6,782 promoted rows with an undefined rate.
+
+The dataset was regenerated (244 seconds) and independently re-scanned: rows
+read and written are unchanged at 7,431,026, the canonical grain is still
+unique, all other quality metrics are unchanged, and both rate columns contain
+**0 infinite values**. Phase 7's `infinite_promo_discount_rate` metric moved
+from 6,760 to 0 and its `missing_promo_discount_rate` metric from 5,912,426 to
+5,919,186, which is the only analytical change; every Phase 7 and Phase 8
+statistic is otherwise unchanged (see the Phase 7 and Phase 8 re-audit
+records).

@@ -99,11 +99,12 @@ Framework changes applied:
   uses the complete dataset, so no exception remains.
 * **Correctness** now requires non-finite values to be quantified and excluded
   from pairwise statistics. This was added because the integrated dataset
-  contains 6,760 infinite values in `promo_discount_rate` and 2 in
+  contained 6,760 infinite values in `promo_discount_rate` and 2 in
   `markdown_discount`, and because pandas 3 ignores non-finite values in
   `corr()` while pandas 2 returns NaN, which made the previous output depend
-  on the installed pandas version. The script now excludes non-finite values
-  explicitly and reports `infinite_<column>` counts.
+  on the installed pandas version. The script excludes non-finite values
+  explicitly and reports `infinite_<column>` counts, which now read 0 after the
+  Phase 8 re-audit guarded the two Phase 6 divisions at source.
 * **Traceability** now records the pairwise-complete basis of each
   coefficient and the record-count basis of promotion/markdown frequency.
 * **Validation checks** gained five checks: input file existence with an

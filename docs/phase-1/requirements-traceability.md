@@ -11,8 +11,8 @@
 
 | ID | Requirement | Planned Evidence | Phase | Status |
 |---|---|---|---|---|
-| BR-001 | Historical sales | Dataset + processing pipeline | 2–6 | ⬜ |
-| BR-002 | Promotions | Integrated dataset + analysis | 2–8 | ⬜ |
+| BR-001 | Historical sales | Dataset + processing pipeline | 2–6 | 🟩 |
+| BR-002 | Promotions | Integrated dataset + analysis | 2–8 | 🟩 |
 | BR-003 | Holidays | Integrated dataset + analysis | 2–8 | ⬜ |
 | BR-004 | Forecasting | Forecasting pipeline | 9–13 | ⬜ |
 | BR-005 | Baseline | Baseline model | 11 | ⬜ |
@@ -44,10 +44,10 @@
 |---|---|---|
 | Making predictions | Demand forecasting | 🟨 |
 | Categorizing | Product/demand categories where useful | ⬜ |
-| Spotting something unusual | Demand anomalies where useful | ⬜ |
-| Identifying themes | Demand-pattern grouping where applicable | ⬜ |
-| Discovering connections | Promotion/holiday/demand relationships | ⬜ |
-| Finding patterns | Trends and seasonality | ⬜ |
+| Spotting something unusual | Phase 7 item-level outlier and concentration analysis | 🟨 |
+| Identifying themes | Phase 7 temporal and product themes | 🟨 |
+| Discovering connections | Phase 8 promotion and price/demand relationships | 🟨 |
+| Finding patterns | Phase 8 trend and weekly seasonality | 🟨 |
 
 ## Course Skills
 
@@ -57,7 +57,7 @@
 | Stakeholder analysis | Stakeholder document | 🟩 |
 | Hypothesis thinking | Hypothesis register | 🟩 |
 | Business context | Business problem | 🟩 |
-| Quantitative analysis | Future analysis | ⬜ |
+| Quantitative analysis | Phase 7-8 descriptive and statistical analysis | 🟨 |
 | Qualitative/contextual analysis | Business context | 🟨 |
 | Data ethics | Scope/security/ethics documentation | 🟨 |
 | Data-driven decision making | Forecasting and recommendations | ⬜ |

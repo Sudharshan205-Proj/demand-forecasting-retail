@@ -60,8 +60,8 @@ Actual evidence must exist.
 | Categorization | Product/demand categorization where applicable | ⬜ |
 | Spotting unusual behavior | Demand anomaly/outlier analysis where relevant | 🟨 |
 | Identifying themes | Retail demand patterns | 🟨 |
-| Discovering connections | Promotion/holiday/demand relationships | 📄 |
-| Finding patterns | Seasonality/trends | 📄 |
+| Discovering connections | Promotion/holiday/demand relationships | 🟨 |
+| Finding patterns | Seasonality/trends | 🟨 |
 | Critical thinking | Model and business decisions | 🟨 |
 | Root-cause thinking | Demand-driver investigation | 📄 |
 | Problem decomposition | Analytical workflow | 🟩 |
@@ -177,7 +177,7 @@ Actual evidence must exist.
 | Histograms | EDA | 🟨 |
 | Line charts | Time series | 🟨 |
 | Bar charts | Product analysis | 🟨 |
-| Scatter plots | Driver analysis | ⬜ |
+| Scatter plots | Driver analysis | 🟨 |
 | Distribution visualization | EDA | 🟨 |
 | Correlation visualization | Analytical analysis | ⬜ |
 | Static visualization | Python/R | 🟨 |
@@ -363,7 +363,39 @@ Course 7 (R) and Course 8 (Capstone) rows and the retail-specific
 requirements remain untracked by this audit and will be updated only as their
 phases are individually audited.
 
-The next Phase 17 audit target is Phase 8.
+## Phase 8 Re-Audit Status
+
+The Phase 8 audit (Statistical & Analytical Analysis) verified the statistical
+pipeline against the complete integrated dataset and inspected all ten tables,
+the findings file and four figures. The evidence is statistic-level rather than
+descriptive, so three further rows were updated:
+
+- Course 2 "Discovering connections" is now 🟨: the promotion/demand
+  relationship is quantified for the whole dataset (1,518,622 promoted versus
+  5,912,404 unpromoted rows, Mann-Whitney p below the reported floor) together
+  with the rate-sign breakdown and the price/demand regression (r = -0.0444,
+  R-squared = 0.0020), each with an explicit correlation-versus-causation
+  limitation.
+- Course 2 "Finding patterns" is now 🟨: the trend is estimated with
+  autocorrelation-robust standard errors (slope 66.98 per day, Newey-West
+  standard error 4.30 versus OLS 2.07) and 14-lag autocorrelation shows weekly
+  periodicity (lag 7 = 0.874, lag 14 = 0.885).
+- Course 6 "Scatter plots" is now 🟨: Phase 8 produces
+  `statistical_price_demand.png`, a scatter of price against quantity on a
+documented deterministic systematic sample (1 per 37 eligible rows, 200,839
+points) that spans the full date range. "Correlation visualization" remains ⬜
+because correlations are reported as a table rather than as a graphic.
+
+The `Analyze` stage remains 🟨 for the same reason as after the Phase 7 audit:
+R and forecasting analysis belong to later phases.
+
+Phase 8 also resolved the level shift that the Phase 7 section above records as
+undiagnosed: `statistical_monthly_activity.csv` shows distinct stores rising
+from 3 to 4 in 2023-12 and distinct items per month rising from about 12,600 to
+about 15,400, and `data/raw/sales.csv` confirms that store 4 first appears on
+2023-12-13. It is a coverage and assortment change rather than demand growth.
+
+The next Phase 17 audit target is Phase 9.
 
 ## Final Audit Rule
 

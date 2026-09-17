@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import pytest
 
@@ -411,6 +412,77 @@ def test_markdown_aggregation_computes_discount(
     assert result.loc[0, "markdown_discount"] == pytest.approx(0.2)
 
 
+def test_markdown_discount_is_missing_when_normal_price_is_zero(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A zero normal price must leave the discount missing, never infinite."""
+    markdown_path = tmp_path / "markdowns.csv"
+
+    pd.DataFrame(
+        {
+            "date": ["2024-01-01", "2024-01-02"],
+            "item_id": ["item-1", "item-2"],
+            "normal_price": [0.0, 10.0],
+            "price": [4.0, 8.0],
+            "quantity": [2.0, 2.0],
+            "store_id": [1, 1],
+        }
+    ).to_csv(markdown_path, index=False)
+
+    monkeypatch.setattr(integrate_retail_data, "MARKDOWNS_PATH", markdown_path)
+
+    result = aggregate_markdowns().set_index("item_id")
+
+    assert pd.isna(result.loc["item-1", "markdown_discount"])
+    assert result.loc["item-2", "markdown_discount"] == pytest.approx(0.2)
+    assert not np.isinf(
+        result["markdown_discount"].dropna().to_numpy(dtype=float)
+    ).any()
+    assert (
+        integrate_retail_data.UNDEFINED_RATE_RECORDS["markdown_discount"]
+        == 1
+    )
+
+
+def test_promo_rate_is_missing_when_price_before_promo_is_zero(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """A zero promotional base price must leave the rate missing."""
+    discounts_path = tmp_path / "discounts_history.csv"
+
+    pd.DataFrame(
+        {
+            "date": ["2024-01-02", "2024-01-03"],
+            "item_id": ["item-2", "item-3"],
+            "sale_price_before_promo": [0.0, 10.0],
+            "sale_price_time_promo": [5.0, 8.0],
+            "promo_type_code": [1, 1],
+            "doc_id": [100, 101],
+            "number_disc_day": [3, 5],
+            "store_id": [1, 1],
+        }
+    ).to_csv(discounts_path, index=False)
+
+    monkeypatch.setattr(
+        integrate_retail_data, "DISCOUNTS_PATH", discounts_path
+    )
+
+    result = aggregate_discounts().set_index("item_id")
+
+    assert pd.isna(result.loc["item-2", "promo_discount_rate"])
+    assert result.loc["item-2", "discount_record_count"] == 1
+    assert result.loc["item-3", "promo_discount_rate"] == pytest.approx(0.2)
+    assert not np.isinf(
+        result["promo_discount_rate"].dropna().to_numpy(dtype=float)
+    ).any()
+    assert (
+        integrate_retail_data.UNDEFINED_RATE_RECORDS["promo_discount_rate"]
+        == 1
+    )
+
+
 def test_discount_aggregation_computes_rate_and_record_count(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -620,6 +692,9 @@ def test_build_integration_preserves_rows_and_grain(
     assert int(values["unique_stores"]) == 2
     assert float(values["total_demand_quantity"]) == pytest.approx(15.0)
     assert float(values["total_sales_revenue"]) == pytest.approx(88.0)
+    assert int(values["undefined_markdown_discount_records"]) == 0
+    assert int(values["undefined_promo_discount_rate_records"]) == 0
+    assert int(values["promoted_rows_with_undefined_discount_rate"]) == 0
 
 
 def test_build_integration_rejects_row_multiplication(

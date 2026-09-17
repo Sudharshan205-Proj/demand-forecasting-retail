@@ -69,10 +69,11 @@ exists.
 
 ### Concept: Invalid and extreme values
 
-**Application:** Non-finite values are quantified per numeric column
-(6,760 in `promo_discount_rate`). They are excluded from the correlation
-calculation and reported, and the cause is documented for the phase that
-produces the column.
+**Application:** Non-finite values are quantified per numeric column (6,760 in
+`promo_discount_rate` when the audit was performed). They are excluded from the
+correlation calculation and reported, and the cause is documented for the phase
+that produces the column. The Phase 8 re-audit then guarded the two Phase 6
+divisions at source, so both columns now contain 0 infinite values.
 
 ## Visualization
 
