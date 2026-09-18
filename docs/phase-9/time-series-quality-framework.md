@@ -129,6 +129,8 @@ from Git where the repository's ignore rules specify them.
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 The framework was written before the workflow existed and no artifact
 evidenced it. During the Phase 17 re-audit:
 

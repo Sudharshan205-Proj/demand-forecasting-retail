@@ -15,9 +15,9 @@
 | BR-002 | Promotions | Integrated dataset + analysis | 2–8 | 🟩 |
 | BR-003 | Holidays | Integrated dataset + analysis | 2–8 | ⬜ |
 | BR-004 | Forecasting | Time-series preparation (Phase 9) and forecasting pipeline (11–13) | 9–13 | 🟨 |
-| BR-005 | Baseline | Baseline model | 11 | ⬜ |
-| BR-006 | ARIMA | ARIMA implementation | 11 | ⬜ |
-| BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 11 | ⬜ |
+| BR-005 | Baseline | Baseline model | 11 | 🟩 |
+| BR-006 | ARIMA | ARIMA implementation | 11 | 🟩 |
+| BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 11 | 🟩 |
 | BR-008 | RMSE/MAPE | Evaluation report | 12 | ⬜ |
 | BR-009 | Model comparison | Model comparison | 12 | ⬜ |
 | BR-010 | Inventory insights | Business analysis | 13 | ⬜ |
@@ -42,7 +42,7 @@
 
 | Problem Type | Application | Status |
 |---|---|---|
-| Making predictions | Phase 9 time-series preparation; forecasting models in Phases 11–12 | 🟨 |
+| Making predictions | Phase 9 preparation and Phase 11 forecast models verified; Phase 12 evaluation and tuning remain | 🟨 |
 | Categorizing | Product/demand categories where useful | ⬜ |
 | Spotting something unusual | Phase 7 item-level outlier and concentration analysis | 🟨 |
 | Identifying themes | Phase 7 temporal and product themes | 🟨 |
@@ -83,6 +83,29 @@ the feature matrix is prepared and verified, while the forecasting models
 remain Phase 11–13 work. A cross-phase finding is recorded — the engineered
 features are not currently used as predictors by the Phase 11–13 model scripts
 — for those audits to address.
+
+## Phase 11 Re-Audit Note
+
+The Phase 11 re-audit verified the forecasting workflow against the complete
+Phase 10 dataset: 7,431,026 rows aggregated to 2,571 store-days with total
+quantity 41,949,529.910 reconciled against the source, three documented models
+fitted per store on the training window ending 2024-02-10, and a 114-day
+validation period (2024-02-11 to 2024-06-03) evaluated with RMSE and MAPE. The
+test period from 2024-06-04 is verified unused, the naive and seasonal-naive
+forecasts are verified against their definitions, and the reported metrics are
+reproduced from the 1,368 stored predictions. The 24-check quality report
+passes fully.
+
+On that evidence BR-005 (Baseline) and BR-006 (ARIMA) move from ⬜ to 🟩, and
+BR-007 (Prophet/LSTM assessment) moves to 🟩: the requirement is an assessment,
+and the assessment is documented — Phase 11 records that neither Prophet nor
+LSTM was implemented and why (LSTM belongs to a later deep-learning stage and
+Prophet may be reconsidered if a specific experiment benefits). No Prophet or
+LSTM implementation is claimed.
+
+BR-004 (Forecasting) remains 🟨 because the forecasting pipeline continues in
+Phases 12–13 (evaluation, tuning and inventory insights). The `Act` stage and
+BR-008 through BR-016 remain ⬜ until their phases are individually audited.
 
 ## Evidence Rule
 

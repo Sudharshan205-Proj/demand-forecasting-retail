@@ -86,6 +86,8 @@ The transformation is deterministic and uses the same Phase 9 input dataset and 
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 The plan was reviewed against the implementation and the re-executed artifacts.
 Requirements were confirmed as implemented. The re-audit added three
 deliverables that the plan implied but had no artifact to evidence:

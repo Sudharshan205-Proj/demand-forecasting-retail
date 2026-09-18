@@ -1,25 +1,28 @@
 # Phase 11 — Course Content Coverage
 
-| Course concept         | Phase 11 implementation                       | Evidence                        |
-| ---------------------- | --------------------------------------------- | ------------------------------- |
-| Time-series analysis   | Forecast physical retail demand over time     | `scripts/forecasting_models.py` |
-| Predictive modeling    | Forecast future demand from historical demand | Forecasting script              |
-| Model evaluation       | RMSE and MAPE                                 | Forecasting script              |
-| Baseline modeling      | Naive and seasonal-naive benchmarks           | Forecasting script              |
-| Advanced data science  | ARIMA forecasting                             | Forecasting script              |
-| Data preparation       | Phase 10 feature-engineered dataset           | Phase 10 output                 |
-| Train/test separation  | Chronological partitions                      | Phase 9 split                   |
-| Validation             | Dedicated validation period                   | Forecasting script              |
-| Data quality           | Forecast and metric validation                | Tests                           |
-| Reproducibility        | Explicit model configuration and dates        | Configuration output            |
-| Pattern identification | Seasonal-naive weekly pattern                 | Forecasting model               |
-| Analytical reasoning   | Model performance compared against baselines  | Results                         |
+| Course concept         | Phase 11 implementation                       | Evidence                        | Status |
+| ---------------------- | --------------------------------------------- | ------------------------------- | ------ |
+| Time-series analysis   | Forecast physical retail demand over time     | `scripts/forecasting_models.py` | VERIFIED |
+| Predictive modeling    | Forecast future demand from historical demand | Forecasting script | VERIFIED |
+| Model evaluation       | RMSE and MAPE on the validation period        | Forecasting script, `forecasting_model_results.csv` | VERIFIED |
+| Baseline modeling      | Naive and seasonal-naive benchmarks           | Forecasting script, verified element-wise against their definitions | VERIFIED |
+| Advanced data science  | ARIMA(1,1,1) forecasting                      | Forecasting script, `forecasting_model_configurations.csv` | VERIFIED |
+| Data preparation       | Phase 10 feature-engineered dataset           | Phase 10 output, reconciled to 7,431,026 rows and 41,949,529.910 quantity | VERIFIED |
+| Train/test separation  | Chronological partitions                      | Phase 9 split; test period excluded and verified | VERIFIED |
+| Validation             | Dedicated 114-day validation period           | Forecasting script, `forecasting_quality_report.csv` | VERIFIED |
+| Data quality           | Forecast and metric validation                | 24-check quality report, all passing | VERIFIED |
+| Reproducibility        | Explicit model configuration and dates        | `forecasting_model_configurations.csv` | VERIFIED |
+| Pattern identification | Seasonal-naive weekly pattern                 | Forecasting model, verified against the seven-observation cycle | VERIFIED |
+| Analytical reasoning   | Model performance compared against baselines  | Results and `forecasting_findings.txt` | VERIFIED |
+| Data visualization     | Forecast-versus-actual diagnostic             | Not implemented in Phase 11 — deferred to Phase 15 | DEFERRED |
 
 ## Course Requirement
 
 The internship material specifically identifies ARIMA, Prophet, or LSTM for the retail demand forecasting project and RMSE or MAPE for evaluation.
 
-Phase 11 implements ARIMA and both required evaluation metrics.
+Phase 11 implements ARIMA(1,1,1) and both required evaluation metrics (RMSE and MAPE). ARIMA is fitted independently per store on the training window and evaluated on the 114-day validation period, with the test period excluded from selection.
+
+Verified outcome: the seasonal-naive benchmark achieves the lowest mean (3,223.0630) and pooled (3,928.6186) validation RMSE. ARIMA(1,1,1) records a mean RMSE of 5,193.2159, improving on the naive baseline (5,725.4922) but not on the weekly benchmark. No model is claimed to be superior beyond what these validation results support.
 
 ## Deferred Concepts
 
@@ -27,4 +30,10 @@ Prophet and LSTM are not artificially added to this phase.
 
 LSTM belongs to a later deep-learning stage, while Prophet may be considered later if a specific forecasting experiment benefits from it.
 
-The project will document rather than falsely claim these implementations in Phase 11.
+The project documents rather than falsely claims these implementations in Phase 11. The Phase 11 plan, methodology and coverage documents all state that final selection, tuning and machine-learning or deep-learning forecasting belong to later phases.
+
+## Phase 17 Re-Audit Note
+
+The Phase 11 re-audit verified every claim above against the executed pipeline and its generated artifacts. The forecasting workflow reads the Phase 10 matrix, reconciles the store-day aggregate to the source total, fits the three documented models per store, verifies the two baselines against their definitions, records explicit ARIMA configurations, stores all 1,368 predictions, and recomputes RMSE and MAPE from those predictions. The quality report records 24 checks, all passing, and the pipeline refuses to write results when a check fails.
+
+One concept the phase does **not** cover is forecast visualization: Phase 11 produces no charts. That work belongs to Phase 15 and is marked DEFERRED above rather than claimed.

@@ -56,7 +56,7 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Prediction | Demand forecasting | 📄 |
+| Prediction | Demand forecasting | 🟩 |
 | Categorization | Product/demand categorization where applicable | ⬜ |
 | Spotting unusual behavior | Demand anomaly/outlier analysis where relevant | 🟨 |
 | Identifying themes | Retail demand patterns | 🟨 |
@@ -224,7 +224,7 @@ Actual evidence must exist.
 | Preparation | Data preparation | ⬜ |
 | Processing | Processing pipeline | ⬜ |
 | Analysis | Analytical workflow | ⬜ |
-| Forecasting/modeling | Forecasting pipeline | ⬜ |
+| Forecasting/modeling | Forecasting pipeline | 🟩 |
 | Visualization | Dashboard/reports | ⬜ |
 | Findings | Final report | ⬜ |
 | Recommendations | Inventory recommendations | ⬜ |
@@ -239,11 +239,11 @@ Actual evidence must exist.
 | Historical sales | Retail dataset | ⬜ |
 | Promotions | Promotion data | ⬜ |
 | Holidays | Holiday data | ⬜ |
-| Demand forecasting | Forecasting pipeline | ⬜ |
-| ARIMA | Forecasting model | ⬜ |
+| Demand forecasting | Forecasting pipeline | 🟩 |
+| ARIMA | Forecasting model | 🟩 |
 | Prophet/LSTM | Additional model if selected | ⬜ |
-| RMSE | Evaluation | ⬜ |
-| MAPE | Evaluation | ⬜ |
+| RMSE | Evaluation | 🟩 |
+| MAPE | Evaluation | 🟩 |
 | Inventory optimization | Business analysis | ⬜ |
 
 ## Phase 1 Re-Audit Status
@@ -441,6 +441,41 @@ matrix but select only the key, target and split columns, so the engineered
 features are not currently used as predictors. Course 7 (R) and Course 8
 (Capstone) rows and the retail-specific requirements remain untracked by this
 audit and will be updated only as their phases are individually audited.
+
+## Phase 11 Re-Audit Status
+
+The Phase 11 audit (Forecasting Models) verified the forecasting workflow
+against the complete Phase 10 feature-engineered dataset and inspected every
+generated artifact. The evidence confirms the forecasting rows above:
+
+- the store-day aggregate reconciles with the source (7,431,026 rows,
+  41,949,529.910 quantity; 2,571 observed store-days);
+- the three documented models (naive, seasonal-naive, ARIMA(1,1,1)) are fitted
+  per store on the training window ending 2024-02-10 and evaluated over the
+  114-day validation period (2024-02-11 to 2024-06-03);
+- the test period from 2024-06-04 is excluded from selection and verified
+  unused;
+- the naive and seasonal-naive forecasts are verified element-wise against
+  their documented definitions;
+- RMSE and MAPE are recomputed from the 1,368 stored predictions and reconciled
+  with the reported metrics, and the 24-check quality report passes fully.
+
+The status change rule applied here:
+
+- 🟩 marks the forecasting-specific rows that Phase 11 itself delivered:
+  Course 2 "Prediction", Course 8 "Forecasting/modeling", and the
+  retail-specific Demand forecasting, ARIMA, RMSE and MAPE rows.
+
+"Prophet/LSTM" remains ⬜ because neither model was implemented: the phase
+plan, methodology and coverage documents record that decision explicitly
+rather than claiming an implementation that does not exist. The `Analyze`
+stage remains 🟨: forecasting analysis is now verified, while model
+evaluation and tuning (Phase 12), inventory insights (Phase 13) and R analysis
+(Phase 14) belong to later phases and are not certified here.
+
+A cross-phase finding remains open for the Phase 12–13 audits: the engineered
+lag, rolling and calendar features are not used as predictors by the classical
+forecasting scripts.
 
 ## Final Audit Rule
 

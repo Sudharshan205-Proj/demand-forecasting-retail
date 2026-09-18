@@ -10,7 +10,7 @@ The transformation must preserve the forecasting problem and prevent information
 
 The Phase 9 dataset (7,431,026 rows) is read in full and transformed in memory. Unlike Phase 9 and later model phases, feature engineering requires whole-series group-wise operations (lags, rolling windows and series age span each item-store series end to end), so the dataset is processed as a single frame rather than in chunks.
 
-Verified execution: 423.1 seconds, 2,887.2 MB peak resident memory.
+Verified execution: 365.6 seconds, 2,510.3 MB peak resident memory.
 
 The historical demand and rolling features are computed with pandas' compiled grouped-rolling implementation (`groupby(...).rolling(...)`) rather than a Python-level `transform` lambda. The two produce identical values, but the compiled path is roughly an order of magnitude faster on the full dataset; it reduced the measured rolling cost from a projected several minutes to a few seconds.
 
@@ -134,6 +134,8 @@ Feature engineering ends before model training, hyperparameter tuning, model com
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 | Change | Reason |
 |---|---|
 | Source reconciliation added | The framework required a before/after quantity comparison and split preservation, but no artifact evidenced either |
@@ -142,3 +144,5 @@ Feature engineering ends before model training, hyperparameter tuning, model com
 | Compiled grouped-rolling used | The Python `transform` lambda made the full run exceed the audit time budget; the compiled path is value-identical |
 | Presence checks report real counts | Two checks previously reported a hardcoded `actual=True` |
 | Full-frame copies reduced | `prepare_features` previously copied the frame several times and re-sorted twice |
+| Quantity figure formatted | `quantity_total_reconciled` printed `41949529.910000004` |
+| Explicit ISO date parsing | Dates were inferred element by element; an invalid date now raises deterministically |

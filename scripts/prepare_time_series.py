@@ -15,6 +15,9 @@ Design notes
   only observed date-item-store records and never fills a gap with zero demand.
 - The chronological train/validation/test partitions are computed from unique
   dates only, so no future observation can enter an earlier partition.
+- Dates are parsed with an explicit ISO format so the chunked pass is
+  deterministic: an unparsable date becomes missing and fails validation
+  rather than being inferred element by element.
 """
 
 from __future__ import annotations
@@ -107,6 +110,7 @@ def aggregate_daily(
         chunk["date"] = pd.to_datetime(
             chunk["date"],
             errors="coerce",
+            format="%Y-%m-%d",
         )
 
         chunk["quantity"] = pd.to_numeric(
@@ -362,7 +366,14 @@ def calculate_quality_report(
     duplicate_keys: int,
     source_unchanged: bool,
 ) -> pd.DataFrame:
-    """Create machine-readable preparation-quality checks."""
+    """Create machine-readable preparation-quality checks.
+
+    The pass/fail decision of every check is computed numerically first; the
+    two quantity checks then render their figures through
+    ``_format_quantity`` so the report carries no floating-point artefacts.
+    Formatting after the comparison means presentation can never mask a real
+    mismatch.
+    """
     prepared_quantity = float(prepared["quantity"].sum())
     source_quantity = float(source_stats["quantity"])
 
@@ -437,8 +448,8 @@ def calculate_quality_report(
                 rtol=1e-10,
                 atol=1e-6,
             ),
-            source_quantity,
-            prepared_quantity,
+            _format_quantity(source_quantity),
+            _format_quantity(prepared_quantity),
         ),
         (
             "prepared_rows_do_not_exceed_source_rows",
@@ -505,8 +516,8 @@ def calculate_quality_report(
                 rtol=1e-10,
                 atol=1e-6,
             ),
-            split_quantity,
-            prepared_quantity,
+            _format_quantity(split_quantity),
+            _format_quantity(prepared_quantity),
         ),
         (
             "split_rows_reconcile_with_prepared",

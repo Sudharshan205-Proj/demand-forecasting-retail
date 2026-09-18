@@ -96,6 +96,8 @@ are created in this phase.
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 The plan was reviewed against the implementation and the re-executed
 artifacts. The plan's requirements were confirmed as implemented. The re-audit
 clarified two points without changing scope:

@@ -130,6 +130,8 @@ Phase 9 is implemented, executed and verified.
 
 ## Phase 17 Re-Audit Record
 
+**Audit status: AUDITED.**
+
 ### Files reviewed
 
 | Type | Files |
@@ -150,7 +152,7 @@ Phase 9 is implemented, executed and verified.
 | F2 | Two quality checks were vacuous | `maximum_observed_gap_days >= 0` and `missing_intermediate_days >= 0` can never fail | Medium |
 | F3 | Framework validation was unimplemented | The framework required date-range, partition-overlap, all-rows-assigned, split-quantity reconciliation, numeric-quantity and source-preservation checks; only six checks existed, two of them vacuous | Medium |
 | F4 | Documented chunked strategy violated | `calculate_quality_report` re-read the whole 1.28 GB source with `pd.read_csv` after the chunked pass had already read it | Medium |
-| F5 | Float artefacts | `time_series_summary.csv` and the findings printed `41949529.910000004` | Low |
+| F5 | Float artefacts | `time_series_summary.csv`, the findings and the quantity rows of the quality report printed `41949529.910000004` | Low |
 | F6 | Test coverage missed the core | 10 tests covered pure functions; `aggregate_daily`, `calculate_quality_report`, `write_findings` and `main` were untested | Medium |
 | F7 | Three-date edge case raised | `calculate_split_boundaries` documented a three-date minimum but exactly three dates raised "Invalid chronological split boundaries" | Low |
 | F8 | Structural magnitude unreported | 55,122 of 58,022 series with gaps and 12,553,017 missing intermediate days were absent from the summary and were presented without context | Medium |
@@ -176,8 +178,10 @@ verification machinery, not the data.
    span-bounded gap checks, and fourteen checks now cover schema, key, date,
    demand, gap, partition, leakage and preservation requirements
    (`time_series_quality_report.csv`, 15 checks, all True).
-3. **Quantity formatting (F5).** The summary CSV and findings print quantities
-   as `41949529.910`; raw values remain in the quality report.
+3. **Quantity formatting (F5).** The summary CSV, the findings and the two
+   quantity rows of the quality report print `41949529.910`. Every check's
+   pass/fail decision is evaluated numerically before formatting, so the
+   presentation can never mask a genuine mismatch (asserted by test).
 4. **Three-date split handling (F7).** Boundary indices are clamped so each
    partition holds at least one date, honouring the documented minimum; the
    verified 761-date boundaries are unchanged.
@@ -185,15 +189,20 @@ verification machinery, not the data.
    `series_with_gaps` and `missing_intermediate_days`, and the findings report
    the reconciliation, gap and partition detail.
 6. **Stable sort.** The final grain ordering uses a stable sort (`mergesort`).
-7. **Design preserved.** Observed rows only, no densification, no zero-filling,
+7. **Deterministic date parsing.** The chunked pass parses dates with an
+   explicit ISO format (`%Y-%m-%d`). All 7,431,026 source values were verified
+   ISO-shaped, so an unparsable date now fails validation instead of being
+   inferred element by element; this removed the last test-triggered pandas
+   `UserWarning`.
+8. **Design preserved.** Observed rows only, no densification, no zero-filling,
    no lag features and no models.
 
 ### Testing
 
 | Test | Result |
 |---|---|
-| Phase 9 test file | 36 tests, all passing (was 10) |
-| Full suite | 257 tests, all passing (231 previously; Phase 9 added 26) |
+| Phase 9 test file | 37 tests, all passing (was 10) |
+| Full suite | 280 tests, all passing; Phase 9 and Phase 10 add 48 between them |
 
 Coverage added: end-to-end aggregation, within-chunk duplicate detection,
 chunk-size independence, numeric coercion, invalid-date/quantity/column
@@ -201,21 +210,28 @@ rejection, output ordering, gap detection and clipping, single-observation
 series, series separation, the span identity, split proportions for 761 dates,
 the three-date case, partition non-overlap, quality-report pass and five
 deliberate-failure cases, quantity formatting, findings content and the
-complete `main()` workflow with source preservation.
+complete `main()` workflow with source preservation. Two further tests assert
+that the quantity rows carry no floating-point artefacts and that the
+formatting does not hide a genuine mismatch.
 
 ### Script execution
 
 ```text
 Command:     .venv\Scripts\python.exe scripts/prepare_time_series.py
 Exit status: 0
-Runtime:     206.4 seconds
-Peak memory: 1,356.9 MB
+Runtime:     231.6 seconds
+Peak memory: 1,405.5 MB
 Result:      "Time-series preparation completed successfully."
 ```
 
 The peak is dominated by the retained 7,431,026-row prepared frame, which is
 required to write the output dataset; the source itself is still streamed in
 chunks and is read once.
+
+The Phase 9 and Phase 10 pipelines were re-run after the final source change,
+Phase 9 first because Phase 10 consumes its output. Every artifact therefore
+post-dates the script that produced it, and the regenerated outputs remain
+byte-size identical to the pre-audit dataset.
 
 ### Generated-file verification
 
@@ -225,7 +241,7 @@ chunks and is read once.
 | `time_series_summary.csv` | yes | 12 metric rows | — | values reconcile with Phase 6/8 |
 | `time_series_gap_summary.csv` | yes | 58,022 rows | 7 columns | per-series gaps; bounds verified |
 | `time_series_split_summary.csv` | yes | 3 rows | 5 columns | rows and quantities reconcile |
-| `time_series_quality_report.csv` | yes | 15 rows | check/passed/actual/expected | all True |
+| `time_series_quality_report.csv` | yes | 15 rows | check/passed/actual/expected | all True; quantity rows carry no float artefacts |
 | `time_series_findings.txt` | yes | 6 sections | — | no float artefacts; integer counts |
 
 ### Documentation changes
@@ -236,8 +252,36 @@ cross-phase records listed under "Files reviewed" were synchronised.
 ### Remaining issues
 
 - None open for Phase 9.
-- Flagged for the Phase 10 audit: `scripts/feature_engineering.py` derives
-  `series_age_days` from a series' first date across its entire history, a
-  potential leakage point to examine when Phase 10 is re-audited.
+- Resolved across phases: the earlier note flagging `series_age_days` as a
+  potential leakage point was examined by the Phase 10 re-audit and cleared —
+  the feature is `date − series(min date)`, which uses only at-or-before
+  information. See `docs/phase-10/feature-engineering-results.md` (F9).
 - The sparse-series gap structure is a modelling constraint for Phase 10–12,
   not a Phase 9 defect.
+- Cross-phase: `scripts/clean_retail_data.py` (Phase 5) still emits a pandas
+  `UserWarning` for implicit date inference. It is outside Phase 9 scope and is
+  recorded here for the Phase 5 audit.
+
+## Reproduction runbook
+
+Run from the project root with the virtual environment present.
+
+| # | Purpose | Command | Expected result |
+|---|---|---|---|
+| 1 | Confirm the environment | `.venv\Scripts\python.exe --version` | Python 3.12 |
+| 2 | Run the Phase 9 tests | `.venv\Scripts\python.exe -m pytest tests/test_prepare_time_series.py -q -p no:cacheprovider` | 37 passed |
+| 3 | Execute the preparation workflow | `.venv\Scripts\python.exe scripts/prepare_time_series.py` | "Time-series preparation completed successfully." |
+| 4 | Verify the quality report | `.venv\Scripts\python.exe -c "import pandas as pd; r=pd.read_csv('data/analysis/time_series_quality_report.csv'); print(len(r), bool(r['passed'].all()))"` | `15 True` |
+| 5 | Verify reconciliation | `.venv\Scripts\python.exe -c "import pandas as pd; print(pd.read_csv('data/analysis/time_series_summary.csv').to_string(index=False))"` | 7,431,026 rows; quantity 41949529.910 |
+| 6 | Regression: dependent phase | `.venv\Scripts\python.exe -m pytest tests/test_feature_engineering.py -q -p no:cacheprovider` | 32 passed |
+| 7 | Regression: full suite | `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider` | 321 passed |
+
+## Phase 11 Re-Audit Note
+
+The Phase 11 re-audit consumed this dataset and reconciled it at the store-day
+forecasting grain: 7,431,026 rows, 4 stores, 2022-08-28 to 2024-09-26 and total
+quantity 41,949,529.910 all match the values verified here. The Phase 9
+chronological boundaries are preserved exactly — training ends 2024-02-10, the
+validation window is 2024-02-11 to 2024-06-03 (114 days for every store) and
+the test partition from 2024-06-04 is verified unused. See
+`docs/phase-11/forecasting-models-results.md`.

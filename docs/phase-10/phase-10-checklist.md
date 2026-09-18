@@ -35,7 +35,7 @@ Create a leakage-safe feature matrix for retail demand forecasting using the Pha
 * [x] Validate chronology.
 * [x] Validate target preservation.
 * [x] Validate feature schema (7 of 7 calendar, 9 of 9 historical).
-* [x] Run automated tests (31 tests, all passing).
+* [x] Run automated tests (32 tests, all passing).
 * [x] Generate quality reports (`feature_engineering_quality_report.csv`, 14
       checks; `feature_engineering_feature_summary.csv`, 16 features).
 * [x] Document limitations caused by missing intermediate dates.
@@ -51,3 +51,14 @@ The Git items are not exercised by the Phase 17 audit workflow: this repository
 is audited in place and the audit runs no Git commands, so no branch, commit or
 push is created for the re-audit. The items are left unticked deliberately
 rather than claimed.
+
+## Phase 17 re-audit record
+
+**Audit status: AUDITED.**
+
+Every checklist item above was verified against the re-executed workflow. The
+re-audit added source reconciliation, leakage verification and a per-feature
+completeness artifact, replaced two constant presence checks, vectorized the
+rolling statistics, formatted the quantity figure and made date parsing
+explicitly ISO. The Git items remain intentionally unticked because the Phase 17
+audit runs no Git commands.

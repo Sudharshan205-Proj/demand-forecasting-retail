@@ -381,6 +381,25 @@ def test_quality_report_reports_present_feature_counts() -> None:
     assert not isinstance(calendar["actual"], bool)
 
 
+def test_quality_report_renders_quantity_without_artefacts() -> None:
+    """The quantity check must render figures without float artefacts."""
+    source = make_sample_frame()
+    result = prepare_features(source)
+
+    report = create_quality_report(result, source)
+
+    row = report.loc[
+        report["check"] == "quantity_total_reconciled"
+    ].iloc[0]
+
+    expected_total = f"{float(source['quantity'].sum()):.3f}"
+
+    assert str(row["actual"]) == expected_total
+    assert str(row["expected"]) == expected_total
+    assert not re.search(r"\d+\.\d{4,}", str(row["actual"]))
+    assert not re.search(r"\d+\.\d{4,}", str(row["expected"]))
+
+
 # --- Feature summary and summary --------------------------------------
 
 

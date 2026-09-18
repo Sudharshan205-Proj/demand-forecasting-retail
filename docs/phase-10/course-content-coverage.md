@@ -27,6 +27,8 @@ They must not be claimed as Phase 10 accomplishments.
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 | Change | Reason |
 |---|---|
 | Data-integrity row re-pointed at reconciliation checks | The target/split/key preservation checks now exist as evidence |

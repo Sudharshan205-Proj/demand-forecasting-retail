@@ -118,13 +118,17 @@ newly observed ones using only information available at each row.
   `date`, `store_id`, `quantity` and `split`; the lag, rolling and calendar
   features never reach a model. This is a Phase 11–13 integration gap, flagged
   for those audits, not a Phase 10 defect. Phase 10's obligation is to build a
-  leakage-safe, verified matrix, which it does.
+  leakage-safe, verified matrix, which it does. The Phase 11 re-audit confirmed
+  the gap still stands and carried it forward to the Phase 12–13 audits,
+  because Phase 11's documented scope is classical univariate models.
 
 ## Phase status
 
 Phase 10 is implemented, executed and verified.
 
 ## Phase 17 Re-Audit Record
+
+**Audit status: AUDITED.**
 
 ### Files reviewed
 
@@ -181,7 +185,7 @@ quantities match Phase 9 exactly.
    non-null, missing, missing share).
 5. **Vectorized rolling (F5).** The per-group `transform` lambda was replaced
    by pandas' compiled `groupby(...).rolling(...)`; values are identical and
-   the full run now completes in 423.1 seconds.
+   the full run now completes in 365.6 seconds.
 6. **Reduced copying (F5).** `prepare_features` no longer makes a redundant
    copy and re-sort, and the reconciliation sort operates on five columns
    rather than the full 21-column frame.
@@ -189,13 +193,21 @@ quantities match Phase 9 exactly.
    now records source rows and split rows; the findings report source
    reconciliation, split preservation, the leakage contract and feature
    completeness.
+8. **Quantity formatting.** `quantity_total_reconciled` renders both figures
+   through `_format_quantity`, so the report prints `41949529.910` rather than
+   `41949529.910000004`. The pass/fail decision is computed numerically before
+   formatting, so presentation can never mask a mismatch (asserted by test).
+9. **Deterministic date parsing.** `add_calendar_features` parses dates with an
+   explicit ISO format (`%Y-%m-%d`). The Phase 9 source dates are ISO-shaped,
+   so an invalid date now raises immediately instead of triggering pandas'
+   per-element inference; this removed the Phase 10 test `UserWarning`.
 
 ### Testing
 
 | Test | Result |
 |---|---|
-| Phase 10 test file | 31 tests, all passing (was 10) |
-| Full suite | 278 tests, all passing (257 previously; Phase 10 added 21) |
+| Phase 10 test file | 32 tests, all passing (was 10) |
+| Full suite | 280 tests, all passing; Phase 9 and Phase 10 add 48 between them |
 
 Coverage added: end-to-end `prepare_features`, invalid date and column
 rejection, rolling mean and standard deviation values, multi-series
@@ -203,15 +215,16 @@ independence, target/split preservation, the quality report pass and five
 deliberate-failure cases (duplicate key, modified target, changed split,
 missing feature, current-inclusive rolling, history at series start),
 presence-check counts, the feature summary, split summary, findings formatting
-and the complete `main()` workflow.
+and the complete `main()` workflow. One further test asserts that the
+quantity-reconciliation row carries no floating-point artefacts.
 
 ### Script execution
 
 ```text
 Command:     .venv\Scripts\python.exe scripts/feature_engineering.py
 Exit status: 0
-Runtime:     423.1 seconds
-Peak memory: 2,887.2 MB
+Runtime:     365.6 seconds
+Peak memory: 2,510.3 MB
 Result:      "Feature engineering completed successfully."
 ```
 
@@ -220,13 +233,18 @@ which whole-series group-wise operations require. The compiled grouped-rolling
 path keeps runtime within budget; the Python `transform` lambda exceeded the
 audit time budget.
 
+Phase 10 was re-run after Phase 9 so that its input — the regenerated Phase 9
+dataset — was already in place. The output remains byte-size identical to the
+pre-audit dataset, so every artifact again post-dates the script that produced
+it.
+
 ### Generated-file verification
 
 | File | Exists | Size | Structure | Validation |
 |---|---|---|---|---|
 | `feature_engineered_daily.csv` | yes | 887,995,450 B | 7,431,026 rows + header, 21 columns | byte-size identical to pre-audit; reconciles with Phase 9 |
 | `feature_engineering_summary.csv` | yes | 11 metric rows | — | rows, source rows, split rows reconcile |
-| `feature_engineering_quality_report.csv` | yes | 14 rows | check/passed/actual/expected | all True |
+| `feature_engineering_quality_report.csv` | yes | 14 rows | check/passed/actual/expected | all True; quantity row carries no float artefacts |
 | `feature_engineering_feature_summary.csv` | yes | 16 rows | feature/completeness columns | `lag_1` missing = 58,022 series |
 | `feature_engineering_split_summary.csv` | yes | 3 rows | 5 columns | matches Phase 9 exactly |
 | `feature_engineering_findings.txt` | yes | 6 sections | — | no float artefacts; integer counts |
@@ -239,8 +257,32 @@ the cross-phase records listed under "Files reviewed" were synchronised.
 ### Remaining issues
 
 - None open for Phase 10.
-- Flagged for the Phase 11–13 audits: the engineered features are not used as
+- Cross-phase: `scripts/clean_retail_data.py` (Phase 5) still emits a pandas
+  `UserWarning` for implicit date inference; outside Phase 10 scope, recorded
+  here for the Phase 5 audit.
+- Flagged for the Phase 12–13 audits: the engineered features are not used as
   predictors by `forecasting_models.py`, `evaluate_and_tune_models.py` or
-  `forecasting_inventory_insights.py` (F8).
+  `forecasting_inventory_insights.py` (F8). The Phase 11 re-audit re-confirmed
+  the finding and documented that Phase 11's classical models consume the
+  demand target only.
+- Phase 11 verified the target/split contract this phase established: the
+  store-day aggregate reconciles with the matrix on total quantity
+  (41,949,529.910) and total rows (7,431,026), with no duplicate store-day key
+  and no target missing value.
 - The record-based lag/rolling semantics and the missing feature values at
   series starts are modelling constraints for Phase 11–12, documented here.
+
+## Reproduction runbook
+
+Run from the project root with the virtual environment present, after Phase 9
+has produced `data/processed/time_series_daily.csv`.
+
+| # | Purpose | Command | Expected result |
+|---|---|---|---|
+| 1 | Run the Phase 10 tests | `.venv\Scripts\python.exe -m pytest tests/test_feature_engineering.py -q -p no:cacheprovider` | 32 passed |
+| 2 | Execute the feature workflow | `.venv\Scripts\python.exe scripts/feature_engineering.py` | "Feature engineering completed successfully." |
+| 3 | Verify the quality report | `.venv\Scripts\python.exe -c "import pandas as pd; r=pd.read_csv('data/analysis/feature_engineering_quality_report.csv'); print(len(r), bool(r['passed'].all()))"` | `14 True` |
+| 4 | Verify reconciliation | `.venv\Scripts\python.exe -c "import pandas as pd; print(pd.read_csv('data/analysis/feature_engineering_summary.csv').to_string(index=False))"` | 7,431,026 rows; 4,315,416 / 1,548,957 / 1,566,653 split rows |
+| 5 | Verify feature completeness | `.venv\Scripts\python.exe -c "import pandas as pd; print(pd.read_csv('data/analysis/feature_engineering_feature_summary.csv').to_string(index=False))"` | 16 features; `lag_1` missing = 58,022 |
+| 6 | Regression: producing phase | `.venv\Scripts\python.exe -m pytest tests/test_prepare_time_series.py -q -p no:cacheprovider` | 37 passed |
+| 7 | Regression: full suite | `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider` | 321 passed |

@@ -41,6 +41,8 @@ Those concepts require later implemented evidence (Phase 11–12).
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 | Change | Reason |
 |---|---|
 | Data-integrity row quantified | Row and quantity reconciliation now verify against the re-executed pipeline |

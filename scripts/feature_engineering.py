@@ -26,6 +26,9 @@ Design notes
   target and split labels are compared, and the quantity total is reconciled.
 - A per-feature completeness artifact records the missing-value structure of
   the lag and rolling features at each series start.
+- Dates are parsed with an explicit ISO format so the calendar features are
+  built deterministically: an invalid or ambiguous date raises rather than
+  being inferred element by element.
 """
 
 from __future__ import annotations
@@ -115,10 +118,19 @@ def validate_input_columns(columns: list[str]) -> None:
 
 
 def add_calendar_features(frame: pd.DataFrame) -> pd.DataFrame:
-    """Add calendar features derived only from the observation date."""
+    """Add calendar features derived only from the observation date.
+
+    The date is parsed with an explicit ISO format. This keeps calendar
+    derivation deterministic and makes an invalid date raise immediately
+    instead of silently falling back to per-element inference.
+    """
     frame = frame.copy()
 
-    frame["date"] = pd.to_datetime(frame["date"], errors="raise")
+    frame["date"] = pd.to_datetime(
+        frame["date"],
+        errors="raise",
+        format="%Y-%m-%d",
+    )
 
     frame["day_of_week"] = frame["date"].dt.dayofweek
     frame["day_of_month"] = frame["date"].dt.day
@@ -233,7 +245,9 @@ def create_quality_report(
 
     The report reconciles the engineered frame against the Phase 9 source
     (rows, keys, target and split labels) and verifies the leakage contract
-    of the historical features.
+    of the historical features. The quantity reconciliation renders its
+    figures without floating-point artefacts, after the comparisons that
+    decide pass/fail have already been evaluated numerically.
     """
     aligned = _align_to_keys(frame)
     source_aligned = _align_to_keys(source)
@@ -405,8 +419,8 @@ def create_quality_report(
         (
             "quantity_total_reconciled",
             quantity_reconciled,
-            float(source[TARGET_COLUMN].sum()),
-            float(frame[TARGET_COLUMN].sum()),
+            _format_quantity(float(source[TARGET_COLUMN].sum())),
+            _format_quantity(float(frame[TARGET_COLUMN].sum())),
         ),
         (
             "calendar_features_present",

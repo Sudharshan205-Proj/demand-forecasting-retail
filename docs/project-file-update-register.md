@@ -469,13 +469,17 @@ Cross-phase files synchronised:
 - `README.md` (reviewed; unchanged)
 
 The re-audit re-executed the preparation workflow over the full integrated
-dataset (206.4 seconds, 1,356.9 MB peak), reconciled 7,431,026 rows and
+dataset (231.6 seconds, 1,405.5 MB peak), reconciled 7,431,026 rows and
 41,949,529.910 quantity with Phase 6, rebuilt the quality report (15 checks,
 all passing), removed the second full-source read, replaced two vacuous gap
-checks, and fixed three-date split handling and quantity formatting. The
-prepared dataset and analysis outputs are reproducible generated artifacts and
-are not source-controlled. No raw data files are modified. No Git commands
-were run.
+checks, and fixed three-date split handling, quantity formatting (the summary,
+the findings and the quality report all render `41949529.910`) and date parsing
+(explicit ISO). Phase 9 tests: 37, all passing. The Phase 9 and Phase 10
+pipelines were re-run after the final source change — Phase 9 first, because
+Phase 10 consumes its output — so every artifact post-dates the script that
+produced it. The prepared dataset and analysis outputs are reproducible
+generated artifacts and are not source-controlled. No raw data files are
+modified. No Git commands were run.
 
 ---
 
@@ -511,12 +515,14 @@ Cross-phase files synchronised:
 - `README.md` (reviewed; unchanged)
 
 The re-audit re-executed the feature-engineering workflow over the full Phase 9
-dataset (423.1 seconds, 2,887.2 MB peak), reconciled 7,431,026 rows and
+dataset (365.6 seconds, 2,510.3 MB peak), reconciled 7,431,026 rows and
 41,949,529.910 quantity with Phase 9, rebuilt the quality report (14 checks,
 all passing), added a per-feature completeness artifact, replaced two constant
 quality checks and the Python-level rolling transform with a value-identical
-compiled path, and documented that the engineered features are not currently
-consumed as predictors by Phases 11–13. The feature-engineered dataset and its
+compiled path, formatted the reconciled quantity so the report carries no
+floating-point artefacts, made date parsing explicitly ISO, and documented that
+the engineered features are not currently consumed as predictors by Phases
+11–13. Phase 10 tests: 32, all passing. The feature-engineered dataset and its
 analysis outputs are reproducible generated artifacts and are not
 source-controlled. No raw data files are modified. No Git commands were run.
 
@@ -524,9 +530,57 @@ source-controlled. No raw data files are modified. No Git commands were run.
 
 ## Phase 11
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit).
 
-Files will be determined at Phase 11 start.
+Files:
+
+- `scripts/forecasting_models.py`
+- `tests/test_forecasting_models.py`
+- `docs/phase-11/forecasting-models-plan.md`
+- `docs/phase-11/forecasting-models-methodology.md`
+- `docs/phase-11/forecasting-models-quality-framework.md`
+- `docs/phase-11/forecasting-models-results.md`
+- `docs/phase-11/course-content-coverage.md`
+- `docs/phase-11/phase-11-checklist.md`
+- `data/analysis/forecasting_model_results.csv` (generated; excluded from Git)
+- `data/analysis/forecasting_model_configurations.csv` (generated; excluded from Git)
+- `data/analysis/forecasting_summary.csv` (generated; excluded from Git)
+- `data/analysis/forecasting_predictions.csv` (generated; excluded from Git)
+- `data/analysis/forecasting_quality_report.csv` (generated; excluded from Git)
+- `data/analysis/forecasting_findings.txt` (generated; excluded from Git)
+
+Cross-phase files synchronised:
+
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-1/kpi-definitions.md`
+- `docs/phase-2/dataset-inventory.md`
+- `docs/phase-9/time-series-results.md`
+- `docs/phase-10/feature-engineering-results.md`
+- `docs/project-file-update-register.md`
+- `README.md` (reviewed; unchanged)
+
+The re-audit re-executed the forecasting workflow over the full Phase 10
+dataset (21.4 seconds, 1,279.6 MB peak), reconciled 7,431,026 rows and
+41,949,529.910 quantity at the store-day grain, and rebuilt the phase's
+verification machinery. Six gaps were corrected: there was no machine-readable
+validation artifact, no source reconciliation, no stored predictions, no
+baseline verification, an incomplete reproducibility record and a findings
+report that mislabelled the validation start as the training end. The phase
+now writes a 24-check quality report that gates the run, a 1,368-row
+predictions artifact that reconciles every reported metric, measured
+store-day densification (one zero-filled store-day), pooled summary metrics
+and explicit temporal and test-isolation checks. The model results artifact is
+byte-identical to the pre-audit run. Phase 11 tests increased from 11 to 52
+and the full suite passes (321 tests). The forecasting outputs are
+reproducible generated artifacts and are not source-controlled. No raw data
+files are modified. No Git commands were run.
+
+Cross-phase: the engineered lag, rolling and calendar features are still not
+used as predictors by the classical forecasting scripts. Phase 11's documented
+scope is classical univariate models, so the finding is carried forward to the
+Phase 12–13 audits.
 
 ---
 
@@ -574,4 +628,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 10 have been re-audited and approved. Phase 11 is the next audit target. The Phase 10 re-audit re-executed the feature-engineering workflow over the full Phase 9 dataset, rebuilt its quality report (14 checks, all passing), added source reconciliation, leakage verification and a per-feature completeness artifact, and synchronised the Phase 0–9 records that carry Phase 10 constraints.
+Phase 0 through Phase 11 have been re-audited and approved. Phase 12 is the next audit target. The Phase 11 re-audit re-executed the forecasting workflow over the full Phase 10 dataset, rebuilt its quality report (24 checks, all passing), added a predictions artifact that reconciles every reported metric, source reconciliation at the store-day grain, baseline-definition and test-isolation verification, measured store-day densification and pooled summary metrics, and synchronised the Phase 0–10 records that carry Phase 11 constraints.

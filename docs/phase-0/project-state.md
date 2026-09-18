@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 11 — Forecasting Models
+Phase 12 — Model Evaluation & Tuning
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 10 have been re-audited and approved; Phase 11 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 11 have been re-audited and approved; Phase 12 is the next audit target.
 
 ## Git
 
@@ -44,13 +44,13 @@ Branch:
 
 phase-17-testing-documentation-final-audit
 
-HEAD:
+HEAD (audit-time):
 
-365c6c1 — Phase 3 audit (Phase 0–3 audits committed; Phase 4 re-audit in progress)
+88d6b8f — Phase 10 Audit. The Phase 11 re-audit performs no Git operations and does not create a commit.
 
 Git status:
 
-The Phase 10 re-audit modifies the Phase 10 documentation, its script and tests, and the tracking docs; `data/processed/feature_engineered_daily.csv` and the `data/analysis/feature_engineering_*.csv` outputs are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 11 re-audit modifies the Phase 11 documentation, its script and tests, and the tracking docs; the `data/analysis/forecasting_*.csv` and `forecasting_findings.txt` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -224,6 +224,27 @@ The feature-engineered dataset and its analysis outputs are reproducible
 generated artifacts and are not source-controlled. No raw data files are
 modified.
 
+## Files Modified During Phase 11 Re-Audit
+
+- scripts/forecasting_models.py
+- tests/test_forecasting_models.py
+- docs/phase-11/forecasting-models-plan.md
+- docs/phase-11/forecasting-models-methodology.md
+- docs/phase-11/forecasting-models-quality-framework.md
+- docs/phase-11/forecasting-models-results.md
+- docs/phase-11/course-content-coverage.md
+- docs/phase-11/phase-11-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-1/kpi-definitions.md
+- docs/phase-2/dataset-inventory.md
+- docs/phase-9/time-series-results.md
+- docs/phase-10/feature-engineering-results.md
+- docs/project-file-update-register.md
+
+The forecasting results, configurations, summary, predictions, quality report and findings are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -353,6 +374,18 @@ re-pointed at its 14 quality-report checks, the plan and course-content
 coverage received re-audit records, and the checklist was completed (the Git
 items remain unticked because the Phase 17 audit performs no Git operations).
 
+Phase 11 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 11 forecasting documentation was brought in line with the executed
+workflow. The results document was populated with verified per-store and
+summary metrics, the methodology recorded the store-day aggregation and the
+measured single-store-day densification, the quality framework was re-pointed
+at its 24 quality-report checks, the plan, course-content coverage and
+checklist received re-audit records, and the findings report was corrected to
+label the validation period as 2024-02-11 to 2024-06-03.
+
 ## Tests
 
 Phase 0 validation:
@@ -410,6 +443,12 @@ partition non-overlap, the quality report (one pass case and five
 deliberate-failure cases), quantity formatting, findings content and the full
 `main()` workflow with source preservation (10 to 36 tests).
 
+Phase 11 validation:
+
+VERIFIED — 52 TESTS PASS
+
+The Phase 11 validation covers the complete forecasting workflow: input schema and loader behaviour, store-day aggregation and reconciliation, series densification and its index validation, per-store model runs (configuration, training/validation windows, horizon, baseline reproduction), pooled summary reconciliation and ordering, the quality report (one pass case on a full synthetic workflow and thirteen deliberate-failure cases), findings content and the full `main()` workflow including its missing-input and failed-quality-check paths (11 to 52 tests).
+
 Phase 10 validation:
 
 VERIFIED — 31 TESTS PASS
@@ -430,7 +469,9 @@ content and the full `main()` workflow (10 to 31 tests).
 - Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
 - Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
 - The Phase 10 re-audit verified that `series_age_days` is not a leakage point: it is `date - series(min date)`, and a series' first observed date is always at or before its later rows, so no future information enters the feature. The earlier flag is resolved.
-- Flagged for the Phase 11–13 audits: the engineered lag, rolling and calendar features are not used as predictors by `scripts/forecasting_models.py`, `scripts/evaluate_and_tune_models.py` or `scripts/forecasting_inventory_insights.py`, which select only `date`, `store_id`, `quantity` and `split` from the feature matrix.
+- Flagged for the Phase 12–13 audits: the engineered lag, rolling and calendar features are still not used as predictors. The Phase 11 re-audit confirmed that `scripts/forecasting_models.py` selects only `date`, `store_id`, `quantity` and `split`, and that Phase 11's documented scope is classical univariate models, so the gap is carried forward rather than closed by Phase 11.
+- Store 4 first appears in the dataset on 2023-12-13, so its Phase 11 ARIMA model is fitted on 60 training observations against 531 for stores 1–3. The Phase 12 tuning audit should treat that store's ARIMA result with corresponding caution.
+- The Phase 11 validation store-days contain no zero-demand observations, so MAPE's zero-exclusion rule is a verified safety guarantee rather than a rule that changes the reported values. This is documented rather than presented as exercised coverage.
 - The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
 
 ## Unresolved Decisions
@@ -519,7 +560,7 @@ Phase 9 — Time-Series Preparation has been re-audited as part of Phase 17.
 AUDITED — COMPLETE
 
 The Phase 9 preparation workflow was re-executed over the complete integrated
-dataset (206.4 seconds, 1,356.9 MB peak) and every generated artifact was
+dataset (231.6 seconds, 1,405.5 MB peak) and every generated artifact was
 inspected. The prepared dataset contains 7,431,026 observed date-item-store
 records (28,180 items, 4 stores, 2022-08-28 to 2024-09-26) with total quantity
 41,949,529.910, reconciling exactly with Phase 6, 7 and 8. The chronological
@@ -533,12 +574,18 @@ single chunked pass and records 15 checks, all passing, covering schema, key,
 date, demand, gap, partition, leakage and source-preservation requirements.
 Exactly three unique dates previously raised an invalid-boundary error despite
 the documented three-date minimum, and quantities printed with floating-point
-artefacts; both are fixed. The re-executed artifacts reproduce the pre-audit
-values exactly, so the fixes changed verification machinery, not data. A
+artefacts; both are fixed, and the quantity figures are now formatted in the
+summary, the findings and the quality report alike (the pass/fail decision is
+still evaluated numerically first, so formatting cannot mask a mismatch). Date
+parsing is now explicitly ISO. The re-executed artifacts reproduce the
+pre-audit values exactly, so the fixes changed verification machinery, not
+data. A
 structural finding is now documented: 55,122 of 58,022 item-store series
 contain intermediate date gaps (12,553,017 missing days), so calendar-based
 lag windows require an explicit densification decision in later phases. Phase
-9 tests increased from 10 to 36 and the full suite passes (257 tests).
+9 tests increased from 10 to 37 and the full suite passes (280 tests). Both
+pipelines were re-run after the final source change — Phase 9 first, because
+Phase 10 consumes its output — so every artifact post-dates its script.
 
 ## Phase 10 Re-Audit Status
 
@@ -547,7 +594,7 @@ Phase 10 — Feature Engineering has been re-audited as part of Phase 17.
 AUDITED — COMPLETE
 
 The Phase 10 workflow was re-executed over the complete Phase 9 dataset
-(423.1 seconds, 2,887.2 MB peak) and every generated artifact was inspected.
+(365.6 seconds, 2,510.3 MB peak) and every generated artifact was inspected.
 The engineered matrix contains 7,431,026 rows and 16 features, and reconciles
 with Phase 9 on rows, keys, target values, split labels and total quantity
 (41,949,529.910); the split rows (4,315,416 / 1,548,957 / 1,566,653) and
@@ -563,11 +610,52 @@ checks and records 14 checks, all passing; a new
 features (for example, `lag_1` is missing exactly once per item-store series,
 58,022 rows); and the rolling features use pandas' compiled grouped-rolling
 path, which is value-identical and roughly an order of magnitude faster. The
+reconciled quantity is now formatted (`41949529.910`) and date parsing is
+explicitly ISO. The
 re-audit also corrected an earlier note: `series_age_days` is not a leakage
 point, because a series' first observed date is always at or before its later
 rows. A cross-phase finding is recorded for the Phase 11–13 audits: those
 scripts load the feature matrix but select only `date`, `store_id`, `quantity`
 and `split`, so the engineered features are not currently used as predictors.
-Phase 10 tests increased from 10 to 31 and the full suite passes (278 tests).
+Phase 10 tests increased from 10 to 32 and the full suite passes (280 tests).
 
-The next Phase 17 audit target is Phase 11.
+## Phase 11 Re-Audit Status
+
+Phase 11 — Forecasting Models has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 11 forecasting workflow was re-executed over the complete Phase 10
+feature-engineered dataset (21.4 seconds, 1,279.6 MB peak) and every generated
+artifact was inspected. The model results are byte-identical to the pre-audit
+run (MD5 `af5220f90d9f889b8758022a7bf78809`), so the corrections are
+verification-only with respect to the reported metrics.
+
+The phase aggregates the 7,431,026-row matrix to 2,571 observed store-days and
+reconciles the store-day total quantity with the source (41,949,529.910). It
+then densifies each store series onto a complete daily calendar, adding exactly
+one store-day (store 3, 2022-10-16) because that store has no observed record
+that day, and fits the three documented models per store on the training
+window ending 2024-02-10, evaluating them over the 114-day validation period
+(2024-02-11 to 2024-06-03).
+
+The seasonal-naive benchmark is the best model on both the across-store mean
+validation RMSE (3,223.0630) and the pooled metric (3,928.6186), with a mean
+MAPE of 12.00%. ARIMA(1,1,1) records a mean RMSE of 5,193.2159, improving on
+the naive baseline (5,725.4922) but not on the weekly benchmark.
+
+Six gaps were corrected: the phase had no machine-readable validation
+artifact, no source reconciliation, no stored predictions, no baseline
+definition verification, an incomplete reproducibility record and a findings
+report that mislabelled the validation start as the training end. The re-audit
+added a 24-check quality report that gates the run, a 1,368-row predictions
+artifact that reconciles every reported metric, baseline verification against
+their documented definitions, explicit temporal and test-isolation checks,
+measured densification, pooled summary metrics and an input-index validation
+guard on the series construction. Date and metric guards prevent silent
+broadcasting on mismatched forecast lengths. Phase 11 tests increased from 11
+to 52 and the full suite passes (321 tests).
+
+The forecasting artifacts are reproducible generated outputs and are excluded
+from Git; no raw data files are modified. The next Phase 17 audit target is
+Phase 12.

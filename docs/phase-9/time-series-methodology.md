@@ -15,7 +15,7 @@ forecasting grain and appends the reduced chunk. The source is therefore never
 loaded as a whole and is never read a second time. The prepared frame
 (7,431,026 rows) is retained only to write the output dataset.
 
-Verified execution: 206.4 seconds, 1,356.9 MB peak resident memory.
+Verified execution: 231.6 seconds, 1,405.5 MB peak resident memory.
 
 ## Aggregation
 
@@ -106,11 +106,14 @@ Feature engineering and model development are subsequent stages.
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 | Change | Reason |
 |---|---|
 | Source reconciliation folded into the single chunked pass | The previous quality report re-read the whole 1.28 GB source a second time, contradicting this document's chunked strategy |
 | Vacuous checks replaced with real invariants | `maximum_observed_gap_days >= 0` and `missing_intermediate_days >= 0` could never fail |
 | Partition, date-range, leakage and source-preservation checks added | The quality framework required them but no artifact evidenced them |
-| Quantity formatting applied | `time_series_summary.csv` and the findings printed `41949529.910000004` |
+| Quantity formatting applied | `time_series_summary.csv`, the findings and the quantity rows of the quality report printed `41949529.910000004` |
+| Explicit ISO date parsing | Dates were inferred element by element; an unparsable date now fails validation deterministically |
 | Three-date boundary handling made explicit | Exactly three unique dates previously raised "Invalid chronological split boundaries" despite the documented minimum |
 | Gap magnitude surfaced in summary and findings | Series and missing-day counts were previously recorded only in the findings prose |

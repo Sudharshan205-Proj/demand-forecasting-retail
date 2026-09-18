@@ -669,6 +669,48 @@ def test_quality_report_flags_quantity_mismatch() -> None:
 
     assert "source_quantity_equals_prepared_quantity" in failed
 
+    row = report.loc[
+        report["check"]
+        == "source_quantity_equals_prepared_quantity"
+    ].iloc[0]
+
+    # Formatting the figures must not hide the disagreement.
+    assert str(row["actual"]) != str(row["expected"])
+
+
+def test_quality_report_quantity_rows_have_no_float_artefacts() -> None:
+    """Quantity checks must render figures without float artefacts."""
+    prepared = _make_prepared(90)
+    stats = _source_stats(prepared)
+    gaps = calculate_gap_summary(prepared)
+
+    report = calculate_quality_report(
+        prepared,
+        stats,
+        gaps,
+        duplicate_keys=0,
+        source_unchanged=True,
+    )
+
+    quantity_checks = [
+        "source_quantity_equals_prepared_quantity",
+        "split_quantity_reconciles_with_prepared",
+    ]
+
+    for check in quantity_checks:
+        row = report.loc[report["check"] == check].iloc[0]
+
+        assert str(row["actual"]) == "4095.000"
+        assert str(row["expected"]) == "4095.000"
+        assert not re.search(
+            r"\d+\.\d{4,}",
+            str(row["actual"]),
+        )
+        assert not re.search(
+            r"\d+\.\d{4,}",
+            str(row["expected"]),
+        )
+
 
 def test_quality_report_flags_duplicate_keys() -> None:
     """A non-zero duplicate count must be flagged."""

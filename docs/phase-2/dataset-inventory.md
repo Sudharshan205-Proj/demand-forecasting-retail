@@ -147,6 +147,17 @@ only: the daily grain covers all 761 calendar dates, but 55,122 of 58,022
 item-store series have intermediate date gaps and are not zero-filled. The
 dataset is a reproducible generated artifact and is excluded from Git.
 
+### Phase 11 forecasting view
+
+Phase 11 reads `data/processed/feature_engineered_daily.csv` (four columns) and
+aggregates it to a daily store-level forecasting grain (`date + store_id`),
+producing 2,571 observed store-days from the 7,431,026 item-store records. The
+aggregate reconciles with the source on total quantity (41,949,529.910).
+Densifying each store series onto a complete daily calendar adds exactly one
+zero-demand store-day (store 3, 2022-10-16); every other store-day is an
+observed record. The derived forecasting outputs in `data/analysis/` are
+reproducible generated artifacts and are excluded from Git.
+
 ## Data Relationships
 
 The expected relationship is:

@@ -31,7 +31,7 @@ Prepare the integrated retail data for chronological demand forecasting.
 - [x] Use project-relative paths.
 - [x] Preserve source data (`source_file_not_modified`).
 - [x] Use deterministic processing.
-- [x] Add tests (36 tests, all passing).
+- [x] Add tests (37 tests, all passing).
 - [x] Validate outputs (`time_series_quality_report.csv`, 15 checks).
 
 ## Documentation
@@ -58,3 +58,13 @@ The Git section is not exercised by the Phase 17 audit workflow: this
 repository is audited in place and the audit runs no Git commands, so no
 branch, commit or push is created for the re-audit. The section is left
 unticked deliberately rather than claimed.
+
+## Phase 17 re-audit record
+
+**Audit status: AUDITED.**
+
+Every checklist item above was verified against the re-executed workflow. The
+re-audit rebuilt the 15-check quality report, replaced two vacuous gap checks,
+removed the second full-source read, formatted the quantity figures, made date
+parsing explicitly ISO and fixed three-date split handling. The Git items remain
+intentionally unticked because the Phase 17 audit runs no Git commands.

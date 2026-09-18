@@ -110,6 +110,8 @@ of all 16 features.
 
 ## Phase 17 re-audit record
 
+**Audit status: AUDITED.**
+
 The framework was written before the workflow existed. During the Phase 17
 re-audit:
 

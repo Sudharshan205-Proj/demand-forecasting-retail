@@ -68,7 +68,7 @@ Lower MAPE generally indicates better forecasting accuracy.
 
 MAPE can behave poorly when actual demand is zero or very close to zero.
 
-The project will therefore document how zero-demand observations are handled before reporting MAPE.
+The project will therefore document how zero-demand observations are handled before reporting MAPE. Phase 11 does so: it excludes zero-actual observations from MAPE and records that the validation store-days contain none (the minimum validation store-day demand is 3152.575), so the rule is a verified safety guarantee rather than a value-changing adjustment. See `docs/phase-11/forecasting-models-methodology.md`.
 
 ---
 
