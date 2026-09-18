@@ -586,9 +586,69 @@ Phase 12–13 audits.
 
 ## Phase 12
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit).
 
-Files will be determined at Phase 12 start.
+Files:
+
+- `scripts/evaluate_and_tune_models.py`
+- `tests/test_evaluate_and_tune_models.py`
+- `docs/phase-12/model-evaluation-and-tuning-plan.md`
+- `docs/phase-12/model-evaluation-and-tuning-methodology.md`
+- `docs/phase-12/model-evaluation-and-tuning-quality-framework.md`
+- `docs/phase-12/model-evaluation-and-tuning-results.md`
+- `docs/phase-12/course-content-coverage.md`
+- `docs/phase-12/phase-12-checklist.md`
+- `data/analysis/model_tuning_results.csv` (generated; excluded from Git)
+- `data/analysis/model_tuning_summary.csv` (generated; excluded from Git)
+- `data/analysis/selected_model_configurations.csv` (generated; excluded from Git)
+- `data/analysis/tuned_validation_results.csv` (generated; excluded from Git)
+- `data/analysis/model_error_analysis.csv` (generated; excluded from Git)
+- `data/analysis/model_evaluation_predictions.csv` (generated; excluded from Git)
+- `data/analysis/model_evaluation_quality_report.csv` (generated; excluded from Git)
+- `data/analysis/model_evaluation_findings.txt` (generated; excluded from Git)
+
+Cross-phase files synchronised:
+
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-1/kpi-definitions.md`
+- `docs/phase-2/dataset-inventory.md`
+- `docs/phase-8/statistical-results.md` (forward reference to per-item evaluation corrected)
+- `docs/phase-10/feature-engineering-results.md`
+- `docs/phase-11/forecasting-models-results.md`
+- `docs/phase-13/forecasting-and-inventory-insights-plan.md` (downstream correction, see below)
+- `docs/phase-13/forecasting-and-inventory-insights-methodology.md`
+- `docs/phase-13/forecasting-and-inventory-insights-results.md`
+- `docs/phase-13/course-content-coverage.md` (selection claim corrected)
+- `docs/project-file-update-register.md`
+- `README.md` (reviewed; unchanged)
+
+The re-audit re-executed the evaluation workflow over the full Phase 10
+dataset (70.9 seconds, 236.6 MB peak). The stale pre-audit artifacts
+predated the regenerated input and reproduced byte-for-byte when the
+original script was re-run, so the comparison point was sound. Four
+defects were corrected: store 4 was silently excluded from tuning (its 60
+training observations cannot support the fixed three-fold design),
+configuration strings were parsed back into season lengths and orders,
+the engineered features were unused, and no machine-readable validation
+existed. The phase now adapts its fold count so all four stores are tuned,
+carries typed configurations through a single dispatcher, adds a
+deterministic gradient-boosting candidate over the 16 store-day feature
+families, stores all 2,976 forecasts, and gates the run on a 30-check
+quality report (all passing). The tuned portfolio reduces the mean
+validation RMSE from 3,223.0630 to 3,079.4286, improving stores 1 and 2 and
+leaving store 3 marginally worse than the weekly benchmark. Phase 12 tests
+increased from 12 to 64 and the full suite passes (373 tests). The
+evaluation outputs are reproducible generated artifacts and are not
+source-controlled. No raw data files are modified. No Git commands were
+run.
+
+Downstream correction: Phase 13's documentation asserted that store 4 had
+no tuned model and that seasonal-naive had been selected for stores 1–3.
+Both claims became false. The affected statements were corrected and
+Phase 13's generated artifacts remain to be re-executed during its own
+audit.
 
 ---
 
@@ -628,4 +688,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 11 have been re-audited and approved. Phase 12 is the next audit target. The Phase 11 re-audit re-executed the forecasting workflow over the full Phase 10 dataset, rebuilt its quality report (24 checks, all passing), added a predictions artifact that reconciles every reported metric, source reconciliation at the store-day grain, baseline-definition and test-isolation verification, measured store-day densification and pooled summary metrics, and synchronised the Phase 0–10 records that carry Phase 11 constraints.
+Phase 0 through Phase 12 have been re-audited and approved. Phase 13 is the next audit target. The Phase 12 re-audit re-executed the evaluation and tuning workflow over the full Phase 10 dataset, replaced the fixed three-fold design with an adaptive one so all four stores are tuned, removed configuration-string parsing, added a feature-based candidate that consumes the Phase 10 feature families, stored every forecast, and rebuilt the phase's validation as a 30-check quality report that gates the run. It also synchronised the Phase 0–11 records that carry Phase 12 constraints and corrected Phase 13's now-false Phase 12 evidence statements.

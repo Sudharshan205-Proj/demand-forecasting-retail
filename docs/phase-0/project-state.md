@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 12 — Model Evaluation & Tuning
+Phase 13 — Forecasting & Inventory Insights
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 11 have been re-audited and approved; Phase 12 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 12 have been re-audited and approved; Phase 13 is the next audit target.
 
 ## Git
 
@@ -46,11 +46,11 @@ phase-17-testing-documentation-final-audit
 
 HEAD (audit-time):
 
-88d6b8f — Phase 10 Audit. The Phase 11 re-audit performs no Git operations and does not create a commit.
+88d6b8f — Phase 10 Audit (the Phase 11 and Phase 12 audit work is uncommitted in the working tree). The Phase 12 re-audit performs no Git operations and does not create a commit.
 
 Git status:
 
-The Phase 11 re-audit modifies the Phase 11 documentation, its script and tests, and the tracking docs; the `data/analysis/forecasting_*.csv` and `forecasting_findings.txt` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 12 re-audit modifies the Phase 12 documentation, its script and tests, the Phase 13 records affected by its corrected evidence, and the tracking docs; the `data/analysis/model_*.csv`, `selected_model_configurations.csv`, `tuned_validation_results.csv`, `model_evaluation_*.csv` and `model_evaluation_findings.txt` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -245,6 +245,39 @@ modified.
 
 The forecasting results, configurations, summary, predictions, quality report and findings are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
 
+## Files Modified During Phase 12 Re-Audit
+
+- scripts/evaluate_and_tune_models.py
+- tests/test_evaluate_and_tune_models.py
+- docs/phase-12/model-evaluation-and-tuning-plan.md
+- docs/phase-12/model-evaluation-and-tuning-methodology.md
+- docs/phase-12/model-evaluation-and-tuning-quality-framework.md
+- docs/phase-12/model-evaluation-and-tuning-results.md
+- docs/phase-12/course-content-coverage.md
+- docs/phase-12/phase-12-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-1/kpi-definitions.md
+- docs/phase-2/dataset-inventory.md
+- docs/phase-8/statistical-results.md
+- docs/phase-10/feature-engineering-results.md
+- docs/phase-11/forecasting-models-results.md
+- docs/phase-13/forecasting-and-inventory-insights-plan.md
+- docs/phase-13/forecasting-and-inventory-insights-methodology.md
+- docs/phase-13/forecasting-and-inventory-insights-results.md
+- docs/phase-13/course-content-coverage.md
+- docs/project-file-update-register.md
+
+The Phase 8, 10, 11 and 13 documents were corrected only where earlier
+evidence made their statements false: Phase 8's forward reference to
+per-item evaluation, Phase 10's "features unused" finding, Phase 11's
+store-4 ARIMA caution and Phase 13's store-4 and selection claims. Phase 13
+itself remains unaudited and its generated artifacts must be re-executed
+during its own audit. The
+evaluation outputs are reproducible generated artifacts and are not
+source-controlled. No raw data files are modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -374,6 +407,19 @@ re-pointed at its 14 quality-report checks, the plan and course-content
 coverage received re-audit records, and the checklist was completed (the Git
 items remain unticked because the Phase 17 audit performs no Git operations).
 
+Phase 12 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 12 evaluation documentation was brought in line with the executed
+workflow. The results document was populated with the verified CV
+leaderboard, selected configurations, validation results and error
+analysis, the methodology recorded the adaptive fold rule and the feature
+candidate, the quality framework was re-pointed at its 30 quality-report
+checks, the plan, course-content coverage and checklist received re-audit
+records, and Phase 13's now-false Phase 12 evidence statements were
+corrected.
+
 Phase 11 documentation:
 
 AUDITED — COMPLETE
@@ -443,6 +489,12 @@ partition non-overlap, the quality report (one pass case and five
 deliberate-failure cases), quantity formatting, findings content and the full
 `main()` workflow with source preservation (10 to 36 tests).
 
+Phase 12 validation:
+
+VERIFIED — 64 TESTS PASS
+
+The Phase 12 validation covers the complete evaluation and tuning workflow: metric guards, forecast primitives, the store-day feature builder (feature completeness, lag identity, rolling exclusion, target preservation, series age), the typed configuration dispatcher, adaptive fold creation (requested, adapted and reduced counts, chronology, expansion, rejection), split validation including duplicate keys, cross-validation coverage and skipped-store recording, summary aggregation, the selection rule and its MAPE tie-break, validation and error-analysis reproduction from stored predictions, the quality report (one pass case and eleven deliberate-failure cases) and the full `main()` workflow with its missing-input and failed-quality-check paths (12 to 64 tests).
+
 Phase 11 validation:
 
 VERIFIED — 52 TESTS PASS
@@ -469,8 +521,11 @@ content and the full `main()` workflow (10 to 31 tests).
 - Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
 - Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
 - The Phase 10 re-audit verified that `series_age_days` is not a leakage point: it is `date - series(min date)`, and a series' first observed date is always at or before its later rows, so no future information enters the feature. The earlier flag is resolved.
-- Flagged for the Phase 12–13 audits: the engineered lag, rolling and calendar features are still not used as predictors. The Phase 11 re-audit confirmed that `scripts/forecasting_models.py` selects only `date`, `store_id`, `quantity` and `split`, and that Phase 11's documented scope is classical univariate models, so the gap is carried forward rather than closed by Phase 11.
-- Store 4 first appears in the dataset on 2023-12-13, so its Phase 11 ARIMA model is fitted on 60 training observations against 531 for stores 1–3. The Phase 12 tuning audit should treat that store's ARIMA result with corresponding caution.
+- RESOLVED in the Phase 12 re-audit: the engineered lag, rolling and calendar features now reach a model. `scripts/evaluate_and_tune_models.py` adds a deterministic gradient-boosting candidate (`feature_gbm`) over the 16 store-day feature families recomputed at the forecasting grain, and it is selected for stores 1–3 on cross-validation evidence. Phase 11's classical scripts still consume the demand target only, which its own scope documents.
+- Store 4 first appears in the dataset on 2023-12-13, giving it 60 training observations against 531 for stores 1–3. The Phase 12 re-audit adapts the cross-validation fold count to that history, so store 4 is tuned with one fold rather than excluded, and seasonal-naive(7) wins there. Its results rest on a single fold and should be read with that caution.
+- The Phase 12 validation results are not uniformly better than Phase 11's benchmark: the cross-validation winner improves stores 1 and 2 but is 0.32% worse for store 3, where seasonal-naive would have been the better choice. This is recorded rather than smoothed over.
+- The Phase 12 error analysis shows every selected model under-forecasting on average, with the bias widening in the second half of the validation period. Phase 13's inventory scenarios should treat this as a known directional bias.
+- The reserved final test evaluation named in the Phase 12 plan still has no owning phase. It remains deferred and is recorded as an open item for the final project audit.
 - The Phase 11 validation store-days contain no zero-demand observations, so MAPE's zero-exclusion rule is a verified safety guarantee rather than a rule that changes the reported values. This is documented rather than presented as exercised coverage.
 - The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
 
@@ -659,3 +714,47 @@ to 52 and the full suite passes (321 tests).
 The forecasting artifacts are reproducible generated outputs and are excluded
 from Git; no raw data files are modified. The next Phase 17 audit target is
 Phase 12.
+
+## Phase 12 Re-Audit Status
+
+Phase 12 — Model Evaluation & Tuning has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 12 evaluation workflow was re-executed over the complete Phase 10
+dataset (70.9 seconds, 236.6 MB peak) and every generated artifact was
+inspected. The stale pre-audit artifacts predated the regenerated input
+(8 Sep against a matrix regenerated on 18–19 Sep) and reproduced
+byte-for-byte when the original script was re-run, so the audit's
+comparison point was sound before any change.
+
+Four defects were corrected. Store 4 was silently excluded from tuning
+because the fixed three-fold design requires 84 training days and it has
+60; the fold count now adapts to the history a store actually has, so all
+four stores are tuned (stores 1–3 keep exactly their previous folds and
+values, store 4 gains a single fold). Configuration display strings were
+being parsed back into season lengths and orders in two places, with the
+model dispatch duplicated three times; configurations are now typed
+objects carried through one dispatcher, with explicit `season_length` and
+`order` columns in the artifacts. The Phase 10 engineered features were
+unused; a deterministic gradient-boosting candidate now consumes the 16
+feature families at the store-day grain with recursive multi-step
+forecasting. No machine-readable validation existed; a 30-check quality
+report now gates the run, and 2,976 stored forecasts let every metric and
+error-analysis segment be recomputed.
+
+The tuned portfolio reduces the mean validation RMSE from Phase 11's
+3,223.0630 to 3,079.4286 (−4.46%): stores 1 and 2 improve by 11.13% and
+6.38%, store 4 reproduces Phase 11's forecast exactly, and store 3 is
+0.32% worse than the weekly benchmark. The cross-validation leaderboard
+favours `feature_gbm` for stores 1–3 and seasonal-naive(7) for store 4.
+Store 4's selected configuration reproduces Phase 11's validation forecast
+exactly (maximum absolute difference 0). Phase 12 tests increased from 12
+to 64 and the full suite passes (373 tests).
+
+The evaluation outputs are reproducible generated artifacts and are
+excluded from Git; no raw data files are modified. Phase 13's documentation
+asserted that store 4 had no tuned model and that seasonal-naive had been
+selected for stores 1–3; those statements became false and were corrected,
+and Phase 13's generated artifacts remain to be re-executed during its own
+audit. The next Phase 17 audit target is Phase 13.

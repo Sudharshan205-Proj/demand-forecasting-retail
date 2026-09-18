@@ -48,6 +48,12 @@ Lower RMSE indicates smaller prediction errors under the metric's scale.
 
 Primary forecasting accuracy metric.
 
+Phase 11 reports RMSE per store and model on the validation period. Phase 12
+applies it as the primary configuration-selection criterion during
+training-period cross-validation, then reports it again for the selected
+configuration on the untouched validation period. The numerical values
+belong to those phase result documents.
+
 ---
 
 ## 4. MAPE

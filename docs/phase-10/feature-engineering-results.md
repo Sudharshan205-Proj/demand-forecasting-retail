@@ -119,8 +119,13 @@ newly observed ones using only information available at each row.
   features never reach a model. This is a Phase 11–13 integration gap, flagged
   for those audits, not a Phase 10 defect. Phase 10's obligation is to build a
   leakage-safe, verified matrix, which it does. The Phase 11 re-audit confirmed
-  the gap still stands and carried it forward to the Phase 12–13 audits,
-  because Phase 11's documented scope is classical univariate models.
+  the gap still stood for that phase, whose documented scope is classical
+  univariate models, and carried it forward to the Phase 12–13 audits. The
+  Phase 12 re-audit then resolved it for the evaluation workflow: its
+  `feature_gbm` candidate consumes all 16 families at the store-day grain and
+  is selected for stores 1–3 on cross-validation evidence. `forecasting_models.py`
+  (Phase 11) and `forecasting_inventory_insights.py` (Phase 13) still consume
+  the demand target only, so the Phase 13 audit remains the outstanding check.
 
 ## Phase status
 
@@ -260,11 +265,12 @@ the cross-phase records listed under "Files reviewed" were synchronised.
 - Cross-phase: `scripts/clean_retail_data.py` (Phase 5) still emits a pandas
   `UserWarning` for implicit date inference; outside Phase 10 scope, recorded
   here for the Phase 5 audit.
-- Flagged for the Phase 12–13 audits: the engineered features are not used as
-  predictors by `forecasting_models.py`, `evaluate_and_tune_models.py` or
-  `forecasting_inventory_insights.py` (F8). The Phase 11 re-audit re-confirmed
-  the finding and documented that Phase 11's classical models consume the
-  demand target only.
+- RESOLVED for Phase 12 by the Phase 12 re-audit: `evaluate_and_tune_models.py`
+  now builds a 16-feature store-day frame from the Phase 10 families and adds a
+  `feature_gbm` candidate that is selected for stores 1–3 (F8). The remaining
+  scope of the finding is Phase 13, and `forecasting_models.py` (Phase 11),
+  whose classical models consume the demand target only as its own scope
+  documents.
 - Phase 11 verified the target/split contract this phase established: the
   store-day aggregate reconciles with the matrix on total quantity
   (41,949,529.910) and total rows (7,431,026), with no duplicate store-day key

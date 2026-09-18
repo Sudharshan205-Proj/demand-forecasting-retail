@@ -293,7 +293,10 @@ Final interpretations must distinguish:
   little to explaining row-level quantity, so a forecasting design should not
   expect them to carry the main signal.
 - **Assortment items differ enormously in magnitude**, so aggregate error
-  metrics should be complemented by per-item evaluation in Phase 12.
+  metrics should be complemented by per-item evaluation. The Phase 12 re-audit
+  confirms this remains outstanding: Phase 11–13 forecast and evaluate at the
+  store-day grain, so no per-item evaluation exists. It is carried forward as
+  an open item rather than reported as delivered.
 
 - **Phase 9 quantified the gap structure.** 55,122 of 58,022 item-store
   series contain intermediate date gaps (12,553,017 missing intermediate

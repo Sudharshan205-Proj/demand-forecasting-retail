@@ -89,12 +89,18 @@ Inventory planning should consider both demand level and uncertainty.
 
 ## 9. Store 4
 
-Store 4 is not assigned a tuned Phase 12 forecasting configuration because
-its training series was too short for the configured cross-validation
-procedure.
+Store 4 is assigned a tuned Phase 12 forecasting configuration:
+Seasonal Naive with a 7-day seasonal period, selected on its single
+available cross-validation fold (its 60 training observations cannot
+support three 28-day folds).
 
-Store 4 therefore receives descriptive inventory analysis rather than a
-claim of validated forecasting superiority.
+That evidence is weaker than Stores 1–3, which each use three folds. Its
+validated forecast should therefore be read with more caution than the
+eight-store-week evidence behind the other stores, and the single-fold
+basis is recorded rather than hidden.
+
+The Phase 12 re-audit also corrected an earlier statement in this document:
+Store 4 is no longer excluded from tuning.
 
 ## 10. Limitations
 

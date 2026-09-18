@@ -158,6 +158,16 @@ zero-demand store-day (store 3, 2022-10-16); every other store-day is an
 observed record. The derived forecasting outputs in `data/analysis/` are
 reproducible generated artifacts and are excluded from Git.
 
+### Phase 12 feature view
+
+Phase 12 rebuilds the same 16 feature families Phase 10 defines (four lags,
+four rolling statistics, seven calendar features and `series_age_days`) on
+the store-day series rather than aggregating the item-store matrix: summing
+item-level lags is not a leakage-safe store-level lag, and the forecasting
+phases operate at the store-day grain. The recomputed matrix feeds the
+`feature_gbm` candidate, whose per-fold and validation forecasts are stored
+in `data/analysis/model_evaluation_predictions.csv`.
+
 ## Data Relationships
 
 The expected relationship is:

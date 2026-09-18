@@ -473,9 +473,47 @@ stage remains 🟨: forecasting analysis is now verified, while model
 evaluation and tuning (Phase 12), inventory insights (Phase 13) and R analysis
 (Phase 14) belong to later phases and are not certified here.
 
-A cross-phase finding remains open for the Phase 12–13 audits: the engineered
-lag, rolling and calendar features are not used as predictors by the classical
-forecasting scripts.
+A cross-phase finding was carried into the Phase 12–13 audits: the engineered
+lag, rolling and calendar features were not used as predictors by the classical
+forecasting scripts. The Phase 12 re-audit resolved it for the evaluation
+workflow by adding a feature-based gradient-boosting candidate; `scripts/forecasting_models.py`
+still consumes the demand target only, which its own scope documents. Phase 13
+remains the outstanding consumer to verify.
+
+## Phase 12 Re-Audit Status
+
+The Phase 12 audit (Model Evaluation & Tuning) verified the evaluation and
+tuning workflow against the complete Phase 10 dataset and inspected every
+generated artifact. The evidence adds the model-evaluation and
+machine-learning dimension:
+
+- nine candidate configurations per store (naive, three seasonal-naive
+  periods, four ARIMA orders and a feature-based gradient-boosting
+  candidate) evaluated over 90 cross-validation folds;
+- every store tuned and validated, including store 4, whose shorter history
+  previously excluded it from the fixed three-fold design;
+- configurations selected on training-period cross-validation only, with
+  the argmin re-verified by the quality report;
+- 2,976 stored forecasts and a 30-check quality report, all passing;
+- the Phase 10 engineered feature families consumed by a model for the
+  first time.
+
+Status effects:
+
+- The retail-specific RMSE and MAPE rows remain 🟩 and now rest on a larger
+  and independently reproduced body of evidence (94 evaluations, every
+  metric recomputed from stored forecasts).
+- The Course 2 "Prediction" and Course 8 "Forecasting/modeling" rows remain
+  🟩.
+- "Prophet/LSTM" remains ⬜: neither was implemented, and the deferral is
+  documented rather than claimed.
+- The `Analyze` stage remains 🟨: the analysis and forecasting evidence is
+  now verified, while the R analysis belongs to Phase 14 and inventory
+  insights to Phase 13.
+
+The cross-phase finding carried from the Phase 10 and Phase 11 audits is
+resolved: the engineered lag, rolling and calendar features now reach a
+model through the `feature_gbm` candidate.
 
 ## Final Audit Rule
 

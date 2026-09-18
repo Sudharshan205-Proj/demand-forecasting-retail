@@ -18,8 +18,8 @@
 | BR-005 | Baseline | Baseline model | 11 | 🟩 |
 | BR-006 | ARIMA | ARIMA implementation | 11 | 🟩 |
 | BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 11 | 🟩 |
-| BR-008 | RMSE/MAPE | Evaluation report | 12 | ⬜ |
-| BR-009 | Model comparison | Model comparison | 12 | ⬜ |
+| BR-008 | RMSE/MAPE | Evaluation report | 12 | 🟩 |
+| BR-009 | Model comparison | Model comparison | 12 | 🟩 |
 | BR-010 | Inventory insights | Business analysis | 13 | ⬜ |
 | BR-011 | Visualization | Python/R/Tableau | 7–15 | ⬜ |
 | BR-012 | Tableau | Tableau dashboard | 15 | ⬜ |
@@ -42,7 +42,7 @@
 
 | Problem Type | Application | Status |
 |---|---|---|
-| Making predictions | Phase 9 preparation and Phase 11 forecast models verified; Phase 12 evaluation and tuning remain | 🟨 |
+| Making predictions | Phase 9 preparation, Phase 11 forecast models and Phase 12 evaluation and tuning verified | 🟩 |
 | Categorizing | Product/demand categories where useful | ⬜ |
 | Spotting something unusual | Phase 7 item-level outlier and concentration analysis | 🟨 |
 | Identifying themes | Phase 7 temporal and product themes | 🟨 |
@@ -106,6 +106,27 @@ LSTM implementation is claimed.
 BR-004 (Forecasting) remains 🟨 because the forecasting pipeline continues in
 Phases 12–13 (evaluation, tuning and inventory insights). The `Act` stage and
 BR-008 through BR-016 remain ⬜ until their phases are individually audited.
+
+## Phase 12 Re-Audit Note
+
+The Phase 12 re-audit verified the evaluation and tuning workflow against the
+complete Phase 10 dataset: nine candidate configurations per store
+(naive, three seasonal-naive periods, four ARIMA orders and a feature-based
+gradient-boosting candidate) evaluated over 90 expanding-window
+cross-validation folds, with all four stores tuned and validated,
+configurations selected on training-period cross-validation only, 2,976
+stored forecasts and a 30-check quality report that all passed. Every RMSE
+and MAPE value is recomputed from the stored forecasts.
+
+On that evidence BR-008 (RMSE/MAPE) and BR-009 (Model comparison) move from
+⬜ to 🟩, and the "Making predictions" analytical problem type moves to 🟩.
+
+BR-004 (Forecasting) remains 🟨 because the pipeline continues into Phase 13
+(inventory insights). The `Act` stage, BR-010 (Inventory insights) and
+BR-011 through BR-016 remain ⬜ until their phases are individually audited.
+
+The cross-phase finding carried from the Phase 10 and Phase 11 notes is
+resolved: the engineered features now reach a model.
 
 ## Evidence Rule
 

@@ -13,16 +13,18 @@ using appropriate metrics.
 
 ### Project Application
 
-Phase 12 evaluates forecasting configurations using:
-
-- RMSE
-- MAPE
+Phase 12 evaluates nine forecasting configurations per store using RMSE and
+MAPE, over 90 cross-validation fold evaluations and four validation
+evaluations. Every metric is recomputed from the stored forecasts.
 
 Evidence:
 
 - `scripts/evaluate_and_tune_models.py`
 - `tests/test_evaluate_and_tune_models.py`
-- generated evaluation results
+- `data/analysis/model_tuning_results.csv`, `tuned_validation_results.csv`
+- `data/analysis/model_evaluation_predictions.csv`
+
+Status: VERIFIED.
 
 ## Time-Aware Validation
 
@@ -32,8 +34,12 @@ Time-series data must be evaluated chronologically to avoid leakage.
 
 ### Project Application
 
-Phase 12 uses expanding-window cross-validation with fixed future forecast
-windows.
+Phase 12 uses expanding-window cross-validation with fixed 28-day forecast
+windows on the training period only, and evaluates the selected
+configurations on the untouched validation period. The quality report
+verifies that no fold or validation window reaches the test period.
+
+Status: VERIFIED.
 
 ## Analytical Thinking
 
@@ -44,7 +50,10 @@ Different analytical approaches should be compared against a baseline.
 ### Project Application
 
 The project retains the Naive model as a benchmark and compares it with
-Seasonal Naive and ARIMA configurations.
+three seasonal-naive periods, four ARIMA orders and the feature-based
+candidate — nine configurations per store.
+
+Status: VERIFIED.
 
 ## Statistical Analysis
 
@@ -54,7 +63,48 @@ Statistical modeling should be evaluated using measurable error metrics.
 
 ### Project Application
 
-ARIMA configurations are compared using cross-validation RMSE and MAPE.
+ARIMA orders and the feature-based candidate are compared using
+cross-validation and validation RMSE and MAPE. Seasonal-naive is a
+strong benchmark: it wins store 4's single fold and is the runner-up for
+stores 1–3.
+
+Status: VERIFIED.
+
+## Feature Engineering
+
+### Concept
+
+Engineered features should feed the models that use them.
+
+### Project Application
+
+The 16 Phase 10 feature families (lag, rolling and calendar) are now
+consumed by the `feature_gbm` candidate, recomputed at the store-day
+forecasting grain with the Phase 10 definitions and used recursively for
+multi-step forecasting. The feature model wins the training-period
+cross-validation for stores 1–3 and improves the validation RMSE for
+stores 1 and 2 over the Phase 11 benchmark.
+
+Evidence: `build_feature_frame` / `feature_forecast` in
+`scripts/evaluate_and_tune_models.py`; the feature-leakage and determinism
+checks in `model_evaluation_quality_report.csv`.
+
+Status: VERIFIED.
+
+## Machine Learning
+
+### Concept
+
+Machine learning applies learned models to prediction tasks.
+
+### Project Application
+
+`HistGradientBoostingRegressor` (scikit-learn, an existing project
+dependency) is fitted per fold on the store-day feature matrix, with a
+fixed random seed and early stopping disabled for determinism. It is
+selected for stores 1–3 on cross-validation evidence.
+
+Status: VERIFIED.
 
 ## Model Selection
 
@@ -64,7 +114,14 @@ Models should be selected using evidence rather than assumptions.
 
 ### Project Application
 
-Configurations are selected using training-period cross-validation results.
+Configurations are selected using training-period cross-validation results
+(lowest mean CV RMSE, mean CV MAPE as tie-break). The quality report
+recomputes the argmin and verifies the recorded selection. The validation
+period then shows the selection is strong but not infallible: store 3's
+cross-validation winner is 0.32% worse than the weekly benchmark on
+validation.
+
+Status: VERIFIED.
 
 ## Data Integrity
 
@@ -74,7 +131,11 @@ Analytical conclusions require valid and appropriately structured data.
 
 ### Project Application
 
-Phase 12 validates chronological split ordering and temporal cross-validation.
+Phase 12 reconciles the store-day aggregate against the 7,431,026-row /
+41,949,529.910-quantity Phase 10 source, verifies the exact split
+boundaries, rejects duplicate store-day rows, and covers all four stores.
+
+Status: VERIFIED.
 
 ## Reproducibility
 
@@ -84,8 +145,12 @@ Analytical work should be reproducible.
 
 ### Project Application
 
-The project records model configurations, fold definitions, metrics,
-selection criteria, and generated result artifacts.
+The project records typed model configurations (never parsed from display
+strings), every fold's training and test window, per-fold and validation
+metrics, the selection rule, and all 2,976 forecasts. The feature model's
+determinism is verified by re-running a fold.
+
+Status: VERIFIED.
 
 ## Course Concepts Not Added in This Phase
 
@@ -102,3 +167,13 @@ Phase 14 R Analysis stage.
 
 A concept is considered implemented only when corresponding project
 evidence exists.
+
+## Phase 17 Re-Audit Note
+
+The Phase 12 re-audit verified every claim above against the executed
+pipeline and its generated artifacts: 90 fold evaluations across four
+stores, nine candidate configurations, a 30-check quality report that all
+passed, and metrics reproduced from 2,976 stored forecasts. Two coverage
+gaps were closed: store 4 is now tuned and validated, and the engineered
+features now reach a model. No coverage claim in this document rests on a
+planned-but-absent implementation.

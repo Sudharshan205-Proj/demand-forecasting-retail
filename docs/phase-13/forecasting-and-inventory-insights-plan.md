@@ -7,12 +7,21 @@ and inventory-planning insights.
 
 ## Starting Point
 
-Phase 12 selected Seasonal Naive with a 7-day seasonal period for Stores
-1, 2, and 3.
+Phase 12 selected a feature-based gradient-boosting configuration
+(`feature_gbm`) for Stores 1, 2 and 3, and Seasonal Naive with a 7-day
+seasonal period for Store 4.
 
-Store 4 did not have sufficient training-series length for the configured
-cross-validation procedure and therefore does not have a validated Phase 12
-tuned model.
+All four stores have a validated Phase 12 tuned model. The Phase 12
+re-audit replaced the fixed three-fold cross-validation design with an
+adaptive one, so Store 4 — which previously had no tuned model because its
+60 training observations could not support three 28-day folds — is now
+tuned with a single fold and validated on the full 114-day period.
+
+Phase 12's validation evidence: mean validation RMSE 3,079.4286 across the
+four selected configurations, against Phase 11's 3,223.0630 for the weekly
+seasonal benchmark. Stores 1 and 2 improved (11.13% and 6.38%), Store 4
+reproduced Phase 11's forecast exactly, and Store 3 was 0.32% worse than
+the weekly benchmark.
 
 ## Analysis Areas
 

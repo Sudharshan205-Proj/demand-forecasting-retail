@@ -181,8 +181,19 @@ All six Phase 11 documents were rewritten under their existing headings, and the
 ### Remaining issues
 
 - None open for Phase 11.
-- Cross-phase (F10): the Phase 10 engineered features are still not used as predictors by `forecasting_models.py`, `evaluate_and_tune_models.py` or `forecasting_inventory_insights.py`. Phase 11's documented scope is classical univariate models, so this is not a Phase 11 verification failure, but the gap remains open for the Phase 12 and 13 audits.
-- Store 4 has only 60 ARIMA training observations because it first appears on 2023-12-13; Phase 12 should treat that store's ARIMA result with corresponding caution.
+- Cross-phase (F10): RESOLVED for Phase 12 by the Phase 12 re-audit, which adds a "feature_gbm" candidate that consumes the Phase 10 feature families. `forecasting_models.py` itself still consumes the demand target only, which its own scope documents.
+- Store 4 has only 60 ARIMA training observations because it first appears on 2023-12-13. The Phase 12 re-audit handles this by adapting the cross-validation fold count to that history, so store 4 is tuned on a single 28-day fold; `seasonal_naive(7)` wins there and ARIMA was not selected for it.
+
+### Phase 12 cross-reference
+
+The Phase 12 re-audit re-ran the evaluation workflow over this phase's
+outputs. Where a Phase 12 selected configuration matches a Phase 11 model
+with the same parameters, the validation forecasts are identical: store
+4's `seasonal_naive(7)` selection reproduces this phase's forecast exactly
+(maximum absolute difference 0). Phase 12's tuned portfolio reduces the mean
+validation RMSE from this phase's 3,223.0630 to 3,079.4286 by adding the
+feature-based candidate for stores 1–3. See
+`docs/phase-12/model-evaluation-and-tuning-results.md`.
 
 ## Reproduction runbook
 

@@ -25,7 +25,10 @@ Data analysis can identify recurring and meaningful patterns.
 ### Project Application
 
 The project examines daily demand levels and variability and incorporates
-the validated weekly Seasonal Naive forecasting approach.
+the validated Phase 12 configurations: a feature-based gradient-boosting
+model for Stores 1–3 and weekly Seasonal Naive for Store 4. (Before the
+Phase 12 re-audit this line named Seasonal Naive alone, which the corrected
+selection superseded.)
 
 ## Discovering Connections
 

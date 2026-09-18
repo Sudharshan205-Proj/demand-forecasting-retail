@@ -48,10 +48,14 @@ after the Phase 13 script has been executed and validated.
 
 ## Known Phase 12 Limitation
 
-Store 4 did not receive a tuned Phase 12 model because its training series
-was too short for the configured cross-validation procedure.
+Store 4 **does** receive a tuned Phase 12 model (Seasonal Naive,
+`season_length=7`). The Phase 12 re-audit replaced the fixed three-fold
+design with an adaptive one, so Store 4 is tuned on its single affordable
+28-day fold and validated on the full 114-day period.
 
-This limitation will be preserved in the Phase 13 interpretation.
+The residual limitation is the evidence behind that selection: one fold
+instead of three. The Phase 13 interpretation must preserve that caveat
+rather than the earlier claim that Store 4 had no tuned model.
 
 ## Interpretation Rule
 
