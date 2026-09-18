@@ -4,11 +4,23 @@ The script converts transaction-level integrated retail data into a
 date-item-store forecasting grain while preserving chronological order.
 
 It does not create lag features or train forecasting models.
+
+Design notes
+------------
+- The integrated source is read once, in chunks, and re-aggregated to the
+  forecasting grain. Source row, quantity and date statistics are accumulated
+  during the same chunked pass so the source file never has to be read a second
+  time.
+- Missing observations are preserved as missing. The prepared dataset keeps
+  only observed date-item-store records and never fills a gap with zero demand.
+- The chronological train/validation/test partitions are computed from unique
+  dates only, so no future observation can enter an earlier partition.
 """
 
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -33,12 +45,19 @@ OUTPUT_DIR = PROJECT_ROOT / "data" / "analysis"
 
 CHUNK_SIZE = 250_000
 
+KEY_COLUMNS = ["date", "item_id", "store_id"]
+
 REQUIRED_COLUMNS = {
     "date",
     "item_id",
     "quantity",
     "store_id",
 }
+
+TRAIN_FRACTION = 0.70
+VALIDATION_FRACTION = 0.85
+
+SPLIT_ORDER = ["train", "validation", "test"]
 
 
 def validate_columns(columns: list[str]) -> None:
@@ -53,13 +72,31 @@ def validate_columns(columns: list[str]) -> None:
 
 def aggregate_daily(
     input_path: Path,
-) -> pd.DataFrame:
-    """Aggregate integrated sales to date-item-store grain."""
+) -> tuple[pd.DataFrame, dict[str, Any]]:
+    """Aggregate integrated sales to date-item-store grain.
+
+    The integrated source is streamed in chunks and reduced to one row per
+    date-item-store key. Source verification statistics are accumulated inside
+    the same pass so the source is never loaded as a whole.
+
+    Returns
+    -------
+    tuple
+        ``(prepared, source_stats)`` where ``prepared`` is the aggregated
+        forecasting frame and ``source_stats`` records the source row count,
+        source quantity, source date range and within-chunk duplicate count.
+    """
     header = pd.read_csv(input_path, nrows=0)
 
     validate_columns(header.columns.tolist())
 
     parts: list[pd.DataFrame] = []
+
+    source_rows = 0
+    source_quantity = 0.0
+    within_chunk_duplicate_keys = 0
+    source_date_min: pd.Timestamp | None = None
+    source_date_max: pd.Timestamp | None = None
 
     for chunk in pd.read_csv(
         input_path,
@@ -83,9 +120,31 @@ def aggregate_daily(
         if chunk["quantity"].isna().any():
             raise ValueError("Invalid quantity values detected.")
 
+        source_rows += len(chunk)
+        source_quantity += float(chunk["quantity"].sum())
+
+        within_chunk_duplicate_keys += int(
+            chunk.duplicated(subset=KEY_COLUMNS).sum()
+        )
+
+        chunk_min = chunk["date"].min()
+        chunk_max = chunk["date"].max()
+
+        source_date_min = (
+            chunk_min
+            if source_date_min is None
+            else min(source_date_min, chunk_min)
+        )
+
+        source_date_max = (
+            chunk_max
+            if source_date_max is None
+            else max(source_date_max, chunk_max)
+        )
+
         grouped = (
             chunk.groupby(
-                ["date", "item_id", "store_id"],
+                KEY_COLUMNS,
                 as_index=False,
             )
             .agg(quantity=("quantity", "sum"))
@@ -96,26 +155,39 @@ def aggregate_daily(
     result = (
         pd.concat(parts, ignore_index=True)
         .groupby(
-            ["date", "item_id", "store_id"],
+            KEY_COLUMNS,
             as_index=False,
         )
         .agg(quantity=("quantity", "sum"))
         .sort_values(
-            ["item_id", "store_id", "date"]
+            ["item_id", "store_id", "date"],
+            kind="mergesort",
         )
         .reset_index(drop=True)
     )
 
-    return result
+    source_stats: dict[str, Any] = {
+        "rows": source_rows,
+        "quantity": source_quantity,
+        "date_min": source_date_min,
+        "date_max": source_date_max,
+        "within_chunk_duplicate_keys": within_chunk_duplicate_keys,
+    }
+
+    return result, source_stats
 
 
 def validate_unique_keys(
     data: pd.DataFrame,
 ) -> int:
-    """Return the number of duplicate date-item-store keys."""
+    """Return the number of duplicate date-item-store keys.
+
+    The aggregation already guarantees a unique key, so this validates the
+    aggregation contract rather than the raw source.
+    """
     return int(
         data.duplicated(
-            ["date", "item_id", "store_id"]
+            KEY_COLUMNS
         ).sum()
     )
 
@@ -167,7 +239,12 @@ def calculate_gap_summary(
 def calculate_split_boundaries(
     dates: pd.Series,
 ) -> tuple[pd.Timestamp, pd.Timestamp]:
-    """Calculate chronological train/validation boundaries."""
+    """Calculate chronological train/validation boundaries.
+
+    The boundaries are derived from unique chronological dates only. The
+    clamping guarantees that each of the three partitions holds at least one
+    date, which keeps the documented three-date minimum valid.
+    """
     unique_dates = (
         pd.Series(dates)
         .dropna()
@@ -176,24 +253,33 @@ def calculate_split_boundaries(
         .reset_index(drop=True)
     )
 
-    if len(unique_dates) < 3:
+    count = len(unique_dates)
+
+    if count < 3:
         raise ValueError(
             "At least three unique dates are required "
             "for chronological splitting."
         )
 
-    train_index = int(np.floor(len(unique_dates) * 0.70)) - 1
-    validation_index = (
-        int(np.floor(len(unique_dates) * 0.85)) - 1
+    train_index = int(
+        np.floor(count * TRAIN_FRACTION)
+    ) - 1
+
+    validation_index = int(
+        np.floor(count * VALIDATION_FRACTION)
+    ) - 1
+
+    train_index = min(train_index, count - 3)
+    validation_index = min(validation_index, count - 2)
+
+    train_index = max(train_index, 0)
+    validation_index = max(
+        validation_index,
+        train_index + 1,
     )
 
-    train_end = unique_dates.iloc[
-        max(train_index, 0)
-    ]
-
-    validation_end = unique_dates.iloc[
-        max(validation_index, 1)
-    ]
+    train_end = unique_dates.iloc[train_index]
+    validation_end = unique_dates.iloc[validation_index]
 
     if validation_end <= train_end:
         raise ValueError(
@@ -230,7 +316,7 @@ def calculate_split_summary(
     data: pd.DataFrame,
 ) -> pd.DataFrame:
     """Summarize observations by chronological split."""
-    return (
+    summary = (
         data.groupby("split", as_index=False)
         .agg(
             rows=("quantity", "size"),
@@ -238,41 +324,52 @@ def calculate_split_summary(
             date_min=("date", "min"),
             date_max=("date", "max"),
         )
-        .sort_values(
-            "date_min"
-        )
+    )
+
+    summary["split"] = pd.Categorical(
+        summary["split"],
+        categories=SPLIT_ORDER,
+        ordered=True,
+    )
+
+    return (
+        summary.sort_values("split")
         .reset_index(drop=True)
     )
 
 
+def _partition_date_ranges(
+    data: pd.DataFrame,
+) -> dict[str, tuple[pd.Timestamp, pd.Timestamp]]:
+    """Return the observed date range of each chronological partition."""
+    ranges: dict[str, tuple[pd.Timestamp, pd.Timestamp]] = {}
+
+    for split in SPLIT_ORDER:
+        subset = data.loc[data["split"] == split, "date"]
+
+        if subset.empty:
+            continue
+
+        ranges[split] = (subset.min(), subset.max())
+
+    return ranges
+
+
 def calculate_quality_report(
-    source_path: Path,
     prepared: pd.DataFrame,
-    duplicate_keys: int,
+    source_stats: dict[str, Any],
     gap_summary: pd.DataFrame,
+    duplicate_keys: int,
+    source_unchanged: bool,
 ) -> pd.DataFrame:
     """Create machine-readable preparation-quality checks."""
-    source = pd.read_csv(
-        source_path,
-        usecols=["date", "quantity"],
-    )
+    prepared_quantity = float(prepared["quantity"].sum())
+    source_quantity = float(source_stats["quantity"])
 
-    source["date"] = pd.to_datetime(
-        source["date"],
-        errors="coerce",
-    )
-
-    source["quantity"] = pd.to_numeric(
-        source["quantity"],
-        errors="coerce",
-    )
-
-    source_quantity = float(
-        source["quantity"].sum()
-    )
-
-    prepared_quantity = float(
-        prepared["quantity"].sum()
+    prepared_date_min = prepared["date"].min()
+    prepared_date_max = prepared["date"].max()
+    span_days = int(
+        (prepared_date_max - prepared_date_min).days
     )
 
     chronological_by_series = all(
@@ -283,20 +380,52 @@ def calculate_quality_report(
         )
     )
 
-    maximum_gap = (
-        int(gap_summary["maximum_gap_days"].max())
-        if not gap_summary.empty
-        else 0
+    partition_ranges = _partition_date_ranges(prepared)
+
+    partitions_present = set(partition_ranges) == set(
+        SPLIT_ORDER
     )
 
-    total_missing_intermediate_days = (
-        int(
-            gap_summary[
-                "missing_intermediate_days"
-            ].sum()
+    partitions_ordered = bool(
+        partitions_present
+        and partition_ranges["train"][1]
+        < partition_ranges["validation"][0]
+        and partition_ranges["validation"][1]
+        < partition_ranges["test"][0]
+    )
+
+    split_quantity = float(
+        prepared.groupby("split")["quantity"].sum().sum()
+    )
+
+    split_rows = int(
+        prepared.groupby("split")["quantity"].size().sum()
+    )
+
+    quantity_complete = bool(
+        prepared["quantity"].notna().all()
+        and np.isfinite(prepared["quantity"]).all()
+    )
+
+    if gap_summary.empty:
+        maximum_gap = 0
+        maximum_missing_intermediate_days = 0
+    else:
+        maximum_gap = int(
+            gap_summary["maximum_gap_days"].max()
         )
-        if not gap_summary.empty
-        else 0
+        maximum_missing_intermediate_days = int(
+            gap_summary["missing_intermediate_days"].max()
+        )
+
+    source_date_min = source_stats["date_min"]
+    source_date_max = source_stats["date_max"]
+
+    dates_within_source_range = bool(
+        source_date_min is not None
+        and source_date_max is not None
+        and prepared_date_min >= source_date_min
+        and prepared_date_max <= source_date_max
     )
 
     checks = [
@@ -310,6 +439,21 @@ def calculate_quality_report(
             ),
             source_quantity,
             prepared_quantity,
+        ),
+        (
+            "prepared_rows_do_not_exceed_source_rows",
+            len(prepared) <= int(source_stats["rows"]),
+            len(prepared),
+            int(source_stats["rows"]),
+        ),
+        (
+            "within_chunk_duplicate_source_keys",
+            int(
+                source_stats["within_chunk_duplicate_keys"]
+            )
+            == 0,
+            int(source_stats["within_chunk_duplicate_keys"]),
+            0,
         ),
         (
             "duplicate_date_item_store_keys",
@@ -330,16 +474,63 @@ def calculate_quality_report(
             ">0",
         ),
         (
-            "maximum_observed_gap_days",
-            maximum_gap >= 0,
-            maximum_gap,
-            ">=0",
+            "quantity_numeric_and_complete",
+            quantity_complete,
+            quantity_complete,
+            True,
         ),
         (
-            "missing_intermediate_days",
-            total_missing_intermediate_days >= 0,
-            total_missing_intermediate_days,
-            ">=0",
+            "prepared_dates_within_source_range",
+            dates_within_source_range,
+            dates_within_source_range,
+            True,
+        ),
+        (
+            "all_partitions_present",
+            partitions_present,
+            partitions_present,
+            True,
+        ),
+        (
+            "partitions_chronological_without_overlap",
+            partitions_ordered,
+            partitions_ordered,
+            True,
+        ),
+        (
+            "split_quantity_reconciles_with_prepared",
+            np.isclose(
+                split_quantity,
+                prepared_quantity,
+                rtol=1e-10,
+                atol=1e-6,
+            ),
+            split_quantity,
+            prepared_quantity,
+        ),
+        (
+            "split_rows_reconcile_with_prepared",
+            split_rows == len(prepared),
+            split_rows,
+            len(prepared),
+        ),
+        (
+            "maximum_gap_within_observed_span",
+            maximum_gap <= span_days,
+            maximum_gap,
+            span_days,
+        ),
+        (
+            "missing_intermediate_days_within_span",
+            maximum_missing_intermediate_days <= span_days,
+            maximum_missing_intermediate_days,
+            span_days,
+        ),
+        (
+            "source_file_not_modified",
+            source_unchanged,
+            source_unchanged,
+            True,
         ),
     ]
 
@@ -354,8 +545,14 @@ def calculate_quality_report(
     )
 
 
+def _format_quantity(value: float) -> str:
+    """Format a demand quantity without floating-point artefacts."""
+    return f"{value:.3f}"
+
+
 def write_findings(
     prepared: pd.DataFrame,
+    source_stats: dict[str, Any],
     gap_summary: pd.DataFrame,
     split_summary: pd.DataFrame,
     quality_report: pd.DataFrame,
@@ -363,15 +560,76 @@ def write_findings(
     """Write a concise preparation findings report."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
+    if gap_summary.empty:
+        series_count = 0
+        series_with_gaps = 0
+        total_missing_intermediate_days = 0
+        maximum_gap = 0
+    else:
+        series_count = len(gap_summary)
+        series_with_gaps = int(
+            (
+                gap_summary["missing_intermediate_days"] > 0
+            ).sum()
+        )
+        total_missing_intermediate_days = int(
+            gap_summary["missing_intermediate_days"].sum()
+        )
+        maximum_gap = int(
+            gap_summary["maximum_gap_days"].max()
+        )
+
+    prepared_quantity = float(prepared["quantity"].sum())
+    source_quantity = float(source_stats["quantity"])
+
     lines = [
         "Phase 9 — Time-Series Preparation",
         "",
-        f"Prepared rows: {len(prepared)}",
-        f"Unique items: {prepared['item_id'].nunique()}",
-        f"Unique stores: {prepared['store_id'].nunique()}",
-        f"Date minimum: {prepared['date'].min().date()}",
-        f"Date maximum: {prepared['date'].max().date()}",
-        f"Total quantity: {prepared['quantity'].sum()}",
+        f"Prepared rows: {len(prepared):,}",
+        f"Unique items: {prepared['item_id'].nunique():,}",
+        f"Unique stores: {prepared['store_id'].nunique():,}",
+        (
+            "Date range: "
+            f"{prepared['date'].min().date()} to "
+            f"{prepared['date'].max().date()}"
+        ),
+        (
+            "Total quantity: "
+            f"{_format_quantity(prepared_quantity)}"
+        ),
+        "",
+        "Source reconciliation:",
+        f"- source rows: {int(source_stats['rows']):,}",
+        f"- prepared rows: {len(prepared):,}",
+        (
+            "- rows reduced by aggregation: "
+            f"{int(source_stats['rows']) - len(prepared):,}"
+        ),
+        (
+            "- within-chunk duplicate source keys: "
+            f"{int(source_stats['within_chunk_duplicate_keys']):,}"
+        ),
+        (
+            "- source quantity: "
+            f"{_format_quantity(source_quantity)}"
+        ),
+        (
+            "- prepared quantity: "
+            f"{_format_quantity(prepared_quantity)}"
+        ),
+        (
+            "- quantities reconcile: "
+            f"{bool(np.isclose(source_quantity, prepared_quantity, rtol=1e-10, atol=1e-6))}"
+        ),
+        "",
+        "Series and gaps:",
+        f"- item-store series: {series_count:,}",
+        f"- series with gaps: {series_with_gaps:,}",
+        (
+            "- total missing intermediate days: "
+            f"{total_missing_intermediate_days:,}"
+        ),
+        f"- maximum observed gap (days): {maximum_gap:,}",
         "",
         "Chronological split summary:",
     ]
@@ -379,23 +637,10 @@ def write_findings(
     for row in split_summary.itertuples(index=False):
         lines.append(
             f"- {row.split}: "
-            f"rows={row.rows}, "
-            f"quantity={row.quantity}, "
+            f"rows={row.rows:,}, "
+            f"quantity={_format_quantity(float(row.quantity))}, "
             f"date_min={row.date_min.date()}, "
             f"date_max={row.date_max.date()}"
-        )
-
-    if not gap_summary.empty:
-        lines.extend(
-            [
-                "",
-                "Gap summary:",
-                f"- item-store series: {len(gap_summary)}",
-                (f"- series with gaps: "
-                f"{(gap_summary['missing_intermediate_days'] > 0).sum()}"),
-                (f"- total missing intermediate days: "
-                f"{gap_summary['missing_intermediate_days'].sum()}"),
-            ]
         )
 
     lines.extend(
@@ -423,15 +668,11 @@ def main() -> None:
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    prepared = aggregate_daily(INPUT_PATH)
+    source_before = INPUT_PATH.stat()
+
+    prepared, source_stats = aggregate_daily(INPUT_PATH)
 
     duplicate_keys = validate_unique_keys(prepared)
-
-    if duplicate_keys != 0:
-        raise ValueError(
-            f"Duplicate date-item-store keys detected: "
-            f"{duplicate_keys}"
-        )
 
     gap_summary = calculate_gap_summary(prepared)
 
@@ -447,11 +688,19 @@ def main() -> None:
 
     split_summary = calculate_split_summary(prepared)
 
+    source_after = INPUT_PATH.stat()
+
+    source_unchanged = (
+        source_before.st_size == source_after.st_size
+        and source_before.st_mtime_ns == source_after.st_mtime_ns
+    )
+
     quality_report = calculate_quality_report(
-        INPUT_PATH,
         prepared,
-        duplicate_keys,
+        source_stats,
         gap_summary,
+        duplicate_keys,
+        source_unchanged,
     )
 
     if not bool(quality_report["passed"].all()):
@@ -487,11 +736,37 @@ def main() -> None:
     summary = pd.DataFrame(
         [
             ["prepared_rows", len(prepared)],
+            ["source_rows", int(source_stats["rows"])],
             ["unique_items", prepared["item_id"].nunique()],
             ["unique_stores", prepared["store_id"].nunique()],
             ["date_min", prepared["date"].min().date()],
             ["date_max", prepared["date"].max().date()],
-            ["total_quantity", prepared["quantity"].sum()],
+            [
+                "total_quantity",
+                _format_quantity(
+                    float(prepared["quantity"].sum())
+                ),
+            ],
+            ["item_store_series", len(gap_summary)],
+            [
+                "series_with_gaps",
+                int(
+                    (
+                        gap_summary[
+                            "missing_intermediate_days"
+                        ]
+                        > 0
+                    ).sum()
+                ),
+            ],
+            [
+                "missing_intermediate_days",
+                int(
+                    gap_summary[
+                        "missing_intermediate_days"
+                    ].sum()
+                ),
+            ],
             ["train_end", train_end.date()],
             ["validation_end", validation_end.date()],
         ],
@@ -505,6 +780,7 @@ def main() -> None:
 
     write_findings(
         prepared,
+        source_stats,
         gap_summary,
         split_summary,
         quality_report,

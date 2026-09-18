@@ -14,7 +14,7 @@
 | BR-001 | Historical sales | Dataset + processing pipeline | 2–6 | 🟩 |
 | BR-002 | Promotions | Integrated dataset + analysis | 2–8 | 🟩 |
 | BR-003 | Holidays | Integrated dataset + analysis | 2–8 | ⬜ |
-| BR-004 | Forecasting | Forecasting pipeline | 9–13 | ⬜ |
+| BR-004 | Forecasting | Time-series preparation (Phase 9) and forecasting pipeline (11–13) | 9–13 | 🟨 |
 | BR-005 | Baseline | Baseline model | 11 | ⬜ |
 | BR-006 | ARIMA | ARIMA implementation | 11 | ⬜ |
 | BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 11 | ⬜ |
@@ -42,7 +42,7 @@
 
 | Problem Type | Application | Status |
 |---|---|---|
-| Making predictions | Demand forecasting | 🟨 |
+| Making predictions | Phase 9 time-series preparation; forecasting models in Phases 11–12 | 🟨 |
 | Categorizing | Product/demand categories where useful | ⬜ |
 | Spotting something unusual | Phase 7 item-level outlier and concentration analysis | 🟨 |
 | Identifying themes | Phase 7 temporal and product themes | 🟨 |
@@ -63,6 +63,15 @@
 | Data-driven decision making | Forecasting and recommendations | ⬜ |
 | Data storytelling | Final case study | ⬜ |
 | Portfolio case study | Final project | ⬜ |
+
+## Phase 9 Re-Audit Note
+
+The Phase 9 re-audit verified the prepared time-series dataset (7,431,026
+rows, 2022-08-28 to 2024-09-26, train/validation/test boundaries 2024-02-10
+and 2024-06-03). On that evidence BR-004 (Forecasting) moved from ⬜ to 🟨:
+the temporal dataset is prepared and verified, while the forecasting models
+themselves remain Phase 11–13 work. BR-005 through BR-010 and the `Act` stage
+remain ⬜ until their phases are individually audited.
 
 ## Evidence Rule
 

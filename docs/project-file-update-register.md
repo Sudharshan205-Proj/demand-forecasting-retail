@@ -438,9 +438,44 @@ records that carry Phase 8 findings.
 
 ## Phase 9
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit).
 
-Files will be determined at Phase 9 start.
+Files:
+
+- `scripts/prepare_time_series.py`
+- `tests/test_prepare_time_series.py`
+- `docs/phase-9/time-series-preparation-plan.md`
+- `docs/phase-9/time-series-methodology.md`
+- `docs/phase-9/time-series-quality-framework.md`
+- `docs/phase-9/time-series-results.md`
+- `docs/phase-9/course-content-coverage.md`
+- `docs/phase-9/phase-9-checklist.md`
+- `data/processed/time_series_daily.csv` (generated; excluded from Git)
+- `data/analysis/time_series_summary.csv` (generated; excluded from Git)
+- `data/analysis/time_series_gap_summary.csv` (generated; excluded from Git)
+- `data/analysis/time_series_split_summary.csv` (generated; excluded from Git)
+- `data/analysis/time_series_quality_report.csv` (generated; excluded from Git)
+- `data/analysis/time_series_findings.txt` (generated; excluded from Git)
+
+Cross-phase files synchronised:
+
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-2/dataset-inventory.md`
+- `docs/phase-7/eda-results.md`
+- `docs/phase-8/statistical-results.md`
+- `docs/project-file-update-register.md`
+- `README.md` (reviewed; unchanged)
+
+The re-audit re-executed the preparation workflow over the full integrated
+dataset (206.4 seconds, 1,356.9 MB peak), reconciled 7,431,026 rows and
+41,949,529.910 quantity with Phase 6, rebuilt the quality report (15 checks,
+all passing), removed the second full-source read, replaced two vacuous gap
+checks, and fixed three-date split handling and quantity formatting. The
+prepared dataset and analysis outputs are reproducible generated artifacts and
+are not source-controlled. No raw data files are modified. No Git commands
+were run.
 
 ---
 
@@ -504,4 +539,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 5 have been re-audited and approved. Phase 6 is currently being re-audited; its pipeline was re-executed over the full dataset (byte-identical 7,431,026-row output), its artifacts independently validated, the stale `integration_quality_report.json` removed, and its documentation updated from the verified output.
+Phase 0 through Phase 9 have been re-audited and approved. Phase 10 is the next audit target. The Phase 9 re-audit re-executed the time-series preparation workflow over the full integrated dataset, rebuilt its quality report (15 checks, all passing), corrected the second full-source read and the two vacuous gap checks, and synchronised the Phase 0–8 records that carry Phase 9 constraints.

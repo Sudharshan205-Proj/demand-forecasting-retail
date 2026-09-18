@@ -134,6 +134,18 @@ The values below were produced by the Phase 2 inspection script during the Phase
 - Unique products: 15,398
 - Unique stores: 4
 
+## Derived Prepared Datasets
+
+| Dataset | Source | Grain | Rows | Dates | Status |
+|---|---|---|---:|---|---|
+| `data/processed/time_series_daily.csv` | Phase 6 integrated dataset | `date + item_id + store_id` | 7,431,026 | 2022-08-28 to 2024-09-26 | VERIFIED (Phase 9 re-audit) |
+
+The prepared time-series dataset carries `quantity` and the chronological
+`split` label (`train` / `validation` / `test`). It contains observed records
+only: the daily grain covers all 761 calendar dates, but 55,122 of 58,022
+item-store series have intermediate date gaps and are not zero-filled. The
+dataset is a reproducible generated artifact and is excluded from Git.
+
 ## Data Relationships
 
 The expected relationship is:

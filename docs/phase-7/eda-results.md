@@ -271,6 +271,12 @@ label instead of failing to plot; see the re-audit record below.
 - Phase 7 introduces no temporal leakage: the phase is descriptive and
   creates no predictors or forward-looking features.
 
+- **Phase 9 quantified the temporal gap structure.** The prepared
+  time-series dataset keeps 7,431,026 observed date-item-store records across
+  58,022 item-store series, of which 55,122 contain at least one intermediate
+  date gap (12,553,017 missing intermediate days). Calendar-based lag windows
+  therefore need an explicit densification decision before they can be used.
+
 ## Limitations
 
 EDA identifies descriptive patterns. It does not establish causal

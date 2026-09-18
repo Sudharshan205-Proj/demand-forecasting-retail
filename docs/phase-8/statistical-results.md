@@ -295,6 +295,11 @@ Final interpretations must distinguish:
 - **Assortment items differ enormously in magnitude**, so aggregate error
   metrics should be complemented by per-item evaluation in Phase 12.
 
+- **Phase 9 quantified the gap structure.** 55,122 of 58,022 item-store
+  series contain intermediate date gaps (12,553,017 missing intermediate
+  days), so the temporal splits established in Phase 9 are contiguous by date
+  while individual series remain sparse.
+
 ## Limitations
 
 - The dataset is observational; no causal price elasticity can be estimated.

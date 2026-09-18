@@ -6,42 +6,44 @@ Prepare the integrated retail data for chronological demand forecasting.
 
 ## Data preparation
 
-- [ ] Validate required columns.
-- [ ] Aggregate to date-item-store grain.
-- [ ] Validate duplicate forecasting keys.
-- [ ] Validate chronological ordering.
-- [ ] Analyse temporal gaps.
-- [ ] Preserve missing observations as missing rather than blindly converting
-      them to zero demand.
-- [ ] Reconcile total quantity with the integrated source.
+- [x] Validate required columns.
+- [x] Aggregate to date-item-store grain.
+- [x] Validate duplicate forecasting keys (prepared 0; within-chunk source 0;
+      cross-chunk merges exposed by the recorded row reduction).
+- [x] Validate chronological ordering (stable sort; series monotonic).
+- [x] Analyse temporal gaps (58,022 series; 55,122 with gaps; 12,553,017
+      missing intermediate days).
+- [x] Preserve missing observations as missing rather than blindly converting
+      them to zero demand (observed rows only; no filling).
+- [x] Reconcile total quantity with the integrated source (41,949,529.910).
 
 ## Time-series partitioning
 
-- [ ] Establish chronological train period.
-- [ ] Establish chronological validation period.
-- [ ] Establish chronological test period.
-- [ ] Verify no temporal overlap.
-- [ ] Verify future observations are not used in earlier partitions.
+- [x] Establish chronological train period (2022-08-28 to 2024-02-10).
+- [x] Establish chronological validation period (2024-02-11 to 2024-06-03).
+- [x] Establish chronological test period (2024-06-04 to 2024-09-26).
+- [x] Verify no temporal overlap (`partitions_chronological_without_overlap`).
+- [x] Verify future observations are not used in earlier partitions.
 
 ## Engineering
 
-- [ ] Process the large dataset in chunks.
-- [ ] Use project-relative paths.
-- [ ] Preserve source data.
-- [ ] Use deterministic processing.
-- [ ] Add tests.
-- [ ] Validate outputs.
+- [x] Process the large dataset in chunks (250,000 rows; source read once).
+- [x] Use project-relative paths.
+- [x] Preserve source data (`source_file_not_modified`).
+- [x] Use deterministic processing.
+- [x] Add tests (36 tests, all passing).
+- [x] Validate outputs (`time_series_quality_report.csv`, 15 checks).
 
 ## Documentation
 
-- [ ] Time-series preparation plan.
-- [ ] Time-series methodology.
-- [ ] Time-series quality framework.
-- [ ] Time-series results.
-- [ ] Course-content coverage.
-- [ ] README update.
-- [ ] Project-state update.
-- [ ] File-update register update.
+- [x] Time-series preparation plan.
+- [x] Time-series methodology.
+- [x] Time-series quality framework.
+- [x] Time-series results (verified values recorded).
+- [x] Course-content coverage.
+- [x] README update (reviewed; already correct).
+- [x] Project-state update.
+- [x] File-update register update.
 
 ## Git
 
@@ -51,3 +53,8 @@ Prepare the integrated retail data for chronological demand forecasting.
 - [ ] Commit once at phase completion.
 - [ ] Push branch.
 - [ ] Verify clean working tree.
+
+The Git section is not exercised by the Phase 17 audit workflow: this
+repository is audited in place and the audit runs no Git commands, so no
+branch, commit or push is created for the re-audit. The section is left
+unticked deliberately rather than claimed.

@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 9 — Time-Series Preparation
+Phase 10 — Feature Engineering
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is currently auditing completed phases individually. Phase 0 through Phase 5 have been re-audited and approved; Phase 6 has now been re-audited and is reported for the project owner's review.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 9 have been re-audited and approved; Phase 10 is the next audit target.
 
 ## Git
 
@@ -50,7 +50,7 @@ HEAD:
 
 Git status:
 
-The Phase 6 re-audit modifies the Phase 6 documentation, its script and tests, and the tracking docs; `data/processed/integrated_retail_data.csv` and `data/processed/integration_quality_report.csv` are generated artifacts excluded from Git, and the stale `data/processed/integration_quality_report.json` was removed. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 9 re-audit modifies the Phase 9 documentation, its script and tests, and the tracking docs; `data/processed/time_series_daily.csv` and the `data/analysis/time_series_*.csv` outputs are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -181,6 +181,28 @@ The cleaned dataset and quality reports are reproducible generated artifacts and
 
 The integrated dataset and its quality report are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
 
+## Files Modified During Phase 9 Re-Audit
+
+- scripts/prepare_time_series.py
+- tests/test_prepare_time_series.py
+- docs/phase-9/time-series-preparation-plan.md
+- docs/phase-9/time-series-methodology.md
+- docs/phase-9/time-series-quality-framework.md
+- docs/phase-9/time-series-results.md
+- docs/phase-9/course-content-coverage.md
+- docs/phase-9/phase-9-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-2/dataset-inventory.md
+- docs/phase-7/eda-results.md
+- docs/phase-8/statistical-results.md
+- docs/project-file-update-register.md
+
+The prepared time-series dataset and its analysis outputs are reproducible
+generated artifacts and are not source-controlled. No raw data files are
+modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -286,6 +308,18 @@ AUDITED — COMPLETE
 
 The Phase 6 documentation was brought in line with the executed pipeline. The results document was populated with verified input/output figures and validation results, the methodology recorded the same-day price-event tie-break and the measured exactness of the chunked aggregation, the plan, quality framework and course-content coverage received re-audit records, and the checklist was completed.
 
+Phase 9 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 9 time-series preparation documentation was brought in line with the
+executed workflow. The results document was populated with verified values,
+the methodology recorded the single-pass source reconciliation and the gap
+magnitudes, the quality framework was re-pointed at its 15 quality-report
+checks, the plan and course-content coverage received re-audit records, and
+the checklist was completed (the Git items remain unticked because the Phase
+17 audit performs no Git operations).
+
 ## Tests
 
 Phase 0 validation:
@@ -330,6 +364,19 @@ VERIFIED — 22 TESTS PASS
 
 The Phase 6 validation covers key normalisation and required-column handling plus the previously untested integration core: catalog and store dimension deduplication, price-history event aggregation, markdown discount calculation, promotion aggregation, online-channel aggregation, the actual-matrix indicator, end-to-end `build_integration` row preservation and grain uniqueness (including unmatched-catalog retention, online/physical separation and the new validation metrics), the many-to-one row-multiplication guard, and missing-source-file handling (13 original, one vacuous test replaced, 9 tests added).
 
+Phase 9 validation:
+
+VERIFIED — 36 TESTS PASS
+
+The Phase 9 validation covers the complete preparation workflow: end-to-end
+aggregation, within-chunk duplicate detection, chunk-size independence,
+numeric coercion, invalid input rejection, output ordering, temporal gap
+analysis and its span identity, single-observation series, split boundaries
+(including the three-date minimum and the 70/15/15 proportions for 761 dates),
+partition non-overlap, the quality report (one pass case and five
+deliberate-failure cases), quantity formatting, findings content and the full
+`main()` workflow with source preservation (10 to 36 tests).
+
 ## Known Issues
 
 - The repository's original Phase 0 commit did not contain the Phase 0 test source even though a compiled `test_phase0_project_setup` bytecode artifact existed locally.
@@ -338,6 +385,7 @@ The Phase 6 validation covers key normalisation and required-column handling plu
 - BigQuery is not required by the current project implementation.
 - Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
 - Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
+- Flagged for the Phase 10 audit: `scripts/feature_engineering.py` derives `series_age_days` from each series' history-wide first date, a potential leakage point.
 - The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
 
 ## Unresolved Decisions
@@ -419,4 +467,32 @@ AUDITED — COMPLETE
 
 The Phase 8 statistical pipeline was re-executed over the complete integrated dataset (40.8 seconds, peak 736.1 MB) and every generated artifact was inspected. Documentation that had never been updated after execution was rewritten, and three substantive defects were corrected. The promotion comparison now follows the phase plan — presence of a discount record (1,518,622 versus 5,912,404 rows) rather than two subsets of promoted rows — with the rate-sign breakdown retained as a labelled secondary comparison; the corrected result reverses the direction previously reported. The retained 594.5 MB analysis frame (about 1,189 MB peak) was replaced by streaming accumulators, so the documented chunked strategy now holds: the aggregation peaks at 483.4 MB with no reported statistic computed from a sample. Underflowed p-values are reported as `< 1e-300`, identifiers and magnitudes no longer print float artefacts, and the trend is reported with Newey-West (HAC) inference (standard error 4.30 versus OLS 2.07) because OLS inference is invalid for autocorrelated daily demand. Covariance and a 56-metric `statistical_quality_report.csv` close the framework's validation requirements, and a new `statistical_monthly_activity.csv` diagnoses the 2023-12 level shift as a coverage and assortment change: store 4 first appears in `data/raw/sales.csv` on 2023-12-13, with distinct items per month rising from about 12,600 to about 15,400. The streaming rewrite was verified to reproduce the previous implementation exactly (regression slope identical, correlations agreeing to 1.3e-13, category, store, daily and autocorrelation outputs identical, all against the unmodified dataset). The Phase 6 zero-denominator issue flagged by Phase 7 was fixed at source — 21,419 raw discount records have a zero base price, and the 6,782 affected promoted rows now carry a missing rate instead of an infinite one, verified by an independent scan reporting 0 infinite values — and the fix was confirmed analytically neutral apart from the two guard counters. Phase 8 tests increased from 10 to 46, Phase 6 tests from 22 to 24, and the full suite passes (231 tests). `requirements.txt` is now pinned to the verified environment, closing the Phase 7 reproducibility item.
 
-The next Phase 17 audit target is Phase 9.
+The next Phase 17 audit target is Phase 10.
+
+## Phase 9 Re-Audit Status
+
+Phase 9 — Time-Series Preparation has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 9 preparation workflow was re-executed over the complete integrated
+dataset (206.4 seconds, 1,356.9 MB peak) and every generated artifact was
+inspected. The prepared dataset contains 7,431,026 observed date-item-store
+records (28,180 items, 4 stores, 2022-08-28 to 2024-09-26) with total quantity
+41,949,529.910, reconciling exactly with Phase 6, 7 and 8. The chronological
+partitions are train (4,315,416 rows, to 2024-02-10), validation (1,548,957
+rows, to 2024-06-03) and test (1,566,653 rows, to 2024-09-26), which together
+reproduce the prepared frame with no overlap. Two substantive defects were
+corrected: the quality report previously re-read the whole 1.28 GB source a
+second time, contradicting the documented chunked strategy, and two of its
+checks (`>= 0`) could never fail. The report now reconciles the source in the
+single chunked pass and records 15 checks, all passing, covering schema, key,
+date, demand, gap, partition, leakage and source-preservation requirements.
+Exactly three unique dates previously raised an invalid-boundary error despite
+the documented three-date minimum, and quantities printed with floating-point
+artefacts; both are fixed. The re-executed artifacts reproduce the pre-audit
+values exactly, so the fixes changed verification machinery, not data. A
+structural finding is now documented: 55,122 of 58,022 item-store series
+contain intermediate date gaps (12,553,017 missing days), so calendar-based
+lag windows require an explicit densification decision in later phases. Phase
+9 tests increased from 10 to 36 and the full suite passes (257 tests).
