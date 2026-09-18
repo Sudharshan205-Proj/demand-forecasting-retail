@@ -139,6 +139,7 @@ The values below were produced by the Phase 2 inspection script during the Phase
 | Dataset | Source | Grain | Rows | Dates | Status |
 |---|---|---|---:|---|---|
 | `data/processed/time_series_daily.csv` | Phase 6 integrated dataset | `date + item_id + store_id` | 7,431,026 | 2022-08-28 to 2024-09-26 | VERIFIED (Phase 9 re-audit) |
+| `data/processed/feature_engineered_daily.csv` | Phase 9 time-series dataset | `date + item_id + store_id` | 7,431,026 | 2022-08-28 to 2024-09-26 | VERIFIED (Phase 10 re-audit) |
 
 The prepared time-series dataset carries `quantity` and the chronological
 `split` label (`train` / `validation` / `test`). It contains observed records

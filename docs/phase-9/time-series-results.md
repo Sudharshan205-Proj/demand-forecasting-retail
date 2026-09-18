@@ -105,6 +105,11 @@ The prepared dataset distinguishes:
 
 No forecasting performance is reported in Phase 9.
 
+Phase 10 preserves this grain and these chronological partitions unchanged:
+7,431,026 rows and split rows and quantities identical to the prepared
+dataset. Because the series are sparse, Phase 10 defines its lag and rolling
+features over previous observed records rather than calendar days.
+
 ## Limitations
 
 - The item-store series are sparse, so calendar-based lag windows are not

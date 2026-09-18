@@ -481,9 +481,44 @@ were run.
 
 ## Phase 10
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit).
 
-Files will be determined at Phase 10 start.
+Files:
+
+- `scripts/feature_engineering.py`
+- `tests/test_feature_engineering.py`
+- `docs/phase-10/feature-engineering-plan.md`
+- `docs/phase-10/feature-engineering-methodology.md`
+- `docs/phase-10/feature-engineering-quality-framework.md`
+- `docs/phase-10/feature-engineering-results.md`
+- `docs/phase-10/course-content-coverage.md`
+- `docs/phase-10/phase-10-checklist.md`
+- `data/processed/feature_engineered_daily.csv` (generated; excluded from Git)
+- `data/analysis/feature_engineering_summary.csv` (generated; excluded from Git)
+- `data/analysis/feature_engineering_quality_report.csv` (generated; excluded from Git)
+- `data/analysis/feature_engineering_feature_summary.csv` (generated; excluded from Git)
+- `data/analysis/feature_engineering_split_summary.csv` (generated; excluded from Git)
+- `data/analysis/feature_engineering_findings.txt` (generated; excluded from Git)
+
+Cross-phase files synchronised:
+
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-2/dataset-inventory.md`
+- `docs/phase-9/time-series-results.md`
+- `docs/project-file-update-register.md`
+- `README.md` (reviewed; unchanged)
+
+The re-audit re-executed the feature-engineering workflow over the full Phase 9
+dataset (423.1 seconds, 2,887.2 MB peak), reconciled 7,431,026 rows and
+41,949,529.910 quantity with Phase 9, rebuilt the quality report (14 checks,
+all passing), added a per-feature completeness artifact, replaced two constant
+quality checks and the Python-level rolling transform with a value-identical
+compiled path, and documented that the engineered features are not currently
+consumed as predictors by Phases 11–13. The feature-engineered dataset and its
+analysis outputs are reproducible generated artifacts and are not
+source-controlled. No raw data files are modified. No Git commands were run.
 
 ---
 
@@ -539,4 +574,4 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 9 have been re-audited and approved. Phase 10 is the next audit target. The Phase 9 re-audit re-executed the time-series preparation workflow over the full integrated dataset, rebuilt its quality report (15 checks, all passing), corrected the second full-source read and the two vacuous gap checks, and synchronised the Phase 0–8 records that carry Phase 9 constraints.
+Phase 0 through Phase 10 have been re-audited and approved. Phase 11 is the next audit target. The Phase 10 re-audit re-executed the feature-engineering workflow over the full Phase 9 dataset, rebuilt its quality report (14 checks, all passing), added source reconciliation, leakage verification and a per-feature completeness artifact, and synchronised the Phase 0–9 records that carry Phase 10 constraints.

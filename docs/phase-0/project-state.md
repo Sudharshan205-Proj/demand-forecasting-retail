@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 10 — Feature Engineering
+Phase 11 — Forecasting Models
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 9 have been re-audited and approved; Phase 10 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 10 have been re-audited and approved; Phase 11 is the next audit target.
 
 ## Git
 
@@ -50,7 +50,7 @@ HEAD:
 
 Git status:
 
-The Phase 9 re-audit modifies the Phase 9 documentation, its script and tests, and the tracking docs; `data/processed/time_series_daily.csv` and the `data/analysis/time_series_*.csv` outputs are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 10 re-audit modifies the Phase 10 documentation, its script and tests, and the tracking docs; `data/processed/feature_engineered_daily.csv` and the `data/analysis/feature_engineering_*.csv` outputs are generated artifacts excluded from Git. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -203,6 +203,27 @@ The prepared time-series dataset and its analysis outputs are reproducible
 generated artifacts and are not source-controlled. No raw data files are
 modified.
 
+## Files Modified During Phase 10 Re-Audit
+
+- scripts/feature_engineering.py
+- tests/test_feature_engineering.py
+- docs/phase-10/feature-engineering-plan.md
+- docs/phase-10/feature-engineering-methodology.md
+- docs/phase-10/feature-engineering-quality-framework.md
+- docs/phase-10/feature-engineering-results.md
+- docs/phase-10/course-content-coverage.md
+- docs/phase-10/phase-10-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-2/dataset-inventory.md
+- docs/phase-9/time-series-results.md
+- docs/project-file-update-register.md
+
+The feature-engineered dataset and its analysis outputs are reproducible
+generated artifacts and are not source-controlled. No raw data files are
+modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -320,6 +341,18 @@ checks, the plan and course-content coverage received re-audit records, and
 the checklist was completed (the Git items remain unticked because the Phase
 17 audit performs no Git operations).
 
+Phase 10 documentation:
+
+AUDITED — COMPLETE
+
+The Phase 10 feature-engineering documentation was brought in line with the
+executed workflow. The results document was populated with verified values and
+the feature-completeness table, the methodology recorded the full-memory
+processing and the compiled grouped-rolling path, the quality framework was
+re-pointed at its 14 quality-report checks, the plan and course-content
+coverage received re-audit records, and the checklist was completed (the Git
+items remain unticked because the Phase 17 audit performs no Git operations).
+
 ## Tests
 
 Phase 0 validation:
@@ -377,6 +410,17 @@ partition non-overlap, the quality report (one pass case and five
 deliberate-failure cases), quantity formatting, findings content and the full
 `main()` workflow with source preservation (10 to 36 tests).
 
+Phase 10 validation:
+
+VERIFIED — 31 TESTS PASS
+
+The Phase 10 validation covers the complete feature-engineering workflow:
+end-to-end preparation, invalid date and column rejection, rolling mean and
+standard deviation values, multi-series independence, target and split
+preservation, the quality report (one pass case and five deliberate-failure
+cases), presence-check counts, the feature summary, split summary, findings
+content and the full `main()` workflow (10 to 31 tests).
+
 ## Known Issues
 
 - The repository's original Phase 0 commit did not contain the Phase 0 test source even though a compiled `test_phase0_project_setup` bytecode artifact existed locally.
@@ -385,7 +429,8 @@ deliberate-failure cases), quantity formatting, findings content and the full
 - BigQuery is not required by the current project implementation.
 - Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
 - Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
-- Flagged for the Phase 10 audit: `scripts/feature_engineering.py` derives `series_age_days` from each series' history-wide first date, a potential leakage point.
+- The Phase 10 re-audit verified that `series_age_days` is not a leakage point: it is `date - series(min date)`, and a series' first observed date is always at or before its later rows, so no future information enters the feature. The earlier flag is resolved.
+- Flagged for the Phase 11–13 audits: the engineered lag, rolling and calendar features are not used as predictors by `scripts/forecasting_models.py`, `scripts/evaluate_and_tune_models.py` or `scripts/forecasting_inventory_insights.py`, which select only `date`, `store_id`, `quantity` and `split` from the feature matrix.
 - The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
 
 ## Unresolved Decisions
@@ -467,8 +512,6 @@ AUDITED — COMPLETE
 
 The Phase 8 statistical pipeline was re-executed over the complete integrated dataset (40.8 seconds, peak 736.1 MB) and every generated artifact was inspected. Documentation that had never been updated after execution was rewritten, and three substantive defects were corrected. The promotion comparison now follows the phase plan — presence of a discount record (1,518,622 versus 5,912,404 rows) rather than two subsets of promoted rows — with the rate-sign breakdown retained as a labelled secondary comparison; the corrected result reverses the direction previously reported. The retained 594.5 MB analysis frame (about 1,189 MB peak) was replaced by streaming accumulators, so the documented chunked strategy now holds: the aggregation peaks at 483.4 MB with no reported statistic computed from a sample. Underflowed p-values are reported as `< 1e-300`, identifiers and magnitudes no longer print float artefacts, and the trend is reported with Newey-West (HAC) inference (standard error 4.30 versus OLS 2.07) because OLS inference is invalid for autocorrelated daily demand. Covariance and a 56-metric `statistical_quality_report.csv` close the framework's validation requirements, and a new `statistical_monthly_activity.csv` diagnoses the 2023-12 level shift as a coverage and assortment change: store 4 first appears in `data/raw/sales.csv` on 2023-12-13, with distinct items per month rising from about 12,600 to about 15,400. The streaming rewrite was verified to reproduce the previous implementation exactly (regression slope identical, correlations agreeing to 1.3e-13, category, store, daily and autocorrelation outputs identical, all against the unmodified dataset). The Phase 6 zero-denominator issue flagged by Phase 7 was fixed at source — 21,419 raw discount records have a zero base price, and the 6,782 affected promoted rows now carry a missing rate instead of an infinite one, verified by an independent scan reporting 0 infinite values — and the fix was confirmed analytically neutral apart from the two guard counters. Phase 8 tests increased from 10 to 46, Phase 6 tests from 22 to 24, and the full suite passes (231 tests). `requirements.txt` is now pinned to the verified environment, closing the Phase 7 reproducibility item.
 
-The next Phase 17 audit target is Phase 10.
-
 ## Phase 9 Re-Audit Status
 
 Phase 9 — Time-Series Preparation has been re-audited as part of Phase 17.
@@ -496,3 +539,35 @@ structural finding is now documented: 55,122 of 58,022 item-store series
 contain intermediate date gaps (12,553,017 missing days), so calendar-based
 lag windows require an explicit densification decision in later phases. Phase
 9 tests increased from 10 to 36 and the full suite passes (257 tests).
+
+## Phase 10 Re-Audit Status
+
+Phase 10 — Feature Engineering has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 10 workflow was re-executed over the complete Phase 9 dataset
+(423.1 seconds, 2,887.2 MB peak) and every generated artifact was inspected.
+The engineered matrix contains 7,431,026 rows and 16 features, and reconciles
+with Phase 9 on rows, keys, target values, split labels and total quantity
+(41,949,529.910); the split rows (4,315,416 / 1,548,957 / 1,566,653) and
+quantities match Phase 9 exactly. The output dataset is byte-size-identical to
+the pre-audit artifact (887,995,450 bytes). Four gaps were corrected: two
+quality checks reported a hardcoded `actual=True`; the framework's target
+preservation, leakage and quantity reconciliation requirements had no artifact;
+the lag and rolling missing-value structure was undocumented; and the
+Python-level rolling transform made the full run exceed the audit time budget.
+The report now performs source reconciliation in addition to ten structural
+checks and records 14 checks, all passing; a new
+`feature_engineering_feature_summary.csv` records the completeness of all 16
+features (for example, `lag_1` is missing exactly once per item-store series,
+58,022 rows); and the rolling features use pandas' compiled grouped-rolling
+path, which is value-identical and roughly an order of magnitude faster. The
+re-audit also corrected an earlier note: `series_age_days` is not a leakage
+point, because a series' first observed date is always at or before its later
+rows. A cross-phase finding is recorded for the Phase 11–13 audits: those
+scripts load the feature matrix but select only `date`, `store_id`, `quantity`
+and `split`, so the engineered features are not currently used as predictors.
+Phase 10 tests increased from 10 to 31 and the full suite passes (278 tests).
+
+The next Phase 17 audit target is Phase 11.

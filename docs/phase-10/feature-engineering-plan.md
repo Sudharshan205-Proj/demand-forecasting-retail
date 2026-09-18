@@ -6,6 +6,10 @@ Phase 10 converts the prepared Phase 9 retail time series into a feature matrix 
 
 No forecasting model is trained during this phase.
 
+## Status
+
+COMPLETE — implemented, executed and verified during the Phase 17 re-audit.
+
 ## Input
 
 `data/processed/time_series_daily.csv`
@@ -79,3 +83,19 @@ This limitation is explicitly documented for later modeling decisions.
 ## Reproducibility
 
 The transformation is deterministic and uses the same Phase 9 input dataset and split labels.
+
+## Phase 17 re-audit record
+
+The plan was reviewed against the implementation and the re-executed artifacts.
+Requirements were confirmed as implemented. The re-audit added three
+deliverables that the plan implied but had no artifact to evidence:
+
+1. source reconciliation against the Phase 9 input (rows, keys, target, split,
+   quantity total);
+2. explicit leakage verification (`lag_1` equals the previous observed
+   quantity, the first observation of each series has no history, and the
+   rolling mean excludes the current observation);
+3. a per-feature completeness artifact
+   (`feature_engineering_feature_summary.csv`).
+
+The record-based lag/rolling semantics and the Phase 9 split are unchanged.

@@ -73,6 +73,17 @@ the temporal dataset is prepared and verified, while the forecasting models
 themselves remain Phase 11–13 work. BR-005 through BR-010 and the `Act` stage
 remain ⬜ until their phases are individually audited.
 
+## Phase 10 Re-Audit Note
+
+The Phase 10 re-audit verified the feature-engineering workflow against the
+complete Phase 9 dataset: 7,431,026 rows and 16 features, reconciled with
+Phase 9 on rows, keys, target values, split labels and total quantity, with
+leakage-safe historical features verified. BR-004 (Forecasting) remains 🟨:
+the feature matrix is prepared and verified, while the forecasting models
+remain Phase 11–13 work. A cross-phase finding is recorded — the engineered
+features are not currently used as predictors by the Phase 11–13 model scripts
+— for those audits to address.
+
 ## Evidence Rule
 
 A requirement will only be marked VERIFIED when actual implementation or documented evidence exists.

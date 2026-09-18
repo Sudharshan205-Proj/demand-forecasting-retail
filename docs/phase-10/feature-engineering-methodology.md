@@ -6,7 +6,15 @@ Feature engineering transforms historical retail observations into predictors th
 
 The transformation must preserve the forecasting problem and prevent information from the future entering historical observations.
 
-## 2. Calendar Features
+## 2. Processing Strategy
+
+The Phase 9 dataset (7,431,026 rows) is read in full and transformed in memory. Unlike Phase 9 and later model phases, feature engineering requires whole-series group-wise operations (lags, rolling windows and series age span each item-store series end to end), so the dataset is processed as a single frame rather than in chunks.
+
+Verified execution: 423.1 seconds, 2,887.2 MB peak resident memory.
+
+The historical demand and rolling features are computed with pandas' compiled grouped-rolling implementation (`groupby(...).rolling(...)`) rather than a Python-level `transform` lambda. The two produce identical values, but the compiled path is roughly an order of magnitude faster on the full dataset; it reduced the measured rolling cost from a projected several minutes to a few seconds.
+
+## 3. Calendar Features
 
 Calendar variables are derived directly from the observation date.
 
@@ -22,7 +30,7 @@ They represent recurring temporal structure:
 
 These features do not depend on the demand target.
 
-## 3. Demand Lags
+## 4. Demand Lags
 
 Historical demand is represented using prior observations within each item-store series.
 
@@ -35,7 +43,7 @@ The implemented lag variables are:
 
 The current observation is never used to create its own lag.
 
-## 4. Rolling Statistics
+## 5. Rolling Statistics
 
 Rolling demand statistics summarize recent historical behavior.
 
@@ -50,13 +58,15 @@ The demand series is shifted by one observation before calculating these statist
 
 Consequently, the current day's quantity is excluded.
 
-## 5. Series Age
+## 6. Series Age
 
 `series_age_days` measures the number of days elapsed since the first observed date of the item-store series.
 
 This allows later models to distinguish newly observed series from established series.
 
-## 6. Price and Promotion Information
+Because a series' first observed date is always at or before any of its later observations, the feature uses only information available at or before each row. It is not forward-looking.
+
+## 7. Price and Promotion Information
 
 Price and promotion fields are available in the integrated dataset.
 
@@ -66,13 +76,13 @@ A value representing an event that becomes known only after the forecast origin 
 
 Therefore, Phase 10 prioritizes leakage-safe temporal demand and calendar features. Price and promotion variables remain subject to temporal validation in later modeling work.
 
-## 7. Time-Series Gaps
+## 8. Time-Series Gaps
 
 Phase 9 identified substantial missing intermediate dates.
 
 This affects interpretation of demand lags.
 
-For the initial implementation:
+For the implementation:
 
 `lag_7` means the seventh previous observed demand record, not necessarily the observation exactly seven calendar days earlier.
 
@@ -80,7 +90,7 @@ The same interpretation applies to the other observation-based lag and rolling w
 
 This is a deliberate and documented limitation rather than an assumption hidden in the implementation.
 
-## 8. Chronological Splitting
+## 9. Chronological Splitting
 
 The Phase 9 partitions are preserved:
 
@@ -90,7 +100,11 @@ The Phase 9 partitions are preserved:
 
 No random splitting is performed.
 
-## 9. Leakage Prevention
+Verified: the output split row counts (4,315,416 / 1,548,957 / 1,566,653) and
+quantities (24,038,416.097 / 8,811,477.346 / 9,099,636.467) match Phase 9
+exactly.
+
+## 10. Leakage Prevention
 
 The following rules apply:
 
@@ -100,6 +114,31 @@ The following rules apply:
 4. Random shuffling is prohibited for temporal modeling.
 5. Split labels are preserved from Phase 9.
 
-## 10. Scope Boundary
+The first, second and fifth rules are asserted by the quality report
+(`lag_1_matches_previous_observation`, `first_observation_has_no_history`,
+`rolling_excludes_current_target`, `split_preserved_vs_input`).
+
+## 11. Reconciliation and Completeness
+
+The engineered frame is reconciled against the Phase 9 source: rows, keys,
+target values, split labels and the quantity total are compared.
+
+A per-feature completeness artifact
+(`feature_engineering_feature_summary.csv`) records the non-null and missing
+count and missing share of all 16 features, exposing the missing-value
+structure at each series start.
+
+## 12. Scope Boundary
 
 Feature engineering ends before model training, hyperparameter tuning, model comparison, and final evaluation.
+
+## Phase 17 re-audit record
+
+| Change | Reason |
+|---|---|
+| Source reconciliation added | The framework required a before/after quantity comparison and split preservation, but no artifact evidenced either |
+| Leakage checks added | The framework required lag-from-prior, rolling-excludes-current and future-exclusion verification; none was recorded |
+| Per-feature completeness artifact added | The lag and rolling missing-value structure at series starts was undocumented |
+| Compiled grouped-rolling used | The Python `transform` lambda made the full run exceed the audit time budget; the compiled path is value-identical |
+| Presence checks report real counts | Two checks previously reported a hardcoded `actual=True` |
+| Full-frame copies reduced | `prepare_features` previously copied the frame several times and re-sorted twice |
