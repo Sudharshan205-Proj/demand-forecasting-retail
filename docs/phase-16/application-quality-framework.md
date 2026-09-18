@@ -10,7 +10,7 @@ The application must:
 - Display demand metrics.
 - Display inventory scenarios.
 - Display model evaluation results.
-- Explain Store 4's descriptive-only status.
+- Explain the evidence behind each store's selected model, including the weaker single-fold basis of Store 4's configuration.
 - Explain scenario assumptions.
 
 ## Data Quality

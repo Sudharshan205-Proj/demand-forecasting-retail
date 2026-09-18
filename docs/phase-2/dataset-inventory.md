@@ -168,6 +168,25 @@ phases operate at the store-day grain. The recomputed matrix feeds the
 `feature_gbm` candidate, whose per-fold and validation forecasts are stored
 in `data/analysis/model_evaluation_predictions.csv`.
 
+### Phase 13 demand basis
+
+Phase 13 reads the same four columns over the training partition and reduces
+them to 1,655 observed store-days, then densifies each store onto a complete
+daily calendar with the identical construction Phases 11–12 use, giving
+1,656 store-days (532 / 532 / 532 / 60). Exactly one day is zero-filled —
+store 3, 2022-10-16 — matching Phase 11's measured densification, and total
+training quantity is unchanged at 24,038,416.097 because the added day
+contributes zero.
+
+The observed-versus-densified distinction is recorded rather than smoothed
+over, because it moves store 3's descriptive statistics: 531 to 532 days,
+mean 5,843.874970 to 5,832.890242, minimum 173.898 to 0.000, standard
+deviation 1,599.419835 to 1,617.875022 and coefficient of variation
+0.273692 to 0.277371. Stores 1, 2 and 4 are unaffected. The per-store
+measurement is written to
+`data/analysis/inventory_densification_summary.csv` so the basis is
+checkable from an artifact rather than only from this document.
+
 ## Data Relationships
 
 The expected relationship is:

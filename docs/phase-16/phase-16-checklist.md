@@ -16,7 +16,7 @@
 - [ ] Inventory scenario controls implemented
 - [ ] Forecast evaluation displayed
 - [ ] Model configuration displayed
-- [ ] Store 4 limitation displayed
+- [ ] Store 4's single-fold model evidence displayed as a caveat
 - [ ] Scenario assumptions displayed
 
 ## Testing

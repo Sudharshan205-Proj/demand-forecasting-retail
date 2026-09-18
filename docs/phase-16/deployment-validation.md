@@ -13,7 +13,7 @@ NOT YET VERIFIED
 - [ ] Inventory scenarios render.
 - [ ] Forecast results render.
 - [ ] Model configurations render.
-- [ ] Store 4 limitation is visible.
+- [ ] Store 4's single-fold model evidence is visible as a caveat.
 - [ ] Scenario assumptions are visible.
 - [ ] No secrets are exposed.
 - [ ] Application remains usable after changing filters.

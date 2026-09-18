@@ -515,6 +515,39 @@ The cross-phase finding carried from the Phase 10 and Phase 11 audits is
 resolved: the engineered lag, rolling and calendar features now reach a
 model through the `feature_gbm` candidate.
 
+## Phase 13 Re-Audit Status
+
+The Phase 13 audit (Forecasting & Inventory Insights) verified the insights
+workflow against the complete Phase 10 dataset and inspected every generated
+artifact. The evidence adds the inventory-planning and business-interpretation
+dimension:
+
+- 1,656 densified training store-days (1,655 observed, one zero-filled),
+  measured and reconciled against Phase 11's densification and the source
+  matrix's rows and quantity;
+- demand level and variability statistics computed on the same store-day
+  series Phases 11–12 fitted, with the basis change confined to Store 3;
+- forecast error recomputed from the stored Phase 12 validation forecasts
+  and reconciled with Phase 12's recorded RMSE, MAPE and segment analysis;
+- the systematic under-forecast confirmed and quantified at every store
+  (mean 1,409.941 units per day);
+- two inventory scenario families — historical-variability and
+  forecast-error — each covering 36 scenarios;
+- 43 quality checks that gate the run, and a findings report derived from
+  the loaded evidence rather than hardcoded.
+
+- The `Analyze` stage remains 🟨 for one reason fewer: inventory insights are
+  now verified, while the R analysis belongs to Phase 14 and the Tableau,
+  storytelling and application stages to Phases 15–16.
+- The Course 8 "Inventory" and business-interpretation rows now rest on
+  verified evidence rather than a planned implementation.
+- "Prophet/LSTM" remains ⬜: neither was implemented, and the deferral is
+  documented rather than claimed.
+
+The cross-phase finding about the engineered features is closed for both
+Phase 12 and Phase 13's forecast evidence. `forecasting_models.py` (Phase
+11) still consumes the demand target only, which its own scope documents.
+
 ## Final Audit Rule
 
 Every item must eventually answer:

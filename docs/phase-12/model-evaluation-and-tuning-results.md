@@ -298,10 +298,14 @@ and the cross-phase records listed under "Files reviewed" were synchronised.
 ### Remaining issues
 
 - None open for Phase 12.
-- Downstream: Phase 13's documentation asserts that store 4 has no tuned
-  model and that seasonal-naive was selected for stores 1–3. Both claims
-  are now false; the affected statements were corrected and Phase 13's
-  generated artifacts must be re-executed during its own audit.
+- RESOLVED by the Phase 13 re-audit: Phase 13's documentation and generated
+  artifacts asserted that store 4 had no tuned model and that seasonal-naive
+  was selected for stores 1–3. Both claims were corrected, and the phase's
+  artifacts were re-executed against this phase's evidence. Phase 13 now
+  recomputes every forecast-error statistic from this phase's stored
+  predictions and reconciles RMSE, MAPE and the segment error analysis
+  exactly, and it confirms and quantifies the systematic under-forecast this
+  phase recorded (694.31 / 224.65 / 849.77 / 3,871.04 units per day).
 - The systematic under-forecast identified in the error analysis is a
   modelling limitation that Phase 13's inventory scenarios should treat as
   a known bias.

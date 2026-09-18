@@ -88,6 +88,15 @@ The tendency of forecasts to systematically overestimate or underestimate actual
 
 Used as a diagnostic rather than as the sole model-selection metric.
 
+Phase 11 reports the bias by comparing model errors, and Phase 12 confirmed a
+systematic under-forecast on the validation period. Phase 13 quantifies it per
+store as `mean(actual − predicted)` over the 114 validation days and applies it
+as an explicit level correction in its forecast-driven inventory scenarios,
+where a positive value means the model under-forecasts. The measured correction
+is large enough to matter: 694.31 to 3,871.04 units per day, a mean of
+1,409.941. The correction is carried as a named column so it is visible rather
+than folded silently into a quantity.
+
 ---
 
 ## 6. Demand Volatility
@@ -133,6 +142,28 @@ The project may construct indicators such as:
 - Forecast uncertainty/error indicator
 
 These are decision-support indicators, not direct inventory optimization outputs.
+
+### Implemented in Phase 13
+
+Phase 13 realises this KPI as two scenario families rather than a single
+number, because the uncertainty input is an assumption the reader should be
+able to see and change.
+
+- **Safety stock** — `z × uncertainty × sqrt(lead time)`, where the
+  uncertainty input is the training-period daily demand standard deviation in
+  the historical-variability family and the selected model's realised
+  validation error in the forecast-error family.
+- **Reorder point** — expected lead-time demand plus safety stock, with the
+  identity verified numerically for every scenario.
+- **Coefficient of variation** — standard deviation divided by mean demand,
+  which is the basis on which stores are compared, since absolute spread and
+  demand level are not comparable across stores of different size.
+
+The phases deliberately do not report a single recommended inventory quantity.
+The dataset has no verified lead times, service-level targets or costs, so any
+such number would present an assumption as a finding. Every quantity is a
+labelled planning scenario across 7/14/28-day lead times and 90/95/99% service
+levels.
 
 ## KPI Selection Principle
 

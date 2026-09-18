@@ -45,7 +45,7 @@ The application explicitly distinguishes:
 
 - Validated forecasting results
 - Scenario-based inventory estimates
-- Descriptive-only Store 4 analysis
+- Store 4's single-fold selection evidence, presented as a caveat rather than as a descriptive-only result
 
 This prevents analytical outputs from being presented as unsupported
 operational requirements.

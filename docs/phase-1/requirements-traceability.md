@@ -20,7 +20,7 @@
 | BR-007 | Prophet/LSTM assessment | Model decision and implementation if justified | 11 | 🟩 |
 | BR-008 | RMSE/MAPE | Evaluation report | 12 | 🟩 |
 | BR-009 | Model comparison | Model comparison | 12 | 🟩 |
-| BR-010 | Inventory insights | Business analysis | 13 | ⬜ |
+| BR-010 | Inventory insights | Business analysis | 13 | 🟩 |
 | BR-011 | Visualization | Python/R/Tableau | 7–15 | ⬜ |
 | BR-012 | Tableau | Tableau dashboard | 15 | ⬜ |
 | BR-013 | Application | Deployed application | 16 | ⬜ |
@@ -36,7 +36,7 @@
 | Process | Cleaning and integration | 5–6 | 🟩 |
 | Analyze | Analysis and forecasting | 7–14 | 🟨 |
 | Share | Tableau/storytelling/presentation | 15 | ⬜ |
-| Act | Forecast-based recommendations | 13–16 | ⬜ |
+| Act | Forecast-based recommendations | 13–16 | 🟨 |
 
 ## Course Analytical Problem Types
 
@@ -127,6 +127,34 @@ BR-011 through BR-016 remain ⬜ until their phases are individually audited.
 
 The cross-phase finding carried from the Phase 10 and Phase 11 notes is
 resolved: the engineered features now reach a model.
+
+## Phase 13 Re-Audit Note
+
+The Phase 13 re-audit verified the inventory-insights workflow against the
+complete Phase 10 dataset: 1,656 densified training store-days (1,655
+observed, one zero-filled) reconciled against the source matrix on rows and
+quantity, demand level and variability statistics computed on the same
+series Phases 11–12 fitted, forecast error recomputed from the 456 stored
+Phase 12 validation forecasts and reconciled with Phase 12's recorded RMSE,
+MAPE and segment analysis, two scenario families covering 36 scenarios
+each, a 43-check quality report that all passed, and a findings report
+derived from the loaded evidence.
+
+On that evidence BR-010 (Inventory insights) moves from ⬜ to 🟩, and the
+`Act` stage moves from ⬜ to 🟨: the phase produces scenario-based
+recommendations with stated assumptions, while the application and
+presentation stages that would deliver them belong to Phases 15–16.
+
+BR-004 (Forecasting) remains 🟨. The forecasting pipeline itself is now
+verified end to end through Phase 13, but the requirement's final element —
+an evaluation on the reserved test period — still has no owning phase, and
+BR-011 through BR-016 remain ⬜ until their own phases are audited.
+
+A substantive finding was corrected rather than merely recorded: the
+insights artifacts asserted that Store 4 had no tuned Phase 12 model, and
+because that sentence was hardcoded it survived re-execution while the
+phase's own data contradicted it. Findings are now derived from the
+evidence, and the quality report blocks the stale claim from returning.
 
 ## Evidence Rule
 

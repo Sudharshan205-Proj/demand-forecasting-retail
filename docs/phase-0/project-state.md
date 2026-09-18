@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 12 have been re-audited and approved; Phase 13 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 13 have been re-audited and approved; Phase 14 is the next audit target.
 
 ## Git
 
@@ -46,11 +46,11 @@ phase-17-testing-documentation-final-audit
 
 HEAD (audit-time):
 
-88d6b8f — Phase 10 Audit (the Phase 11 and Phase 12 audit work is uncommitted in the working tree). The Phase 12 re-audit performs no Git operations and does not create a commit.
+bef780b — Phase 11 Audit (the Phase 12 and Phase 13 audit work is uncommitted in the working tree). The Phase 13 re-audit performs no Git operations and does not create a commit.
 
 Git status:
 
-The Phase 12 re-audit modifies the Phase 12 documentation, its script and tests, the Phase 13 records affected by its corrected evidence, and the tracking docs; the `data/analysis/model_*.csv`, `selected_model_configurations.csv`, `tuned_validation_results.csv`, `model_evaluation_*.csv` and `model_evaluation_findings.txt` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 13 re-audit modifies the Phase 13 documentation, its script and tests, the Phase 16 records whose Store 4 claims its corrected evidence falsified, and the tracking docs; the `data/analysis/inventory_*.csv`, `forecast_inventory_insights.csv`, `forecasting_inventory_findings.txt` and `forecasting_inventory_quality_report.csv` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -277,6 +277,35 @@ itself remains unaudited and its generated artifacts must be re-executed
 during its own audit. The
 evaluation outputs are reproducible generated artifacts and are not
 source-controlled. No raw data files are modified.
+
+## Files Modified During Phase 13 Re-Audit
+
+- scripts/forecasting_inventory_insights.py
+- tests/test_forecasting_inventory_insights.py
+- docs/phase-13/forecasting-and-inventory-insights-plan.md
+- docs/phase-13/forecasting-and-inventory-insights-methodology.md
+- docs/phase-13/forecasting-and-inventory-insights-quality-framework.md
+- docs/phase-13/forecasting-and-inventory-insights-results.md
+- docs/phase-13/course-content-coverage.md
+- docs/phase-13/phase-13-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-1/kpi-definitions.md
+- docs/phase-2/dataset-inventory.md
+- docs/phase-12/model-evaluation-and-tuning-results.md
+- docs/phase-16/application-quality-framework.md
+- docs/phase-16/application-results.md
+- docs/phase-16/course-content-coverage.md
+- docs/phase-16/deployment-validation.md
+- docs/phase-16/phase-16-checklist.md
+- docs/project-file-update-register.md
+
+The Phase 16 documents were corrected only where Phase 12's corrected
+evidence made their Store 4 statements false; Phase 16 itself remains
+unaudited and its generated artifacts must be re-executed during its own
+audit. The insights outputs are reproducible generated artifacts and are
+not source-controlled. No raw data files are modified.
 
 ## Important Decisions
 
@@ -758,3 +787,57 @@ asserted that store 4 had no tuned model and that seasonal-naive had been
 selected for stores 1–3; those statements became false and were corrected,
 and Phase 13's generated artifacts remain to be re-executed during its own
 audit. The next Phase 17 audit target is Phase 13.
+
+## Phase 13 Re-Audit Status
+
+Phase 13 — Forecasting & Inventory Insights has been re-audited as part of
+Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 13 insights workflow was re-executed over the complete Phase 10
+dataset (16.7 seconds, 149.6 MB peak) and every generated artifact was
+inspected. The pre-audit artifacts were dated 8 Sep while the Phase 12
+evidence they consume was rewritten on 19 Sep, so the phase had never run
+against its own inputs.
+
+Four substantive defects were corrected. The generated findings report
+asserted that Store 4 had no tuned Phase 12 configuration; the sentence was
+hardcoded, so re-executing the unchanged script reproduced the file
+byte-for-byte **with the false claim intact** — direct evidence that this
+was a correctness defect rather than staleness. The phase loaded the Phase
+12 forecasts and used none of them, so its stated purpose was unmet; a
+forecast-error scenario family now consumes them, and because the
+bias-adjusted level equals the validation mean by construction, an
+identity check forces the artifacts and documentation to describe it as a
+recovered validation-period level rather than a forward forecast. The
+demand basis silently differed from Phases 11–12 (531 observed Store 3 days
+against the 532-day densified series the models were fitted on); the phase
+now densifies identically and measures it. And no machine-readable
+validation existed; a 43-check quality report now gates the run.
+
+The phase reports 1,656 densified training store-days against 1,655
+observed, with exactly one zero-filled day (Store 3, 2022-10-16), matching
+Phase 11's measurement. The basis change moves Store 3 alone: mean
+daily demand 5,843.874970 to 5,832.890242, minimum 173.898 to 0.000,
+standard deviation 1,599.419835 to 1,617.875022 and coefficient of
+variation 0.273692 to 0.277371. Total training quantity stays 24,038,416.097
+and reconciles with the source.
+
+The phase confirmed and quantified Phase 12's systematic under-forecast:
+every selected model under-forecast on average, by 694.31 / 224.65 /
+849.77 / 3,871.04 units per day (mean 1,409.941). Sizing buffers from
+realised forecast error rather than raw historical spread reduces safety
+stock at every store (−20.19% / −33.44% / −38.11% / −57.67%), while the
+bias-corrected level is higher everywhere (+8.00% / +5.50% / +14.66% /
++9.20%). At a 14-day lead time and 95% service level the net reorder point
+rises for stores 1–3 (+5.96% / +2.94% / +8.92%) and falls slightly for
+store 4 (−0.37%).
+
+Phase 13 tests increased from 10 to 78 and the full suite passes (441
+tests). The insights outputs are reproducible generated artifacts and are
+excluded from Git; no raw data files are modified. Phase 16's documentation
+asserted that Store 4 is descriptive-only because it has no validated tuned
+configuration; that became false and was corrected, and Phase 16's
+generated artifacts remain to be re-executed during its own audit. The next
+Phase 17 audit target is Phase 14.
