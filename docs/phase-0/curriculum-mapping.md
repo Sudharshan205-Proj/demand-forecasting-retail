@@ -25,7 +25,7 @@ Actual evidence must exist.
 | Process | Clean, validate, transform and integrate data | 🟩 |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟩 |
 | Share | Tableau, charts, reports and storytelling | 🟩 |
-| Act | Forecast demand and produce inventory recommendations | ⬜ |
+| Act | Forecast demand and produce inventory recommendations | 🟩 |
 
 ## Course 1 — Foundations
 
@@ -225,9 +225,9 @@ Actual evidence must exist.
 | Processing | Processing pipeline | ⬜ |
 | Analysis | Analytical workflow | ⬜ |
 | Forecasting/modeling | Forecasting pipeline | 🟩 |
-| Visualization | Dashboard/reports | ⬜ |
+| Visualization | Dashboard/reports | 🟩 |
 | Findings | Final report | ⬜ |
-| Recommendations | Inventory recommendations | ⬜ |
+| Recommendations | Inventory recommendations | 🟩 |
 | Limitations | Final report | ⬜ |
 | Future scope | Final report | ⬜ |
 | Communication | Presentation | ⬜ |
@@ -629,3 +629,42 @@ Status effects:
   verified evidence.
 - The latest per-phase notes above recorded Course 6 and the `Share` stage as
   incomplete at the time they were written; this section supersedes them.
+
+## Phase 16 Re-Audit Status
+
+The Phase 16 audit (Application Development & Deployment) re-executed the
+Streamlit application against the current artifacts, corrected two user-visible
+falsehoods and removed the deployment blocker:
+
+- 36 application tests (up from 5), including the artifact-resolution order,
+bundle reconciliation and a headless startup test;
+- a seven-file, 14,977-byte deployment bundle under `deploy/artifacts/`,
+committed because `data/analysis/` is excluded from Git, with a test
+reconciling every file against the pipeline output by SHA-256;
+- per-store model evidence derived from the Phase 12 tables rather than from
+hardcoded store identifiers.
+
+Status effects:
+
+- The `Act` stage moves from ⬜ to 🟩. Forecasting and inventory
+  recommendations were already produced and verified in Phase 13; Phase 16
+  delivers them through a validated decision-support application whose
+  scenario assumptions, evidence strength and limitations are stated in the
+  interface itself.
+- **Visualization** (Course 8, Capstone) moves from ⬜ to 🟩: reports, the
+  Tableau dashboard and the interactive application all exist and were
+  verified.
+- **Recommendations** (Course 8, Capstone) moves from ⬜ to 🟩: inventory
+  recommendations exist as scenario-based estimates, and the application
+  states plainly that they are not operational requirements.
+- **Findings**, **Problem**, **Context**, **Stakeholders**, **Questions**,
+  **Data**, **Preparation**, **Processing**, **Analysis**, **Limitations**,
+  **Future scope** and **Communication** remain ⬜ in Course 8: they belong to
+  the final case study and report, which no phase has produced. The Phase 16
+  application presents verified results; it is not the final case study.
+- **Presentation** and **Q&A** remain ⬜ for the same reason.
+- No Course row is claimed as closed on the strength of the application alone.
+  Phase 16 has no dedicated course of its own; its coverage is drawn from the
+  `Act` stage, Course 6 (communication and interface design) and Course 8.
+- The earlier per-phase notes above recorded the `Act` stage as ⬜ pending this
+  audit; this section supersedes them.

@@ -184,6 +184,30 @@ every package against the executed workflow and recorded the versions in
 
 Phase 0 originally left the environment as `NOT YET VERIFIED`. During the Phase 17 re-audit, the environment was re-executed on the audit runner and the version table was corrected where needed: pip was updated from 25.3 to 26.2.1 and VS Code was updated from 1.135.0 to 1.136.2. RStudio and Tableau Public remain PARTIALLY VERIFIED because their exact versions cannot be confirmed from the command line. No dependency was added or removed during this audit.
 
+## Phase 16 Audit Record (Phase 17 Re-Audit)
+
+The Phase 16 re-audit recorded the application environment actually used to
+serve the phase's interactive interface, and pinned the interpreter and
+server options the hosted platform reads.
+
+| Tool | Version | Role in Phase 16 |
+|---|---|---|
+| Python | 3.12.10 | Application host |
+| streamlit | 1.63.0 | Interactive application |
+| pandas | 3.0.5 | Artifact loading |
+| numpy | 2.5.2 | Numeric support |
+
+Two files now pin the runtime for both the local run and the hosted
+platform: `.python-version` (`3.12`) and `.streamlit/config.toml`
+(`headless = true`, `enableCORS = true`, `gatherUsageStats = false`).
+
+No dependency was added or removed during this audit. `matplotlib`, `scipy`,
+`scikit-learn` and `statsmodels` remain installed for the analysis pipeline but
+are not imported by the application, which keeps the deployed footprint small.
+The Streamlit Community Cloud runtime itself is not versioned from the command
+line, so the hosted Python patch version is recorded as the platform-reported
+value rather than asserted here.
+
 ## Phase 15 Audit Record (Phase 17 Re-Audit)
 
 The Phase 15 re-audit recorded the visualization environment actually used to

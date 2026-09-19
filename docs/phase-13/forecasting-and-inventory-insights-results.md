@@ -374,9 +374,13 @@ synchronised.
   workflow reconciles all 13 published insight rows on store, metric name
   and value rather than the two store labels alone. Phase 14 is executed
   and verified; its record is in `docs/phase-14/r-analysis-results.md`.
-- Downstream: Phase 16's documentation still asserts that Store 4 is
-  descriptive-only. That is now false and was corrected during this audit;
-  Phase 16's generated artifacts must be re-executed during its own audit.
+- Downstream: Phase 16's documentation asserted that Store 4 is
+  descriptive-only. That was false, and this audit corrected it in Phase 16's
+  *documents*. CLOSED in the Phase 16 re-audit: the application **code** also
+  carried the same false claim — a hardcoded store list and a warning that
+  Store 4 had no validated tuned configuration — and both were replaced by
+  evidence derived from the Phase 12 tables. The application's artifacts and
+  tests were re-executed against the current Phase 11–13 outputs.
 - The forecast-error family reuses the validation period's own error. A
   genuinely unseen estimate requires the reserved test evaluation, which
   still has no owning phase.

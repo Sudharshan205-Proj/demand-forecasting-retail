@@ -99,7 +99,7 @@ Course concepts will only be marked as implemented when actual project evidence 
 | Phase 13 | Forecasting & Inventory Insights | COMPLETE |
 | Phase 14 | R Analysis | COMPLETE |
 | Phase 15 | Visualization & Tableau | COMPLETE |
-| Phase 16 | Application Development & Deployment | COMPLETE |
+| Phase 16 | Application Development & Deployment | COMPLETE (local); hosted deployment pending |
 | Phase 17 | Testing, Documentation & Final Audit | IN PROGRESS |
 
 ## Repository Structure
@@ -107,6 +107,7 @@ Course concepts will only be marked as implemented when actual project evidence 
 The repository is organized into:
 
 - `app/` — Streamlit application code (Phase 16)
+- `deploy/` — frozen artifact bundle so a repository build can start the app (Phase 16)
 - `data/` — raw, interim, processed, external and analysis data (raw and generated data excluded from Git; directory placeholders tracked)
 - `docs/` — phase-by-phase project documentation
 - `r/` — R analysis scripts and R Markdown report (Phase 14)
@@ -169,6 +170,33 @@ Test the phase with:
 
 ```text
 .venv\Scripts\python.exe -m pytest tests/test_create_visualizations.py -q
+```
+
+### Running the Phase 16 application
+
+Run from the repository root:
+
+```text
+.venv\Scripts\python.exe -m streamlit run app/streamlit_app.py
+```
+
+The application reads seven compact CSV artifacts and never retrains a model.
+It resolves them, in order, from the `APP_ANALYSIS_DIR` environment variable,
+from `data/analysis/` when that directory is complete, or from the committed
+`deploy/artifacts/` bundle. The bundle exists because `data/analysis/` is
+excluded from Git, so a host that builds from the repository would otherwise
+start with no data; `tests/test_application.py` reconciles every bundled file
+against the pipeline output by SHA-256 so the two cannot silently drift.
+
+Model evidence for each store — the selected model, its configuration, its
+cross-validation fold count and its validation metrics — is derived from the
+Phase 12 tables rather than hardcoded, and a store whose selection rests on a
+single fold is labelled as validated with an explicit caveat.
+
+Test the phase with:
+
+```text
+.venv\Scripts\python.exe -m pytest tests/test_application.py -q
 ```
 
 ## Disclaimer

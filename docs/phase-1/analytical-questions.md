@@ -97,7 +97,7 @@ The analysis must allow the data to support or contradict the hypotheses.
 | Inventory insights | Phase 13 |
 | Visualization | Phase 15 (VERIFIED) |
 | Storytelling | Phase 15 (VERIFIED) |
-| Application | Phase 16 |
+| Application | Phase 16 (VERIFIED, local; hosted deployment pending) |
 
 ## 7. Final Question
 

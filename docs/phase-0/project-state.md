@@ -6,7 +6,9 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 14 — R Analysis
+Phase 16 — Application Development & Deployment. Phase 0 through Phase 16
+have been re-audited and approved; the remaining work is the final
+cross-phase documentation review that closes Phase 17 itself.
 
 ## Overall Status
 
@@ -36,7 +38,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 15 have been re-audited and approved; Phase 16 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 16 have been re-audited and approved.
 
 ## Git
 
@@ -46,7 +48,7 @@ phase-17-testing-documentation-final-audit
 
 HEAD (audit-time):
 
-5687af0 — Phase 14 Audit. The Phase 15 re-audit performs no Git operations and does not create a commit.
+344bbf4 — Phase 15 Audit.
 
 Git status:
 
@@ -303,11 +305,10 @@ source-controlled. No raw data files are modified.
 - docs/phase-16/phase-16-checklist.md
 - docs/project-file-update-register.md
 
-The Phase 16 documents were corrected only where Phase 12's corrected
-evidence made their Store 4 statements false; Phase 16 itself remains
-unaudited and its generated artifacts must be re-executed during its own
-audit. The insights outputs are reproducible generated artifacts and are
-not source-controlled. No raw data files are modified.
+Phase 16 has now been re-audited in its own right. Its documentation was
+previously corrected only where Phase 12's corrected evidence made the
+Store 4 statements false; the application code itself still carried those
+false statements until this audit.
 
 ## Files Modified During Phase 14 Re-Audit
 
@@ -364,6 +365,36 @@ files are modified.
 - README.md
 
 The visualization workflow was rebuilt around named functions, extended to consume and validate five inputs rather than four, given a run-gating 55-check quality report and an output manifest, and made location-independent. A new helper reconciles the Tableau workbook's cached schema with the current CSV headers. The figures and both reports are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
+
+## Files Modified During Phase 16 Re-Audit
+
+- app/config.py
+- app/data_loader.py
+- app/formatting.py
+- app/streamlit_app.py
+- tests/test_application.py
+- deploy/artifacts/*.csv (new, seven files)
+- deploy/README.md (new)
+- .streamlit/config.toml (new)
+- .python-version (new)
+- docs/phase-16/application-development-plan.md
+- docs/phase-16/application-architecture.md
+- docs/phase-16/application-quality-framework.md
+- docs/phase-16/application-results.md
+- docs/phase-16/deployment-plan.md
+- docs/phase-16/deployment-validation.md
+- docs/phase-16/course-content-coverage.md
+- docs/phase-16/phase-16-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-0/environment.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-11/course-content-coverage.md
+- docs/phase-15/visualization-results.md
+- docs/project-file-update-register.md
+- README.md
+
+The application was made import-safe, its per-store model evidence is now derived from the Phase 12 tables instead of hardcoded store identifiers, its two mislabelled sections were corrected, and it resolves its artifacts from an environment override, the local pipeline output or a committed deployment bundle. A seven-file, 14,977-byte bundle under `deploy/artifacts/` is committed because `data/analysis/` is excluded from Git. The application loads no model and performs no training. No raw data files are modified.
 
 ## Important Decisions
 
@@ -1016,4 +1047,64 @@ Phase 15 tests increased from 10 to 32, including six subprocess failure
 paths, and the full suite passes (499 tests). The figures, reports and
 manifest are reproducible generated artifacts and are excluded from Git; the
 workbook is source-controlled. No raw data files are modified. The next
-Phase 17 audit target is Phase 16.
+Phase 17 audit target was Phase 16.
+
+## Phase 16 Re-Audit Status
+
+Phase 16 — Application Development & Deployment has been re-audited as part
+of Phase 17.
+
+AUDITED — COMPLETE (local). The hosted public deployment is prepared and
+pending owner authorisation.
+
+The phase was implemented and committed, but its record said IN PROGRESS with
+its tests, smoke test and deployment all marked "NOT YET VERIFIED" and all
+62 checklist boxes unticked. The application was re-executed on 19 September
+2026 and every claim in its documents is now tied to a named test or a
+recorded observation.
+
+Two user-visible defects were corrected. The application hardcoded
+`"Validated" if store in [1, 2, 3] else "Descriptive"` and warned that Store
+4 had no validated tuned configuration; both statements are false, because
+Phase 12 selected `seasonal_naive` for Store 4 on a single 28-day fold. Every
+field of a store's model evidence is now derived from the Phase 12 tables, so
+no store is treated differently by identifier, and Store 4's weaker basis is
+stated as a caveat that does not deny the configuration exists. Separately,
+the section headed "Selected Model Configuration" displayed the Phase 11
+three-model comparison while the Phase 12 selection was never shown; the two
+are now separate, correctly named sections.
+
+The deployment blocker was structural: every artifact the application loads
+lives under `data/analysis/`, which is excluded from Git, so any host
+building from the repository would have started with no data. A seven-file,
+14,977-byte snapshot is committed under `deploy/artifacts/` and resolved only
+when the local path is incomplete, with the override order
+`APP_ANALYSIS_DIR` → `data/analysis/` → `deploy/artifacts/`. A test reconciles
+the bundle against the pipeline output by SHA-256 (7 of 7 identical), so it
+cannot silently drift.
+
+The application is now import-safe (every Streamlit call lives inside
+`main()`), its empty `if/else` with identical branches and its unused
+`FORECAST_SUMMARY_FILE` and `forecast_inventory_insights.csv` load are removed,
+and its numeric formatting handles both ratios and pre-scaled percentages.
+
+Phase 16 tests increased from 5 to 36, including the artifact-resolution order,
+bundle reconciliation, failure paths and a headless startup test that asserts
+HTTP 200; the full suite passes (530 tests). A local launch rendered the page
+title, four section headings, both scenario controls and four data tables. The
+bundle, `.streamlit/config.toml`, `.python-version` and the application source
+are source-controlled; no raw data files are modified.
+
+Two gaps are recorded rather than smoothed over. The hosted public deployment
+has not been executed, because Streamlit Community Cloud requires a one-time
+interactive authorisation tied to the project owner's account. And no human
+usability or accessibility review of the rendered interface has been
+performed.
+
+Phase 0 through Phase 16 have now been re-audited. The remaining Phase 17 work
+is the final cross-phase documentation review.
+
+Unlike the preceding audits, this one does commit and push: the approved plan
+for Phase 16 required a real hosted deployment, and the platform builds from
+GitHub, so the deployment bundle and application changes had to be published.
+No Git operation beyond that single phase commit and push was performed.

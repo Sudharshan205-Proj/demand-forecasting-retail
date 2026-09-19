@@ -841,9 +841,41 @@ modified. No Git commands were run.
 
 ## Phase 16
 
-Not yet started.
+AUDITED — COMPLETE (local). Phase 17 re-audit.
 
-Files will be determined at Phase 16 start.
+Files:
+
+- `app/config.py`
+- `app/data_loader.py`
+- `app/formatting.py`
+- `app/streamlit_app.py`
+- `tests/test_application.py`
+- `deploy/artifacts/*.csv` (new, seven files)
+- `deploy/README.md` (new)
+- `.streamlit/config.toml` (new)
+- `.python-version` (new)
+- `docs/phase-16/application-development-plan.md`
+- `docs/phase-16/application-architecture.md`
+- `docs/phase-16/application-quality-framework.md`
+- `docs/phase-16/application-results.md`
+- `docs/phase-16/deployment-plan.md`
+- `docs/phase-16/deployment-validation.md`
+- `docs/phase-16/course-content-coverage.md`
+- `docs/phase-16/phase-16-checklist.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-0/environment.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/project-file-update-register.md`
+- `README.md`
+
+Summary: the application was made import-safe, its per-store model evidence is now derived from the Phase 12 tables rather than from hardcoded store identifiers, and its two mislabelled sections were corrected. A seven-file, 14,977-byte artifact bundle is committed under `deploy/artifacts/` with a tested resolution order (`APP_ANALYSIS_DIR` → `data/analysis/` → `deploy/artifacts/`) because `data/analysis/` is excluded from Git. Phase 16 tests increased from 5 to 36 and the full suite passes (530 tests). No raw data files are modified. No Git commands were run by the audit itself; the phase commit and push were performed by the project owner's approved deployment plan.
+
+Downstream correction superseded: the Phase 13 note below records that Phase
+16's documentation had been corrected only where Phase 12's corrected evidence
+made the Store 4 statements false. This audit found the application code
+itself still carried those false statements — the hardcoded store list and the
+"no validated tuned configuration" warning — and corrected them at source.
 
 ---
 
@@ -851,10 +883,12 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 15 have been re-audited and approved. Phase 16 is the next audit target. The Phase 15 re-audit moved the visualization workflow onto the current Phase 13 evidence, reconciled every charted value with its source, rebuilt the phase's validation as a 55-check quality report that gates the run and an output manifest that records each figure's digest, and reconciled the Tableau workbook's stale cached schema with the current CSV headers. It also synchronised the Phase 0–14 records that carry Phase 15 status, including the plan that named Phase 14 as an input and Phase 11's forecast-visualization deferral.
+Phase 0 through Phase 16 have been re-audited and approved. The Phase 15 re-audit moved the visualization workflow onto the current Phase 13 evidence, reconciled every charted value with its source, rebuilt the phase's validation as a 55-check quality report that gates the run and an output manifest that records each figure's digest, and reconciled the Tableau workbook's stale cached schema with the current CSV headers. It also synchronised the Phase 0–14 records that carry Phase 15 status, including the plan that named Phase 14 as an input and Phase 11's forecast-visualization deferral.
 
-Carried forward to the Phase 16 audit:
+Carried forward to the final Phase 17 review:
 
-- Phase 16's generated artifacts still require re-execution during its own audit.
 - The published Tableau Public dashboard embeds extracts built on 8 Sep and needs a Tableau refresh and re-publish to show post-audit values; this requires Tableau Desktop.
 - The Tableau workbook's data-source directory is an absolute local path, and its Reorder-Point Scenarios worksheet uses a fixed axis range whose lead-time minimum sits slightly below zero.
+- The hosted Streamlit deployment has not been executed: Streamlit Community Cloud requires a one-time interactive authorisation tied to the project owner's account.
+- No human usability or accessibility review of the rendered Streamlit interface has been performed.
+- BR-014 (Reproducibility) and BR-015 (Documentation) have no owning phase and remain ⬜ for the final review.

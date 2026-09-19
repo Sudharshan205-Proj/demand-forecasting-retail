@@ -310,7 +310,10 @@ the cross-phase records listed under "Files reviewed" were synchronised.
 - CLOSED in the Phase 15 re-audit: Phase 15's results document said NOT YET
   EXECUTED against a phase that had already been committed and executed. That
   document has been rewritten with verified results.
-- Still open downstream: Phase 16's generated artifacts require re-execution
-  during their own audit.
+- CLOSED in the Phase 16 re-audit: Phase 16's application was re-executed
+  against the current Phase 11–13 artifacts, its tests grew from 5 to 36, and
+  a committed artifact bundle removed the deployment blocker. One item from
+  that phase carries forward: the hosted Streamlit deployment is pending owner
+  authorisation, and no human usability review of the interface was performed.
 - RStudio itself is installed but is not evidenced as used: the workflow runs
   through `Rscript`. The course-coverage record states this explicitly.

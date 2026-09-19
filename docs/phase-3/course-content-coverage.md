@@ -48,7 +48,7 @@ Some course concepts belong more naturally to later stages:
 | Tableau | Phase 15 |
 | Storytelling | Phase 15 |
 | Forecasting | Phase 11 |
-| Application | Phase 16 |
+| Application | Phase 16 (VERIFIED, local; hosted deployment pending) |
 
 ## Coverage Principle
 

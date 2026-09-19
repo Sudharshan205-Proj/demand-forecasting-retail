@@ -1,0 +1,11 @@
+# Streamlit configuration for both the local run and the hosted deployment.
+
+[server]
+# Never try to open a browser; hosted environments have none.
+headless = true
+# Fail fast rather than waiting on a stalled websocket handshake.
+enableCORS = true
+
+[browser]
+# Do not send usage statistics from a project build.
+gatherUsageStats = false

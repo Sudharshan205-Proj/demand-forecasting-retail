@@ -21,9 +21,9 @@
 | BR-008 | RMSE/MAPE | Evaluation report | 12 | 🟩 |
 | BR-009 | Model comparison | Model comparison | 12 | 🟩 |
 | BR-010 | Inventory insights | Business analysis | 13 | 🟩 |
-| BR-011 | Visualization | Python/R/Tableau | 7–15 | 🟨 |
-| BR-012 | Tableau | Tableau dashboard | 15 | ⬜ |
-| BR-013 | Application | Deployed application | 16 | ⬜ |
+| BR-011 | Visualization | Python/R/Tableau | 7–15 | 🟩 |
+| BR-012 | Tableau | Tableau dashboard | 15 | 🟩 |
+| BR-013 | Application | Deployed application | 16 | 🟨 |
 | BR-014 | Reproducibility | Documentation/configuration | All | ⬜ |
 | BR-015 | Documentation | Repository documentation | All | ⬜ |
 
@@ -207,6 +207,51 @@ On that evidence:
   course-coverage record marks "Annotations" and "Accessibility" as PARTIAL
   because no in-chart annotations exist and no human usability review was
   performed.
+
+## Phase 16 Re-Audit Note
+
+The Phase 16 re-audit re-executed the Streamlit application against the
+current artifacts, corrected two user-visible falsehoods and removed the
+deployment blocker: per-store model evidence is now derived from the Phase 12
+tables instead of hardcoded store identifiers, the mislabelled "Selected Model
+Configuration" section was split into a Phase 12 selection section and a
+Phase 11 comparison section, and a seven-file, 14,977-byte artifact bundle is
+committed under `deploy/artifacts/` because `data/analysis/` is excluded from
+Git.
+
+36 application tests pass (up from 5), including the artifact-resolution
+order, bundle reconciliation by SHA-256 and a headless startup test that
+asserts HTTP 200; the full suite passes (530 tests). A local launch rendered
+the page title, four section headings, both scenario controls and four data
+tables.
+
+On that evidence:
+
+- **BR-013 (Application, deployed application) moves from ⬜ to 🟨, not 🟩.**
+  The application itself is implemented, tested, verified running locally and
+  genuinely deployable from the repository. What is *not* verified is the
+  deployed instance: Streamlit Community Cloud requires a one-time
+  interactive authorisation tied to the project owner's account, so no public
+  URL has been observed. The requirement names a *deployed* application, so
+  it stays short of fully verified until that URL exists.
+- **BR-011 (Visualization) moves from 🟨 to 🟩 and BR-012 (Tableau) from ⬜
+  to 🟩.** The table rows above were left stale by the Phase 15 audit, whose
+  note on this page already recorded both as verified. The rows now match the
+  note.
+- **BR-014 (Reproducibility) and BR-015 (Documentation) remain ⬜.** Neither
+  names an owning phase; both are properties of the project as a whole and
+  belong to the final Phase 17 review. Phase 16 contributes to BR-014 — the
+  runtime is pinned by `requirements.txt`, `.python-version` and
+  `.streamlit/config.toml`, and the application is reproducible from a fresh
+  clone — but it does not close the requirement on its own.
+- The `Act` stage moves from ⬜ to 🟩. Forecasts and inventory recommendations
+  were produced in Phase 13 and are now delivered through a validated
+  decision-support interface that states its scenario assumptions and
+  evidence strength.
+- One limitation is recorded rather than smoothed over: no human usability or
+  accessibility review of the rendered interface has been performed. Layout,
+  contrast and structure were observed during the smoke test; they were not
+  evaluated.
 
 ## Evidence Rule
 
