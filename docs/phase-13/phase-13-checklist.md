@@ -81,18 +81,4 @@ itself performs no Git operations.
 
 ## Phase 17 Re-Audit Status
 
-AUDITED — COMPLETE
-
-The Phase 13 workflow was re-executed over the complete Phase 10 dataset
-(16.7 seconds, 149.6 MB peak) and every generated artifact was inspected.
-The pre-audit artifacts predated the Phase 12 evidence they consume; the
-findings report asserted that Store 4 had no tuned Phase 12 configuration
-and that assertion survived re-execution because it was hardcoded; the
-phase loaded the forecasts and never used them; the demand basis silently
-differed from Phases 11–12; and no machine-readable validation existed. The
-re-audit moved the phase onto the densified series, added a forecast-error
-scenario family, asserted the bias-correction identity so the level cannot
-be misdescribed as a forward forecast, reconciled the source, derived the
-findings from evidence, and rebuilt validation as a 43-check quality report
-that gates the run. Phase 13 tests increased from 10 to 78 and the full
-suite passes (441 tests).
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

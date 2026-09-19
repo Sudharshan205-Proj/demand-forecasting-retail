@@ -141,24 +141,4 @@ Figures:
 
 ## Phase 17 Re-Audit Record
 
-**Audit status:** AUDITED — COMPLETE
-
-The "Concept: Outliers" application previously described identification of
-unusual demand that was not implemented anywhere in the script, and the
-"Relationships" application claimed sampling that was not documented in the
-coverage record. During the re-audit:
-
-* item-level outlier identification was implemented (interquartile-range
-  upper fence, item count above the fence, and the share of demand they hold),
-  so the Outliers claim is now backed by output;
-* correlation was moved from a deterministic 4% sample to an exact
-  full-dataset calculation, so the Relationships claim now holds without
-  qualification;
-* promotion and markdown record frequency was added, completing the
-  question-driven coverage;
-* non-finite quantification was added to the data-quality coverage.
-
-No course-content evidence was removed or reduced. The phase still
-demonstrates aggregation, sorting, pattern identification, relationship
-analysis, outlier identification, data completeness, invalid-value handling,
-visual analysis and findings communication using Python.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

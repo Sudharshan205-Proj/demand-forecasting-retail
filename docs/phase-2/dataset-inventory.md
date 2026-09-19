@@ -13,7 +13,7 @@ https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data
 ## Expected Files
 
 | File | Expected Purpose | Exists Locally | Rows (Parsed) | Columns | Status |
-|---|---:|---:|---:|---|
+|---|---:|---:|---:|---:|---|
 | `sales.csv` | Physical/store sales | YES | 7,432,685 | 6 | VERIFIED |
 | `online.csv` | Online sales | YES | 1,123,412 | 6 | VERIFIED |
 | `markdowns.csv` | Markdown sales | YES | 8,979 | 6 | VERIFIED |

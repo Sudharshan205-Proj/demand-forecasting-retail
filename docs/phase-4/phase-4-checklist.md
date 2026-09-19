@@ -57,4 +57,4 @@
 
 ## Phase 17 Re-Audit Status
 
-VERIFIED — 11 TESTS PASS; database rebuilt; all 18 SQL queries re-executed; results inspected and consistent with Phase 2 verified facts.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

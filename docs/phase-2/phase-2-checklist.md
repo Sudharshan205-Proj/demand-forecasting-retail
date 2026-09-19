@@ -80,4 +80,4 @@
 
 ## Phase Status
 
-AUDITED — see the Phase 2 re-audit record in `docs/phase-0/project-state.md`.
+AUDITED — see the Phase 2 re-audit record in `docs/phase-17/re-audit-record.md`.

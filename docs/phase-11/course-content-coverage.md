@@ -34,14 +34,4 @@ The project documents rather than falsely claims these implementations in Phase 
 
 ## Phase 17 Re-Audit Note
 
-The Phase 11 re-audit verified every claim above against the executed pipeline and its generated artifacts. The forecasting workflow reads the Phase 10 matrix, reconciles the store-day aggregate to the source total, fits the three documented models per store, verifies the two baselines against their definitions, records explicit ARIMA configurations, stores all 1,368 predictions, and recomputes RMSE and MAPE from those predictions. The quality report records 24 checks, all passing, and the pipeline refuses to write results when a check fails.
-
-One concept the phase does **not** cover is forecast visualization: Phase 11 produces no charts. That work belongs to Phase 15 and is marked DEFERRED above rather than claimed.
-
-**Update (Phase 15 re-audit).** The deferral has landed. Phase 15 plots the
-lowest validation RMSE per store in its static forecast-evidence figure and
-reports validation evidence in the Tableau *Forecast Evidence* worksheet. The
-underlying metric is still Phase 11's and Phase 12's; Phase 15 draws it and
-reconciles it against `tuned_validation_results.csv`. The row above is
-accordingly relabelled DEFERRED — LANDED IN PHASE 15 rather than left as an
-open deferral.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

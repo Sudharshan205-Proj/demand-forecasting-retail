@@ -88,14 +88,4 @@ rather than modifying data without evidence.
 
 ## Phase 17 Re-Audit Record
 
-AUDITED — COMPLETE
-
-Every concept listed above was checked against the executed script during the
-Phase 17 re-audit. The catalog reference check was added to the pipeline during
-this audit, so a "Referential integrity" row was added to the coverage table and
-the Course 4 SQL-cleaning/temporary-table topics are now explicitly mapped to
-their actual Phase 4 evidence.
-
-The "Outliers" concept remains a screening capability in this phase (potential
-quantity outliers are reported but not resolved); full outlier analysis belongs
-to the Phase 7 exploratory analysis.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

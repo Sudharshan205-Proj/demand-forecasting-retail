@@ -1,0 +1,47 @@
+# Audit Findings Register
+
+Statuses: OPEN, RESOLVED, ACCEPTED (documented limitation), NOT_AN_ISSUE.
+
+## Provenance
+
+This is the consolidated findings register of the independent audit performed on 2026-09-19, retained as the project's record of resolved and accepted items.
+
+The audit's working artefacts were removed from the repository in the 2026-09-19 documentation cleanup, because they recorded the audit's own process rather than the project. Where the table below names one of them — the per-command captures (`execution/phase-NN/command-*.txt`), `phase-status.md`, `command-log.md`, `artifact-validation.md` or the per-file documentation review — it is naming the evidence that was inspected at the time. Every claim remains re-derivable by re-running the documented commands in `docs/reproducibility-runbook.md`.
+
+Two of the records cited below no longer exist as separate files: the running phase state log (`docs/phase-0/project-state.md`) and the file update register (`docs/project-file-update-register.md`). Both were consolidated into `docs/project-status.md`.
+
+## Findings
+
+| ID | Severity | Phase | File | Finding | Evidence | Impact | Recommended action | Action taken | Status |
+|---|---|---|---|---|---|---|---|---|---|
+| DOC-01 | Informational | 3, 6, 9, 10 | `docs/phase-3/phase-3-checklist.md`, `docs/phase-6/*`, `docs/phase-0/project-state.md` | Documented per-phase test counts sum to 526; the suite executes 530 — two stale counts in the phase records plus two more in the master record | per-module `pytest --collect-only`; the audit status table and the per-file documentation review (see Provenance) | Stale counts only | Phase 3 10→12, Phase 6 22→24, master record Phase 9 36→37 and Phase 10 31→32 | **Applied 2026-09-19** | RESOLVED |
+| DOC-02 | Documentation | 3 | `docs/phase-3/phase-3-checklist.md`, `docs/phase-0/project-state.md` | Stated 10 Phase 3 tests; 12 execute and pass | `execution/phase-03/command-002.txt` → "12 passed" | Reader may believe coverage is smaller than it is | Change "10" to "12" in the phase records | **Applied 2026-09-19** | RESOLVED |
+| DOC-06 | Documentation | 6 | `docs/phase-6/integration-results.md`, `docs/phase-0/project-state.md` | Stated the integrated dataset as 1,283,886,539 bytes; the file is 1,283,859,491 bytes | `ls -l data/processed/integrated_retail_data.csv` = 1,283,859,491 | Misreports the artifact size (digit transposition) | Correct both documents | **Applied 2026-09-19** | RESOLVED |
+| DOC-07 | Documentation | 9, 10 | `docs/phase-9/time-series-results.md`, `docs/phase-10/feature-engineering-results.md` | Phase 9's full-suite total read 280 (Phase 10's figure) and "Phase 9 and Phase 10 add 48"; reconstructing every documented point-in-time total (160/169/193/231/280/321/373/441/477/499/530) proves the Phase 9 reading was 258 and the two phases add 49 | arithmetic from the documented Phase 8 (231) and Phase 10 (280) readings | Internally contradictory record | Correct to 258 / 49 with a label; the Phase 10 runbook row that read 321 becomes 280 | **Applied 2026-09-19** | RESOLVED |
+| DOC-08 | Documentation | 0 | `docs/phase-0/project-state.md` | The Tests section had no Phase 7, 8, 13 or 16 entries and was out of phase order; the Phase 7 and Phase 8 re-audit file lists were missing | `grep -c "Phase N validation"` returned 0 for phases 7, 8, 13 and 16 | Master record incomplete | Add the four entries, reorder 0 → 17, add the two file lists | **Applied 2026-09-19** | RESOLVED |
+| DOC-09 | Documentation | 17 | `docs/phase-17/final-audit-report.md` | "Tracked file count: 178"; `git ls-files` returns 183 | `git ls-files \| wc -l` = 183 | Stale structural figure | Correct to 183 | **Applied 2026-09-19** | RESOLVED |
+| DOC-10 | Documentation | 0, 17 | `docs/phase-0/project-state.md`, `docs/phase-17/*` | The Git record named HEAD `fa2eed8` and left the end-of-phase commit outstanding; `e5a750f` exists on `main` and `origin/main` | `git status -sb`, `git log -1 --decorate` | Understates repository state | Record `e5a750f`; tick the two Phase 17 Git boxes | **Applied 2026-09-19** | RESOLVED |
+| DOC-11 | Documentation | 5–10 | Phase 5–10 checklists | 33 Git boxes unticked while each phase branch exists locally and on `origin` and is merged into `main` | `git branch -a`, `git ls-remote --heads origin`, `git merge-base --is-ancestor` | Checklist understates completed work | Tick with a verification note | **Applied 2026-09-19** (owner decision) | RESOLVED |
+| DOC-12 | Documentation | 3 | `docs/project-file-update-register.md`, `docs/phase-0/project-state.md` | The register's Phase 3 section still ended "IN PROGRESS"; the master record described the Phase 5–10 Git items as permanently unticked | direct inspection | Contradicts the same documents' own status lines | Correct both | **Applied 2026-09-19** | RESOLVED |
+| DOC-03 | Not an issue | 4 | `docs/phase-4/sql-results.md` | Initially recorded as "11 documented vs 8 executed" | `execution/phase-04/command-005.txt` → 3 more tests; 8+3 = 11 | None — documentation was correct | Retract | Retracted; documentation verified accurate | NOT_AN_ISSUE |
+| PERF-01 | Informational | 4 | `scripts/run_sql_analysis.py` | `run_sql_analysis.py` took 22 m 06 s vs ~2 min historically | `command-log.md` CMD-P4-02; historical file mtimes 2026-09-16 | None — all 18 results correct and tests pass | None required; monitor if it recurs | Recorded as a performance observation | ACCEPTED |
+| ENV-01 | Informational | 5 | pandas 3 `to_datetime` (`scripts/clean_retail_data.py`) | Pre-existing UserWarning: format inference falls back to `dateutil` in the Phase 5 test fixture | baseline and Phase 5 stderr | Cosmetic; no incorrect values | Pass an explicit format to the parser | **Applied 2026-09-19**: `pd.to_datetime(..., format="mixed")` in `scripts/clean_retail_data.py`; the Phase 5 tests now pass with the warning escalated to an error | RESOLVED |
+| ENV-02 | Informational | 14 | R Markdown render | pandoc warns `--mathjax` is deprecated | `execution/phase-14/command-002-stderr.txt` | Cosmetic toolchain warning | None (external R/pandoc template default) | Recorded | ACCEPTED |
+| ENV-03 | Medium | 0, 17 | `data/interim/`, `data/external/` | The tracked placeholders `data/interim/.gitkeep` and `data/external/.gitkeep` were absent, so `test_data_directory_placeholders_exist` failed at `HEAD` although `README.md`, `.gitignore` and the test all declare those directories tracked | `pytest tests/test_phase0_project_setup.py` → 1 failed; `git ls-tree HEAD -- data/` listed only `raw/` and `processed/` | The suite was red at `HEAD` while the audit reported 530/530 | Restore both placeholders | Restored 2026-09-19 during the documentation cleanup | RESOLVED |
+| DEP-01 | Documentation | 16 | `README.md` / phase docs | Hosted Streamlit deployment not executed; no public URL | project docs state this; local HTTP 200 verified | None; honestly disclosed | Keep as documented limitation; owner authorises when ready | Confirmed as ACCEPTED limitation | ACCEPTED |
+| DOC-04 | Documentation | 12/17 | `docs/phase-12/...`, `docs/phase-17/final-audit-report.md` | Reserved final test-period evaluation has no owning phase | docs state it; test period (2024-06-04→2024-09-26) is never read by any script | Forecasts are validation-period-evaluated only | Add a dedicated test-period evaluation phase later | Confirmed as accepted open item (outside internship scope) | ACCEPTED |
+| DOC-05 | Not an issue | 16 | `tableau/Retail_Demand_Forecasting.twb` | Uses an absolute local data-source path; refresh requires Desktop | docs/phase-17 + workbook inspection | Opening on another machine needs re-pointing | Parameterise the connection | Confirmed documented limitation, not hidden | ACCEPTED |
+| AUD-01 | Informational | Audit | 4 file diffs | Four analysis artifacts differ byte-wise from baseline | `execution/phase-17/artifact-drift-report.tsv` | None — all four differences are embedded generation timestamps | None | Explained in `artifact-validation.md` | NOT_AN_ISSUE |
+
+## Notes
+
+- No Critical or High findings were identified, and no correctness, leakage,
+  data-integrity, path, join, aggregation or metric defect was found. One Medium
+  repository finding — **ENV-03**, the missing data placeholders that left the
+  suite red at `HEAD` — was raised and resolved on 2026-09-19. The informational
+  environment finding **ENV-01**, the pandas `to_datetime` format-inference
+  UserWarning, was also resolved on 2026-09-19 by passing `format="mixed"` in
+  `scripts/clean_retail_data.py`, so the suite now runs warning-free.
+- Raw-data immutability is proven (9/9 checksums unchanged after the whole pipeline re-ran).
+- The correctness findings remain as originally recorded (none Critical/High/Medium); every finding that needed a documentation edit has since been corrected.
+- **Correction to this file's own scope:** the first pass reported one stale test count (528 documented vs 530). A per-file review of all 220 files under `docs/` found **four** stale counts (DOC-01: Phase 3 and Phase 6 in the phase records, Phase 9 and Phase 10 in the master record) plus the further items DOC-06 to DOC-12 above. All are resolved; the review's own working record was removed in the documentation cleanup (see Provenance).

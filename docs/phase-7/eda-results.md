@@ -54,7 +54,8 @@ Promotion and markdown frequency is reported from
 null values, so the counts stay correct even where an aggregated value is
 itself unusable. The 22-row difference between the discount-record count
 (1,518,622) and the non-missing rate count (1,518,600) is explained under
-"Non-finite values" in the re-audit record.
+"Non-finite values" in the Phase 7 record at
+`docs/phase-17/re-audit-record.md`.
 
 ## Temporal findings
 
@@ -248,7 +249,8 @@ dimensions, correspondence with the summary tables):
 - `reports/figures/eda_demand_distribution.png` (1500x900)
 
 Chart categories without a catalog match now render an explicit "(unmatched)"
-label instead of failing to plot; see the re-audit record below.
+label instead of failing to plot; see the Phase 7 record in
+`docs/phase-17/re-audit-record.md`.
 
 ## Forecasting implications
 
@@ -293,127 +295,4 @@ complete for Phase 7.
 
 ## Phase 17 Re-Audit Record
 
-**Audit status:** AUDITED — COMPLETE
-
-### Files reviewed
-
-| Type | Files |
-|---|---|
-| Script | `scripts/exploratory_data_analysis.py` (664 to 1,059 lines) |
-| Tests | `tests/test_exploratory_data_analysis.py` (214 to 775 lines, 10 to 34 tests) |
-| Phase 7 documents | all six files in `docs/phase-7/` |
-| Generated artifacts | `eda_summary.csv`, `eda_monthly_demand.csv`, `eda_store_summary.csv`, `eda_category_summary.csv`, `eda_top_items.csv`, `eda_correlation.csv`, `eda_findings.txt`, five `eda_*.png` figures |
-| Inputs | `data/processed/integrated_retail_data.csv` (Phase 6), `data/raw/discounts_history.csv` (root-cause check) |
-| Cross-phase | `docs/phase-0/project-state.md`, `docs/phase-0/curriculum-mapping.md`, `docs/phase-1/requirements-traceability.md`, `docs/phase-6/integration-results.md`, `docs/project-file-update-register.md`, `README.md` |
-
-### Findings
-
-| # | Finding | Evidence | Severity |
-|---|---|---|---|
-| F1 | Phase 7 documentation was never updated after execution | every results section read "NOT YET VERIFIED"; the checklist was unchecked; the update register read "Not yet started" while `README.md` already listed Phase 7 as COMPLETE | Medium |
-| F2 | Test quality: tests exercised pandas, not the module | only 4 of 10 tests imported the module; the temporal, store, item, correlation and sampling tests re-implemented pandas calls and could not fail if the script changed; `build_eda_summaries`, `create_figures` and `write_findings` were untested | Medium |
-| F3 | Correlation output came from a biased, untraceable sample | equal 10,000 rows per chunk with the same seed in every chunk; measured deviations of up to 0.179 from the exact values, including a sign change; the sample size appeared in no artifact | High |
-| F4 | Anomaly/outlier analysis was documented but not implemented | phase purpose ("anomalies"), methodology section 9, coverage "Concept: Outliers" and a dedicated results section, with no output to support them | High |
-| F5 | "Is demand concentrated among a small number of products?" was never answered | plan question; only an unranked top-100 item list existed | Medium |
-| F6 | Promotion/markdown frequency was only implied by null counts | plan questions; `missing_promo_discount_rate` cannot distinguish "no record" from "unusable record" | Medium |
-| F7 | Chart labels fail when a category has no value under pandas 3 or later | `Series.astype(str)` preserves missing values as float NaN, which matplotlib's category converter rejects; reproduced with a fixture whose unmatched department ranks in the top 15 | High (latent) |
-| F8 | Non-finite values reached the analytical columns | 6,760 `inf` in `promo_discount_rate` and 2 in `markdown_discount`; pandas 3.0.5 silently ignores non-finite values in `corr()` while pandas below 3 returns NaN, and `requirements.txt` was unpinned. **Resolved in the Phase 8 re-audit:** both Phase 6 divisions are guarded, both columns now contain 0 infinite values, and dependencies are pinned | Medium (cross-phase) |
-| F9 | Findings file contained float artefacts | `Highest-demand store: 1.0`; `41949529.910000004`; `3111278.0` | Low |
-| F10 | Missingness was counted with 16 separate passes per chunk | column-wise `isna()` loop inside the chunk loop | Low |
-| F11 | The framework's "input file exists" check was not implemented | raw `FileNotFoundError` with no path or remediation hint | Low |
-| F12 | `read_csv(..., nrows=0)` cannot infer dtypes | the header-only read classifies every column as `object`, so numeric integrity counters must not depend on it | Low |
-
-**Leakage audit:** none, and none is possible — Phase 7 performs only
-row-level aggregation and correlation over a completed dataset. No lag,
-rolling, interpolation or forward-filling feature is created, and no
-chronological split is altered.
-
-**Full-data audit:** every aggregate already used the full dataset; the only
-sampled calculation was the correlation matrix, which now uses the full
-dataset as well.
-
-**Efficiency audit:** the pipeline reads the integrated dataset three times
-(one aggregation pass over the 16 analytical columns and two correlation
-passes over the 7 numeric columns). Runtime was measured at 61-63 seconds
-end to end on the complete dataset.
-
-### Code changes
-
-| File | Change | Reason | Benefit |
-|---|---|---|---|
-| `scripts/exploratory_data_analysis.py` | `build_correlation`, `correlation_offsets`, `accumulate_correlation`, `pearson_from_accumulators`: exact chunked pairwise-complete Pearson replacing the per-chunk sample and `random_state` | F3 | Exact, reproducible, version-independent coefficients at constant memory |
-| same | `describe_item_demand`: item-level quartiles, IQR upper fence, outlier count and demand share, top-1% and top-10 concentration | F4, F5 | Closes two documented-but-unimplemented requirements |
-| same | `rows_with_discount_record`, `rows_with_markdown_record` and an `infinite_<column>` block in `eda_summary.csv` | F6, F8 | Answers the promotion/markdown frequency questions and quantifies non-finite values |
-| same | `chart_labels` used for every categorical chart axis | F7 | Charts render even when a category has no value; the unmatched department is shown explicitly |
-| same | `validate_input_file` with an actionable message; `read_numeric_columns` from a 10,000-row sample | F11, F12 | Clear failure mode; reliable numeric integrity counters |
-| same | vectorized missingness (`chunk[use_columns].isna().sum(axis=0)`) replacing the 16-pass loop | F10 | One pass per chunk instead of sixteen |
-| same | `format_metric` and `format_identifier` for the findings text | F9 | No float artefacts in a user-facing artifact |
-| `tests/test_exploratory_data_analysis.py` | 6 pandas-only tests replaced by 24 module tests (fixtures, monkeypatched paths, chunk independence, oracle comparison, non-finite handling, metric values, figures, findings) | F2 | The phase's core logic is covered by assertions that can fail |
-
-### Testing
-
-```text
-Command: .venv\Scripts\python.exe -m pytest tests/test_exploratory_data_analysis.py -q
-Result:  34 passed
-Tests:   34
-Passed:  34
-Failed:  0
-Skipped: 0
-Warnings: 0
-
-Command: .venv\Scripts\python.exe -m pytest -q
-Result:  193 passed, 1 warning
-Warnings: pre-existing UserWarning in scripts/clean_retail_data.py (Phase 5)
-```
-
-### Script execution
-
-```text
-Command:     .venv\Scripts\python.exe scripts/exploratory_data_analysis.py
-Exit status: 0
-Runtime:     61-63 seconds
-Result:      "Exploratory data analysis completed successfully."
-```
-
-### Generated-file verification
-
-| File | Exists | Size | Structure | Validation |
-|---|---|---|---|---|
-| `eda_summary.csv` | yes | 1,253 B | 45 metric rows | includes missing, non-finite, record-frequency and item-distribution metrics |
-| `eda_monthly_demand.csv` | yes | 1,162 B | 26 months | matches the dataset totals; 2022-08 partial |
-| `eda_store_summary.csv` | yes | 185 B | 4 stores | sorted by quantity; shares 55.0 / 22.0 / 11.7 / 11.3% |
-| `eda_category_summary.csv` | yes | 7,714 B | 182 rows | 181 named departments plus one unmatched group (0.76% of demand) |
-| `eda_top_items.csv` | yes | 3,948 B | 100 items | descending quantity; leader 4.82% of demand |
-| `eda_correlation.csv` | yes | 1,158 B | 7x7 matrix | all 21 coefficients match an independent chunked calculation; diagonal exactly 1.0 |
-| `eda_findings.txt` | yes | 1,595 B | 8 sections | no float artefacts; store rendered as "1" |
-| 5 figures | yes | 21-67 KB | 1800x900 / 1500x900 / 1200x750 | dimensions match the configured figsize x dpi |
-
-### Documentation changes
-
-`eda-results.md` (this file), `eda-methodology.md`, `eda-plan.md`,
-`eda-quality-framework.md`, `course-content-coverage.md`,
-`phase-7-checklist.md`, plus the cross-phase records listed under
-"Files reviewed".
-
-### Remaining issues
-
-- **Resolved in the Phase 8 re-audit (was flagged for Phase 6):**
-  `promo_discount_rate` contained 6,760 `inf` values and `markdown_discount`
-  2, because 21,419 of the 3,746,744 raw discount records have
-  `sale_price_before_promo == 0`, so `1 - during/before` divided by zero. A
-  further 28 records have both prices equal to zero, which yielded a NaN rate
-  for 22 integrated rows and explained the 22-row difference between the
-  record count (1,518,622) and the usable rate count (1,518,600). Both
-  divisions are now guarded in `scripts/integrate_retail_data.py`, the
-  integrated dataset was regenerated, and an independent scan reports 0
-  infinite values in both columns; the two counters in this document were
-  updated accordingly.
-- **Resolved in the Phase 8 re-audit:** `requirements.txt` is now pinned to
-  the verified environment (Python 3.12.10; pandas 3.0.5; numpy 2.5.2; scipy
-  1.18.1; matplotlib 3.11.1; statsmodels 0.15.0), because chart and correlation
-  behaviour differs between pandas 2 and pandas 3.
-- **Resolved in the Phase 8 re-audit:** the 2023-12 level shift is diagnosed as
-  a coverage and assortment change (store 4 first appears in the raw sales file
-  on 2023-12-13), recorded in `data/analysis/statistical_monthly_activity.csv`.
-  Row-level price spread statistics remain Phase 8 work and are not duplicated
-  here.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

@@ -21,14 +21,18 @@ submission: what to show, where it lives, and how to reproduce it.
 
 | Artifact | Path | Why |
 |---|---|---|
+| Documentation index | `docs/README.md` | Reading order for everything below |
+| Status | `docs/project-status.md` | One-page state of the project |
 | Case study | `docs/phase-17/final-case-study.md` | The full narrative in course order |
 | Presentation | `docs/phase-17/final-presentation.md` | Talk script + Q&A |
 | Final audit | `docs/phase-17/final-audit-report.md` | Evidence every claim is checked |
+| Independent verification | `docs/phase-17/independent-verification.md` | Whole-pipeline re-execution |
+| Reproduction | `docs/reproducibility-runbook.md` | Command-by-command rebuild |
 | README | `README.md` | Project status and reproduction commands |
-| Phase docs | `docs/phase-0/` … `docs/phase-16/` | Per-phase method and audit trail |
+| Phase docs | `docs/phase-0/` … `docs/phase-16/` | Per-phase method and evidence |
 | Tableau dashboard | <https://public.tableau.com/views/Retail_Demand_Forecasting/RetailDemandForecastingInventoryPlanning> | Interactive visualization |
 | Application | `app/streamlit_app.py` | Decision-support interface |
-| Figures | `reports/figures/`, `data/analysis/r/plots/` | Regenerated static evidence |
+| Figures | `reports/figures/`, `data/analysis/r/plots/` | Regenerated static evidence — excluded from Git, rebuilt by the phase scripts |
 
 ## Headline Results (verbatim from the phase records)
 
@@ -73,6 +77,8 @@ excluded from Git and rebuilt from the raw dataset.
 ## Known Gaps To State If Asked
 
 - Hosted deployment pending owner authorisation.
+- Generated figures and reports are not committed; run the Phase 14/15 commands
+  in `docs/reproducibility-runbook.md` to rebuild them.
 - Tableau Public extract dated 2026-09-08 (static figures regenerated 2026-09-19).
 - No human accessibility review.
 - Reserved test-period evaluation deferred.

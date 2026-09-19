@@ -86,18 +86,4 @@ The original CSV files are not modified.
 
 ## Phase 17 Re-Audit Record
 
-The schema was re-verified during the Phase 17 audit. The regenerated
-database contains the five documented tables (stores, catalog, sales,
-markdowns, price_history) plus seven indexes, with foreign keys enabled after
-loading. Row counts match the Phase 2 verified source files.
-
-Two observations are recorded:
-
-- The `stores.area` column is declared `TEXT`, while the source `stores.csv`
-  `area` values are integers (109, 210, 1500, 1887). SQLite's dynamic typing
-  stores them as text; downstream phases read `stores.csv` via pandas, so this
-  does not affect later analysis.
-- The `catalog` table contains 219,810 rows, including the 27,571 ragged lines
-  described in Phase 2. Their trailing attribute columns (item_type,
-  weight_*, fatness) are shifted on those rows, but `item_id` remains correct
-  and usable as the join key.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

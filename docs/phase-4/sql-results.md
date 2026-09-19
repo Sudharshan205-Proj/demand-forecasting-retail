@@ -67,9 +67,4 @@ Markdown analysis does not establish causal impact on demand.
 
 ## Phase 17 Re-Audit Record
 
-During the Phase 17 re-audit, `scripts/create_sqlite_database.py` was re-executed
-(rebuilding the 1.06 GB database), and `scripts/run_sql_analysis.py` was
-re-executed, regenerating all 18 query result CSVs. Row counts and representative
-query outputs were inspected and match the Phase 2 verified dataset facts. The
-catalog ragged-line artifact documented in Phase 2 persists in the catalog table
-(219,810 rows) but does not affect the `item_id` join key.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

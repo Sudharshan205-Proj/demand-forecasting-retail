@@ -104,14 +104,4 @@ clone even though `data/analysis/` is excluded from Git.
 
 ## Phase 17 Re-Audit Record
 
-- The original framework asked for the reasoning behind each store's model,
-  but stated it only for Store 4 and treated that store as the exception. The
-  requirement is now general — evidence is derived for every store from the
-  Phase 12 tables — and it is met for all four stores rather than one.
-- "The full Streamlit interface must also be manually smoke-tested" was an
-  unverifiable requirement: nothing recorded whether it had happened. It is
-  replaced by an automated headless startup test, with manual review retained
-  separately and honestly marked as not performed.
-- Reproducibility now has a mechanism. The original framework asserted the
-  application "must be runnable using the documented environment and commands"
-  while the only inputs lived outside version control.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

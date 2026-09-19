@@ -72,18 +72,4 @@ phase Git record; the Phase 17 audit itself performs no Git operations.
 
 ## Phase 17 Re-Audit Status
 
-AUDITED — COMPLETE
-
-The Phase 12 workflow was re-executed over the complete Phase 10 dataset
-(70.9 seconds, 236.6 MB peak) and every generated artifact was inspected.
-The phase's stale artifacts predated the regenerated input, store 4 was
-silently excluded from tuning, configuration strings were parsed back into
-parameters, the engineered features were unused, and no machine-readable
-validation existed. The re-audit added adaptive folds so all four stores are
-tuned, a typed configuration pipeline with a single dispatcher, a
-deterministic feature-based candidate consuming the Phase 10 feature
-families, stored predictions for every fold and validation forecast, a
-30-check quality report that gates the run, fold-window and skipped-store
-records, and a findings report that reconciles the selected classical
-configuration against Phase 11. Phase 12 tests increased from 12 to 64 and
-the full suite passes (373 tests).
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

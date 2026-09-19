@@ -35,10 +35,14 @@ a committed Tableau workbook.
 | Tableau | `tableau/` | VERIFIED |
 | Tests | `tests/` (18 test modules) | VERIFIED |
 
-Tracked file count: 183 (verified with `git ls-files` on 2026-09-19; an earlier
-figure of 178 was stale). `.gitignore` excludes virtual environments, caches,
-`data/raw/*`, `data/processed/*`, `data/analysis/*`, `*.db`, `reports/*` and
-secrets, while retaining the data-directory placeholders.
+Tracked file count: 183 at the time of the audit (verified with `git ls-files`
+on 2026-09-19; an earlier figure of 178 was stale). The audit's own working files
+were committed afterwards as `80aca45`, which took the repository to 284 tracked
+files, and the 2026-09-19 documentation cleanup projects to 178 once committed;
+`docs/project-status.md` carries the current state. `.gitignore` excludes
+virtual environments, caches, `data/raw/*`, `data/processed/*`,
+`data/analysis/*`, `*.db`, `reports/*` and secrets, while retaining the
+data-directory placeholders.
 
 ## 2. Source code — VERIFIED
 
@@ -51,7 +55,7 @@ secrets, while retaining the data-directory placeholders.
 
 | Suite | Command | Result |
 |---|---|---|
-| Full project suite | `.venv\Scripts\python.exe -m pytest -q` | 530 passed, 1 warning |
+| Full project suite | `.venv\Scripts\python.exe -m pytest -q` | 530 passed, 1 warning (ENV-01, the Phase 5 pandas `to_datetime` UserWarning — since resolved with `format="mixed"`) |
 
 The suite covers setup contracts, each data pipeline stage, model validation,
 application behaviour (including a headless HTTP 200 startup test), the R
@@ -125,7 +129,8 @@ still has no owning phase. It is recorded as an open item, not claimed.
 
 ## 9. Documentation — VERIFIED
 
-All sixteen preceding phases carry a re-audit record. This review synchronized
+All sixteen preceding phases carry a re-audit record, consolidated on
+2026-09-19 into `docs/phase-17/re-audit-record.md`. This review synchronized
 the cross-phase records that had drifted:
 
 - `docs/phase-0/curriculum-mapping.md` — the top mapping tables reconciled to
@@ -133,9 +138,9 @@ the cross-phase records that had drifted:
   Applicable** (no holiday field exists in the dataset).
 - `docs/phase-1/requirements-traceability.md` — BR-003, BR-004, BR-013, BR-014,
   BR-015 and the `Share`/`Act` stages advanced to their evidenced status.
-- `docs/phase-0/project-state.md` — HEAD/branch corrected, Phase 17 closed.
+- `docs/project-status.md` — HEAD/branch corrected and Phase 17 closed. The
+  running state log this review updated was later consolidated into this file.
 - `README.md` — status table updated and final artifacts linked.
-- `docs/project-file-update-register.md` — Phase 17 files recorded.
 
 ## 10. README — VERIFIED
 

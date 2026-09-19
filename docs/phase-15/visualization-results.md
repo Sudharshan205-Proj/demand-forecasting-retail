@@ -188,21 +188,7 @@ recorded as verified evidence of publication — not as an audit action.
 
 ## Phase 17 Re-Audit Record
 
-Defects found and corrected:
-
-| # | Defect | Resolution |
-|---|---|---|
-| F1 | All four figures were dated 8 Sep while every input was regenerated 19 Sep — the phase had never run against its own inputs | Workflow re-executed; figures now post-date their inputs |
-| F2 | `visualization-results.md` said NOT YET EXECUTED and all 49 checklist boxes were unticked, while commit `f1146d8` existed and four figures had been produced | This document rewritten; checklist corrected |
-| F3 | The `.twb` cached textscan schema no longer matched the CSVs after `season_length` and `order` were added | Reconciled in place; drift now tested |
-| F4 | The workbook's data sources use the machine-absolute path `C:/Users/User/demand-forecasting-retail/data/analysis` | Documented as a portability note (see Limitations) |
-| F5 | `forecast_inventory_insights.csv` was read but never validated, and the forecast-evidence chart silently returned when its insight was absent, letting a run report success with three of four charts | Fourth input validated; a missing insight now raises and fails the run |
-| F6 | No quality report, manifest or results record; `main()` always printed success | 55-check gating report, manifest with digests, and a non-zero exit on failure |
-| F7 | The 10 tests exercised only `validate_inputs` and never ran the workflow | 32 tests, including end-to-end and 6 failure paths |
-| F8 | The plan listed Phase 14 as an input while nothing consumed R output | Corrected in `visualization-and-tableau-plan.md` |
-| F9 | 16 course-coverage rows still read TO BE VERIFIED | Resolved in `course-content-coverage.md` |
-| F10 | README said COMPLETE while the register said "Not yet started" | Both corrected |
-| F11 | No Tableau Public URL was recorded anywhere | Published URL recorded and verified |
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).
 
 ## Assumptions and Limitations
 

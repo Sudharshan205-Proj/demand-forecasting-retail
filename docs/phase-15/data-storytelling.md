@@ -102,10 +102,7 @@ The intended flow is:
 
 ## Phase 17 Re-Audit Note
 
-The narrative structure was unchanged by the audit. Sections 4, 5 and 7 were
-rewritten to carry the verified values and the two limitations that a reader
-would otherwise not see, instead of leaving the evidence section as a list of
-categories.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).
 
 ## Final Case Study
 

@@ -33,6 +33,9 @@ dist/
 .vscode/
 .idea/
 
+# Agent working directory
+.freebuff/
+
 # OS
 .DS_Store
 Thumbs.db

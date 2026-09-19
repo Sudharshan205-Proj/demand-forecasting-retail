@@ -110,4 +110,4 @@ These results describe historical relationships and do not establish causal effe
 
 ## Phase 17 Re-Audit Record
 
-During the Phase 17 re-audit, the Phase 3 script was re-executed successfully (`python scripts/create_spreadsheet_analysis.py`), producing 761 daily records, 4 store records and 28,182 item records. The regenerated workbook was programmatically compared with the committed workbook and verified functionally identical (same sheets, dimensions, record counts, totals and key values). Following the project's generated-artifact policy, the workbook is no longer tracked in Git and is regenerated reproducibly by the script.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

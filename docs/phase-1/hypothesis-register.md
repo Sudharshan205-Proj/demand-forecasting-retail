@@ -171,4 +171,4 @@ Rules:
 
 ## Phase 17 Re-Audit Note
 
-H1–H8 intentionally remain `NOT TESTED` in this Phase 1 register. Their outcomes are determined by the evidence produced by the analysis and forecasting phases (Phases 7–13) and will only be marked supported or rejected when those phases are audited and their evidence is verified. This register is a planning artifact, not a conclusions record.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

@@ -109,9 +109,9 @@ The repository is organized into:
 - `app/` — Streamlit application code (Phase 16)
 - `deploy/` — frozen artifact bundle so a repository build can start the app (Phase 16)
 - `data/` — raw, interim, processed, external and analysis data (raw and generated data excluded from Git; directory placeholders tracked)
-- `docs/` — phase-by-phase project documentation
+- `docs/` — phase-by-phase project documentation (start at `docs/README.md`)
 - `r/` — R analysis scripts and R Markdown report (Phase 14)
-- `reports/` — generated analysis reports and findings
+- `reports/` — generated analysis figures (excluded from Git; rebuilt by the phase scripts)
 - `scripts/` — phase-owned Python data and analysis scripts
 - `sql/` — SQL schema and analysis queries (Phase 4)
 - `tableau/` — Tableau workbook and dashboard documentation (Phase 15)
@@ -199,6 +199,18 @@ Test the phase with:
 .venv\Scripts\python.exe -m pytest tests/test_application.py -q
 ```
 
+## Documentation Map
+
+The full reading order is in `docs/README.md`. The short version:
+
+- `docs/project-status.md` — current state: phases, dataset, models, tests and
+  open items on one page.
+- `docs/phase-17/final-case-study.md` — the project as a case study, in course
+  order.
+- `docs/reproducibility-runbook.md` — command-by-command reproduction, Phase 0 →
+  17.
+- `docs/course-coverage.md` — which course topics are demonstrated, and where.
+
 ## Final Deliverables
 
 The project closes with a consolidated audit and a portfolio case study:
@@ -206,9 +218,13 @@ The project closes with a consolidated audit and a portfolio case study:
 - `docs/phase-17/final-audit-report.md` — the final project audit across
   structure, code, tests, data, models, evaluation, configuration, Git,
   documentation, deployment, security, reproducibility and course coverage.
+- `docs/phase-17/independent-verification.md` — independent re-execution of the
+  entire pipeline; its findings register is `docs/phase-17/audit-findings.md`.
 - `docs/phase-17/final-case-study.md` — the full case study in course order
   (problem → future scope).
 - `docs/phase-17/final-presentation.md` — presentation script and Q&A.
+- `docs/phase-17/re-audit-record.md` — the consolidated per-phase re-audit
+  records.
 - `docs/phase-17/portfolio-packaging.md` — internship submission guide.
 - `docs/phase-17/phase-17-checklist.md` — the Phase 17 checklist.
 

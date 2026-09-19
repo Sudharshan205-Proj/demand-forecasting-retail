@@ -1,6 +1,0 @@
-Creating forecasting features...
-Feature engineering completed successfully.
-Prepared dataset: C:\Users\User\demand-forecasting-retail\data\processed\feature_engineered_daily.csv
-Summary: C:\Users\User\demand-forecasting-retail\data\analysis\feature_engineering_summary.csv
-Quality report: C:\Users\User\demand-forecasting-retail\data\analysis\feature_engineering_quality_report.csv
-Feature summary: C:\Users\User\demand-forecasting-retail\data\analysis\feature_engineering_feature_summary.csv

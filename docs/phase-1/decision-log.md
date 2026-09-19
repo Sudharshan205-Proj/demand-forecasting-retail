@@ -153,4 +153,4 @@ will be recorded here as they are made.
 
 ### Phase 17 Re-Audit Note
 
-Decisions made after Phase 1 (dataset selection, forecast frequency and horizon, model selection, feature engineering and deployment platform) are recorded as they were made in their respective phase documentation: the dataset in Phase 2, the forecast frequency and horizon in Phases 9 and 11, model selection in Phase 12, feature engineering in Phase 10, and the deployment platform in Phase 16. Those records are owned by their respective phase audits and are not backfilled into this Phase 1 decision log.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

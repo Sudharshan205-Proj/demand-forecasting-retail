@@ -73,8 +73,8 @@ Verified by the documentation review on 2026-09-19: the branch
 `main`, which matches `origin/main`. The items were originally left unticked
 because the Phase 17 audit itself ran no Git command; they are now ticked
 against the verified repository state. The change set is recorded in
-`docs/project-file-update-register.md` and in the Phase 17 Re-Audit Record in
-`eda-results.md`.
+`docs/project-status.md` and in the consolidated Phase 17 Re-Audit Record
+(`docs/phase-17/re-audit-record.md`, Phase 7 records).
 
 ## Completion
 
@@ -105,14 +105,4 @@ diagonal exactly 1.0, all 21 coefficients validated independently),
 
 ## Phase 17 Re-Audit Record
 
-**Audit status:** AUDITED — COMPLETE
-
-Previously unchecked. Checked during the Phase 17 re-audit after the pipeline
-was executed against the complete integrated dataset, its artifacts were
-inspected against the summaries they derive from, and the test suite was
-extended from 10 to 34 tests that exercise the module rather than pandas.
-
-The Git section was originally left unchecked because the audit performed no
-Git commands; it is now ticked against the verified repository state (branch
-`phase-7-exploratory-data-analysis`, tip `651ab10`, merged into `main`; audit
-commit `266c27f`).
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

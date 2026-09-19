@@ -1,7 +1,0 @@
-SQLite database created successfully.
-Output: C:\Users\User\demand-forecasting-retail\data\analysis\retail_demand.db
-stores: 4 rows
-catalog: 219,810 rows
-sales: 7,432,685 rows
-markdowns: 8,979 rows
-price_history: 698,626 rows

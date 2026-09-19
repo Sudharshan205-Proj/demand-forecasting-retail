@@ -75,14 +75,4 @@ a running Streamlit runtime.
 
 ## Phase 17 Re-Audit Record
 
-The plan was reviewed against the implementation and the executed evidence.
-
-- The input list is now explicit about the three-step resolution order rather
-  than naming `data/analysis/` alone. Under the original wording a repository
-  build would have had no inputs at all, because `data/analysis/` is
-  gitignored.
-- A ninth user function was separated out: the Phase 12 selected-model
-  evidence. The original list conflated the model comparison with the model
-  configuration, and the application displayed only the comparison.
-- "Understand limitations" is retained and is now backed by a concrete,
-  data-derived caveat for single-fold stores.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

@@ -109,6 +109,4 @@ while the static figures in this repository are current.
 
 ## Phase 17 Re-Audit Note
 
-This guide previously described the dashboard as a recommendation. It now
-describes the workbook that exists: its five worksheets, six filters, three
-data sources, published URL and the two open items above.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

@@ -185,4 +185,4 @@ The project will finish with a complete audit covering:
 
 ## Phase 0 Audit Record
 
-Phase 0 was originally created as the project setup and curriculum-planning phase. During the Phase 17 audit, the phase list and branch convention were synchronized with the actual project structure and completed phase responsibilities. No phase was removed, merged, or reordered.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

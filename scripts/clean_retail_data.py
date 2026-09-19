@@ -127,6 +127,7 @@ def update_quality_metrics(
     chunk["date"] = pd.to_datetime(
         chunk["date"],
         errors="coerce",
+        format="mixed",
     )
 
     valid_dates = chunk["date"].dropna()

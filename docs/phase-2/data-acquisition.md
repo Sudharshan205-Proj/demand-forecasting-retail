@@ -123,4 +123,4 @@ The acquisition is considered verified only after:
 
 ## Phase 17 Re-Audit Record
 
-During the Phase 17 re-audit, the raw directory was verified to contain eight CSV files (the four originally documented plus `stores.csv`, `catalog.csv`, `discounts_history.csv` and `actual_matrix.csv`). The inspection script was made robust to the dataset's actual structural characteristics (leading unnamed index column, UTF-8 BOM on `catalog.csv`, and unquoted commas inside catalog text fields) and re-executed successfully over the full dataset. Acquisition date, version availability and the license limitation are recorded above.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

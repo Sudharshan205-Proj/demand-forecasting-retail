@@ -104,12 +104,4 @@ changed.
 
 ## Phase 17 Re-Audit Record
 
-AUDITED — COMPLETE
-
-The methodology was reconciled against the executed script during the Phase 17
-re-audit. Two additions were made so the document matches the implementation:
-
-1. Section 4 now records the same-day price-event tie-break behaviour.
-2. Section 11 records the measured exactness of the chunked aggregation.
-
-No integration rule, join key, grain or output schema was changed.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

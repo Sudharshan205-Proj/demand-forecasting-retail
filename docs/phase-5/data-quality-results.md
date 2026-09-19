@@ -83,33 +83,4 @@ The following were executed during the Phase 17 re-audit:
 
 ## Phase 17 Re-Audit Record
 
-AUDITED — COMPLETE
-
-The Phase 5 pipeline was re-executed over the full dataset during the Phase 17
-re-audit (113 seconds) and all three generated artifacts were inspected.
-
-The row set produced by the cleaning rules is unchanged from the original phase
-runs: 7,432,685 rows read, 7,431,026 rows written, 1,659 rows removed. The
-`sales_clean.csv` output remains 7,431,026 data rows with the canonical header
-`date,item_id,quantity,price_base,sum_total,store_id` (the raw index column is
-dropped).
-
-Two documented checks that the phase plan and quality framework required were
-implemented during this audit:
-
-1. A catalog-membership reference check (informational, never a deletion rule).
-2. Recording of the minimum and maximum valid dates.
-
-It also corrected the cleaning-summary reporting: "Rows removed" is now derived
-as `rows read - rows written` (1,659), while the previous overlapping sum of
-rule counters (2,837) is retained and explicitly labelled "Rule failures
-(diagnostic)".
-
-Cross-phase reconciliation:
-
-- The catalog reference count of 36,585 on the raw basis matches Phase 4
-  Query 17 exactly. On the cleaned basis it is 36,580, which matches the Phase 6
-  integration report; the 5-row difference is removed rows that were also
-  unmatched. The distinct unmatched item count is 948 on both bases.
-- The recorded valid-date coverage (2022-08-28 to 2024-09-26) matches the Phase 2
-  and Phase 4 verified facts.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

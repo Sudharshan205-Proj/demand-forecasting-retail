@@ -145,18 +145,4 @@ that survive cleaning, so it describes the temporal span of the source data.
 
 ## Phase 17 Re-Audit Record
 
-AUDITED — COMPLETE
-
-The methodology was reconciled against the executed script during the Phase 17
-re-audit. Three changes were made so the document matches the implementation and
-does not overstate its behaviour:
-
-1. The processing flow now lists the catalog item load, the valid-date coverage
-   step and the catalog-membership reference check.
-2. The duplicate-handling section records that duplicate detection is
-   chunk-local.
-3. New "Catalog reference check" and "Date coverage" sections document the two
-   checks that the phase plan and quality framework required but the earlier
-   implementation omitted.
-
-See `data-quality-results.md` for the verified execution figures.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

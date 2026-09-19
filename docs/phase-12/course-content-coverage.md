@@ -170,10 +170,4 @@ evidence exists.
 
 ## Phase 17 Re-Audit Note
 
-The Phase 12 re-audit verified every claim above against the executed
-pipeline and its generated artifacts: 90 fold evaluations across four
-stores, nine candidate configurations, a 30-check quality report that all
-passed, and metrics reproduced from 2,976 stored forecasts. Two coverage
-gaps were closed: store 4 is now tuned and validated, and the engineered
-features now reach a model. No coverage claim in this document rests on a
-planned-but-absent implementation.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

@@ -1,7 +1,0 @@
-Running Phase 11 forecasting models...
-Forecasting models completed successfully.
-Results: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_model_results.csv
-Configurations: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_model_configurations.csv
-Summary: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_summary.csv
-Predictions: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_predictions.csv
-Quality report: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_quality_report.csv

@@ -48,7 +48,7 @@ silent.
 
 ## Verification Performed
 
-- [x] Full pytest suite run — 530 passed, 1 warning
+- [x] Full pytest suite run — 530 passed, 1 warning (the ENV-01 Phase 5 pandas warning, since resolved with `format="mixed"`)
 - [x] R HTML report re-knitted to clear the artifact-staleness failure (43
       chunks; quality gate passed)
 - [x] Tableau workbook schema checked (`--check` → "already matches its sources")
@@ -62,24 +62,33 @@ silent.
 - [x] `docs/phase-17/final-case-study.md`
 - [x] `docs/phase-17/final-presentation.md`
 - [x] `docs/phase-17/portfolio-packaging.md`
+- [x] `docs/phase-17/independent-verification.md` — the independent re-execution
+      (moved into this folder from `docs/final-audit/`)
+- [x] `docs/phase-17/audit-findings.md` — the findings register
+- [x] `docs/phase-17/re-audit-record.md` — the consolidated per-phase re-audit
+      records
 
 ## Documentation Synchronized
 
 - [x] `README.md` — status table and final-artifact links
-- [x] `docs/phase-0/project-state.md` — final status, HEAD/branch corrected
+- [x] `docs/project-status.md` — final status and HEAD/branch record, plus the
+      Phase 17 file list (the running state log and the file register were later
+      consolidated into this file)
 - [x] `docs/phase-0/curriculum-mapping.md` — tables reconciled + Phase 17 section
 - [x] `docs/phase-1/requirements-traceability.md` — BR rows and stages advanced
 - [x] `docs/phase-1/business-requirements.md` — BR-003 outcome recorded
-- [x] `docs/project-file-update-register.md` — Phase 17 file list
 - [x] `docs/phase-15/data-storytelling.md` — cross-link to the final case study
 
 ## Git
 
-- [x] Working-tree state inspected (only the two reference documents and
-      `.freebuff/` untracked, by decision)
+- [x] Working-tree state inspected at the time: only the two reference
+      documents and `.freebuff/` were untracked, by decision. (`.freebuff/` is
+      now gitignored and the tree has since moved on — `docs/project-status.md`
+      carries the current state.)
 - [x] Phase 17 commit created — the owner's commit `e5a750f` ("Final Audit") is
       on `main`; verified 2026-09-19
-- [x] Branch pushed — `origin/main` points at `e5a750f`, and the
+- [x] Branch pushed — `origin/main` pointed at `e5a750f` at that point (the
+      current tip is `80aca45`), and the
       `phase-17-testing-documentation-final-audit` branch exists on `origin`
 
 ## Explicitly Outstanding

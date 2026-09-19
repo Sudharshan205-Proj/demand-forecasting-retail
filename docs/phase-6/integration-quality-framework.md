@@ -70,25 +70,4 @@ Phase 6 passes integration validation only when:
 
 ## Phase 17 Re-Audit Record
 
-AUDITED — COMPLETE
-
-Every dimension and acceptance criterion above was checked against a fresh
-execution during the Phase 17 re-audit:
-
-* Completeness: row-count difference = 0 (7,431,026 integrated rows equals
-  7,431,026 cleaned sales rows).
-* Uniqueness: duplicate canonical-grain rows = 0, independently re-verified by
-  streaming the regenerated output.
-* Referential integrity: unknown store rows = 0; 36,580 catalog-unmatched rows
-  reported and retained.
-* Join cardinality: all auxiliary joins validated many-to-one, with a
-  regression test proving a non-unique key raises an error.
-* Data preservation: raw files unchanged; primary sales measures unchanged.
-* Channel integrity: online features kept separate from physical demand.
-* Temporal integrity: no future information propagated backwards.
-* Missing auxiliary information: reported, not treated as missing sales.
-* Quality report: the report now carries the six metrics listed in section 9
-  plus date coverage, unique item/store counts and demand/revenue totals.
-
-All acceptance criteria are satisfied. The exact verified figures are in
-`integration-results.md`.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

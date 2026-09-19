@@ -182,56 +182,16 @@ every package against the executed workflow and recorded the versions in
 
 ## Phase 0 Audit Record (Phase 17 Re-Audit)
 
-Phase 0 originally left the environment as `NOT YET VERIFIED`. During the Phase 17 re-audit, the environment was re-executed on the audit runner and the version table was corrected where needed: pip was updated from 25.3 to 26.2.1 and VS Code was updated from 1.135.0 to 1.136.2. RStudio and Tableau Public remain PARTIALLY VERIFIED because their exact versions cannot be confirmed from the command line. No dependency was added or removed during this audit.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).
 
 ## Phase 16 Audit Record (Phase 17 Re-Audit)
 
-The Phase 16 re-audit recorded the application environment actually used to
-serve the phase's interactive interface, and pinned the interpreter and
-server options the hosted platform reads.
-
-| Tool | Version | Role in Phase 16 |
-|---|---|---|
-| Python | 3.12.10 | Application host |
-| streamlit | 1.63.0 | Interactive application |
-| pandas | 3.0.5 | Artifact loading |
-| numpy | 2.5.2 | Numeric support |
-
-Two files now pin the runtime for both the local run and the hosted
-platform: `.python-version` (`3.12`) and `.streamlit/config.toml`
-(`headless = true`, `enableCORS = true`, `gatherUsageStats = false`).
-
-No dependency was added or removed during this audit. `matplotlib`, `scipy`,
-`scikit-learn` and `statsmodels` remain installed for the analysis pipeline but
-are not imported by the application, which keeps the deployed footprint small.
-The Streamlit Community Cloud runtime itself is not versioned from the command
-line, so the hosted Python patch version is recorded as the platform-reported
-value rather than asserted here.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).
 
 ## Phase 15 Audit Record (Phase 17 Re-Audit)
 
-The Phase 15 re-audit recorded the visualization environment actually used to
-produce the phase's static figures, and verified the published dashboard.
-
-| Tool | Version | Role in Phase 15 |
-|---|---|---|
-| Python | 3.12 (project `.venv`) | Workflow host |
-| matplotlib | 3.11.1 | Static figures |
-| pandas | 3.0.5 | Input loading and reports |
-| numpy | 2.5.2 | Numeric support |
-| scipy | 1.18.1 | Standard-normal quantiles for the z-value check |
-| Tableau | 2026.2.2 (build 20262.26.0819.2015) | Workbook authoring |
-
-No dependency was added or removed during this audit; every package used by
-the workflow was already present in the project environment.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).
 
 ## Phase 14 Audit Record (Phase 17 Re-Audit)
 
-The Phase 14 re-audit re-verified the R environment against the executed
-workflow. R 4.6.1, pandoc 3.11 and the eight packages listed above were all
-confirmed present, and their versions are now recorded by the workflow itself
-in `data/analysis/r/r_environment.csv` rather than only in prose. RStudio
-remains PARTIALLY VERIFIED: the workflow runs through `Rscript` and no
-RStudio project is committed, so the course-coverage record marks the RStudio
-row as NOT EVIDENCED instead of claiming IDE usage. No Python dependency was
-added or removed, and `requirements.txt` is unchanged.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

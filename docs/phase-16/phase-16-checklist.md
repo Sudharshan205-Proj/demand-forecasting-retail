@@ -3,12 +3,13 @@
 ## Status
 
 **COMPLETE (local)** — application development, testing, documentation and
-local deployment validation are done. The hosted public deployment is pending
-owner authorisation and is the single unticked item below.
+local deployment validation are done. The three unticked boxes below are all
+part of one outstanding workstream: the hosted public deployment, which
+remains pending owner authorisation.
 
 Every ticked box is backed by a named test, a recorded command or an
 inspection whose result is recorded in `application-results.md`,
-`deployment-validation.md` or the Phase 17 Re-Audit Record.
+`deployment-validation.md` or `docs/phase-17/re-audit-record.md`.
 
 ## Application Development
 
@@ -65,8 +66,10 @@ inspection whose result is recorded in `application-results.md`,
 - [x] Application results
 - [x] Deployment bundle README
 - [x] README updated
-- [x] Persistent project state updated
-- [x] Project file-update register updated
+- [x] Persistent project state updated — that running state log was later
+      consolidated into `docs/project-status.md`
+- [x] Project file-update register updated — that register was later
+      consolidated into `docs/project-status.md`
 
 ## Git
 
@@ -77,25 +80,10 @@ inspection whose result is recorded in `application-results.md`,
 - [x] Branch pushed
 - [x] Remote branch verified
 - [x] Audit changes committed and pushed
-- [x] `git status` reviewed: no unintended files staged; `.freebuff/` and the
-      two root reference documents remain untracked by design
+- [x] `git status` reviewed: no unintended files staged; the two root
+      reference documents remain untracked by design, and `.freebuff/` is
+      gitignored
 
 ## Phase 17 Re-Audit Record
 
-The checklist previously read **IN PROGRESS** with all 62 boxes unticked while
-the phase was implemented, committed and tested. That contradicted the
-repository, and it is the same defect class corrected in Phases 12, 13, 14 and
-15.
-
-Two boxes were reworded so that they are falsifiable:
-
-- "Store 4's single-fold model evidence displayed as a caveat" replaced a box
-  that described Store 4 as descriptive-only — the claim the code itself was
-  making and the evidence contradicted.
-- The Git section's final boxes are marked complete only because the branch,
-  commit and push were carried out as part of this audit; they are reported
-  with the exact commands in `application-results.md`.
-
-Three deployment boxes remain unticked on purpose. Ticking them would assert
-that a hosted deployment has been executed, its URL verified and the hosted
-application validated — none of which has been observed.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

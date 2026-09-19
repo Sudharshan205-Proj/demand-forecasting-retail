@@ -84,37 +84,8 @@ Phase 7 can only be marked complete when:
 
 Items 7 to 9 are repository and version-control actions. They are not performed
 during the Phase 17 re-audit because that audit runs without Git commands; the
-change set is recorded in `docs/project-file-update-register.md` instead.
+change set is recorded in `docs/project-status.md` instead.
 
 ## Phase 17 Re-Audit Record
 
-**Audit status:** AUDITED — COMPLETE
-
-Framework changes applied:
-
-* **Completeness** was tightened from "the full dataset unless a specific
-  analysis explicitly uses a deterministic sample" to "the full dataset". The
-  previous wording permitted the correlation sample, which was measured to
-  differ from the exact full-dataset values by up to 0.179. Correlation now
-  uses the complete dataset, so no exception remains.
-* **Correctness** now requires non-finite values to be quantified and excluded
-  from pairwise statistics. This was added because the integrated dataset
-  contained 6,760 infinite values in `promo_discount_rate` and 2 in
-  `markdown_discount`, and because pandas 3 ignores non-finite values in
-  `corr()` while pandas 2 returns NaN, which made the previous output depend
-  on the installed pandas version. The script excludes non-finite values
-  explicitly and reports `infinite_<column>` counts, which now read 0 after the
-  Phase 8 re-audit guarded the two Phase 6 divisions at source.
-* **Traceability** now records the pairwise-complete basis of each
-  coefficient and the record-count basis of promotion/markdown frequency.
-* **Validation checks** gained five checks: input file existence with an
-  actionable message, non-finite quantification, record frequency, item-level
-  distribution and concentration, chunk-size independence, correlation
-  completeness and non-finite handling, and explicit labelling of empty
-  chart categories.
-
-Evidence: 34 Phase 7 tests pass (10 before), the full suite passes with 193
-tests, the pipeline completed in 61-63 seconds, all 21 correlation
-coefficients were validated against two independent calculations, and all
-seven summary files plus five figures were inspected against the summaries
-they derive from.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

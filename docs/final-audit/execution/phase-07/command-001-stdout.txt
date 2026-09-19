@@ -1,5 +1,0 @@
-Running exploratory data analysis...
-Exploratory data analysis completed successfully.
-Summary: C:\Users\User\demand-forecasting-retail\data\analysis\eda_summary.csv
-Findings: C:\Users\User\demand-forecasting-retail\data\analysis\eda_findings.txt
-Figures: C:\Users\User\demand-forecasting-retail\reports\figures

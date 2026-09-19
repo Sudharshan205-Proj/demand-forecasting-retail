@@ -86,10 +86,4 @@ observed in a recorded run. Two rows are deliberately left short of VERIFIED:
 
 ## Phase 17 Re-Audit Record
 
-The original document described the intended coverage but carried no
-verification column and no per-row evidence, so nothing in it could be shown
-to be true or false. It also asserted that the application "distinguishes
-validated forecasting results" while the code was labelling Store 4 as
-descriptive-only — a claim the Phase 12 evidence contradicts. That row now
-records what the application actually does: it reports the fold count and
-states the caveat without denying the configuration exists.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

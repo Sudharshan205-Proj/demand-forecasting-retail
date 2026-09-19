@@ -63,8 +63,4 @@ The Git items above are the original Phase 11 implementation record. The Phase 1
 
 ## Phase 17 Re-Audit Status
 
-AUDITED — COMPLETE
-
-The Phase 11 workflow was re-executed over the complete Phase 10 feature-engineered dataset (21.4 seconds, 1,279.6 MB peak) and every generated artifact was inspected. The model results are byte-identical to the pre-audit run. Six gaps were corrected: there was no machine-readable validation artifact, no source reconciliation, no stored predictions, no baseline verification, an incomplete reproducibility record and a mislabelled validation start in the findings report. The re-audit added a 24-check quality report that gates the run, a 1,368-row predictions artifact that reconciles every reported metric, measured store-day densification, pooled summary metrics and an index-validation guard on the series construction. Phase 11 tests increased from 11 to 52 and the full suite passes (321 tests).
-
-Cross-phase item still open for Phases 12–13: the Phase 10 engineered features are not used as predictors by the classical models.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

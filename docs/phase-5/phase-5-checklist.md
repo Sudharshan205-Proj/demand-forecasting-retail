@@ -78,8 +78,8 @@ merged into `main`, and the Phase 17 re-audit commit `519946c` ("Phase 5
 Audit") is on `main`, which matches `origin/main`. The items were originally
 left unticked because the Phase 17 audit itself ran no Git command; they are
 now ticked against the verified repository state. The working tree is clean
-apart from the two root reference documents, `.freebuff/` and
-`docs/final-audit/`, which are untracked by decision.
+apart from the two root reference documents and `.freebuff/`, which are
+untracked by decision.
 
 ## Phase completion
 
@@ -90,13 +90,4 @@ apart from the two root reference documents, `.freebuff/` and
 
 ## Phase 17 Re-Audit Status
 
-VERIFIED — 19 TESTS PASS; pipeline re-executed over the full dataset in 113
-seconds; all three generated artifacts inspected; catalog reference count (36,585
-raw / 36,580 cleaned, 948 distinct items) reconciled with Phase 4 and Phase 6;
-valid-date coverage (2022-08-28 to 2024-09-26) reconciled with Phase 2 and
-Phase 4. Two plan-required checks (catalog reference, date coverage) were
-implemented and the cleaning-summary rows-removed reporting was corrected. README
-required no change. The Git items were originally not re-asserted because the
-audit ran no Git operation; they are now ticked against the verified repository
-state (branch `phase-5-data-cleaning-and-quality-assurance`, tip `4a268dc`,
-merged into `main`; audit commit `519946c`).
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

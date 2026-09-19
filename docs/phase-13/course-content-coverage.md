@@ -181,19 +181,4 @@ evidence exists.
 
 ## Phase 17 Re-Audit Note
 
-The Phase 13 re-audit verified every claim above against the executed
-pipeline and its generated artifacts: 1,656 densified training store-days
-with one measured zero-filled day, both scenario families covering 36
-scenarios each, a 43-check quality report that all passed, and error
-statistics reproduced from the stored Phase 12 forecasts.
-
-Two coverage gaps were closed. The phase's stated purpose — translating
-validated forecasting into inventory insight — was not actually met, because
-the forecasts were loaded and never used; a forecast-error scenario family
-now consumes them. And the artifacts asserted that Store 4 had no tuned
-Phase 12 model, which was false and, as a hardcoded string, survived
-re-execution; findings are now derived from the evidence and the quality
-report blocks the stale claim from returning.
-
-No coverage claim in this document rests on a planned-but-absent
-implementation.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

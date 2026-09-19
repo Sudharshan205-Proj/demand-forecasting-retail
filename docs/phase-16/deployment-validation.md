@@ -78,12 +78,4 @@ pending rather than claiming a deployment that has not been observed.
 
 ## Phase 17 Re-Audit Record
 
-This document previously read `NOT YET VERIFIED` end to end and listed
-unticked checkboxes, even though the application was implemented and
-committed. Every row above is now tied to a named test or a recorded
-observation.
-
-The one row that stays unverified — the hosted public URL — is left that way
-deliberately. The public dashboard URL recorded in the Phase 15 record was
-verified by fetching it; there is no equivalent evidence for this phase, so
-none is claimed.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

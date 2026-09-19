@@ -100,8 +100,4 @@ corresponds to validated inputs.
 
 ## Phase 17 Re-Audit Note
 
-The methodology described above is the method actually implemented. During the
-audit the section on forecast evidence was extended to record the reconciliation
-and the fail-on-missing-insight behaviour, and the scenario section to record
-the formula and monotonicity checks, so the document describes what the code
-does rather than what it was intended to do.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

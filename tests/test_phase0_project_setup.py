@@ -17,7 +17,8 @@ PHASE_0_FILES = (
     "docs/phase-0/data-strategy.md",
     "docs/phase-0/reproducibility.md",
     "docs/phase-0/security.md",
-    "docs/phase-0/project-state.md",
+    "docs/phase-0/phase-0-checklist.md",
+    "docs/project-status.md",
 )
 
 DATA_DIRECTORY_KEEPS = (

@@ -1,8 +1,0 @@
-
-
-processing file: r_analysis_report.Rmd
-output file: r_analysis_report.knit.md
-
-[WARNING] Deprecated: --mathjax. Use --math-method=mathjax[:URL] instead.
-
-Output created: data/analysis/r/r_analysis_report.html

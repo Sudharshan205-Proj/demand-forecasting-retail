@@ -146,31 +146,4 @@ development environment. See `deployment-validation.md`.
 
 ## Phase 17 Re-Audit Record
 
-**Defects found in this audit**
-
-| ID | Defect | Resolution |
-|---|---|---|
-| F1 | `application-results.md` said IN PROGRESS with tests, smoke test and deployment "NOT YET VERIFIED" while the application was implemented and committed | Re-executed and rewritten from measured results |
-| F2 | `streamlit_app.py` hardcoded `"Validated" if store in [1,2,3] else "Descriptive"` and warned that Store 4 had no validated tuned configuration — both false | Evidence now derived from the Phase 12 tables; caveat states the single-fold limitation accurately |
-| F3 | The "Selected Model Configuration" section displayed the Phase 11 comparison, and the Phase 12 selection was never shown | Sections split and correctly named |
-| F4 | Every artifact the app loads lived under gitignored `data/analysis/`, so a repository build had no data | `deploy/artifacts/` bundle committed with a tested resolution order |
-| F5 | An empty `if/else` with identical branches in the service-level filter | Removed |
-| F6 | `forecast_inventory_insights.csv` was loaded and never displayed | Removed from `ARTIFACT_FILES` |
-| F7 | `FORECAST_SUMMARY_FILE` was declared and never used | Removed |
-| F8 | `sys.path.insert` hack plus module-scope Streamlit calls made the app unimportable | All Streamlit calls moved into `main()`; import safety is now a test |
-| F9 | 5 trivial tests never exercised loading, derivation or startup | Grown to 36, including end-to-end and failure paths |
-| F10 | Broken code fence in `application-architecture.md` | Corrected |
-
-**Verification performed**
-
-- `python -m pytest tests/test_application.py -q` → 36 passed
-- `python -m pytest -q` → 530 passed
-- Headless launch → HTTP 200, four tables, four section headings
-- Bundle reconciliation → 7 of 7 files byte-identical (SHA-256 compared)
-- Store evidence derivation printed for all four stores and checked against
-  `selected_model_configurations.csv`
-
-**Known gaps recorded, not smoothed over**
-
-- The hosted public deployment is not yet live; it awaits owner authorisation.
-- No human usability review has been performed.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

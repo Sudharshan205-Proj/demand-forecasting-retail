@@ -106,18 +106,4 @@ second test asserts that every path used is project-relative.
 
 ## Phase 17 Re-Audit Record
 
-- The original diagram's `Configuration` section was opened with a code fence
-  that was never closed, which swallowed the rest of the document. The fenced
-  block is corrected.
-- The original data-flow section claimed the application consumes
-  "Phase 12-13" artifacts. It consumes Phase 11 artifacts as well
-  (`forecasting_model_results.csv`, `forecasting_model_configurations.csv`),
-  so the scope is corrected to Phase 11-13.
-- The `Validation` box is now a real stage: resolution requires every artifact
-  to exist and the loader names each gap before failing, rather than an
-  implicit assumption.
-
-**Known gap recorded, not smoothed over:** the seven pure helpers are covered
-by automated tests, but no human usability review of the rendered interface
-has been performed. Layout and accessibility have been observed, not
-evaluated.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

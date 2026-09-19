@@ -142,21 +142,4 @@ No cleaning step should be performed merely because a value looks unusual.
 
 ## Phase 17 Re-Audit Record
 
-AUDITED — COMPLETE
-
-Every quality dimension in this framework was checked against the executed
-pipeline during the Phase 17 re-audit. Two framework requirements were verified
-as enforced by the implementation:
-
-- the store referential-integrity check, and
-- the catalog-membership informational integrity check (added during this
-  audit).
-
-The "Date policy" requirement to record minimum and maximum valid dates is now
-enforced (2022-08-28 to 2024-09-26).
-
-Two policies are intentionally reported rather than resolved in this phase,
-because resolving them would change business values: revenue consistency
-(1,041,252 mismatches reported, not rewritten) and outliers (73,507 potential
-quantity outliers reported, not removed). The exact verified figures are in
-`data-quality-results.md`.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

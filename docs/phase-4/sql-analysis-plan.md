@@ -88,9 +88,4 @@ characteristics require additional investigation.
 
 ## Phase 17 Re-Audit Record
 
-The Phase 4 plan as documented here was executed during the Phase 17 audit:
-the SQLite database was created from the Phase 2 raw files, all 18 SQL
-analysis queries were executed, results were written to
-`data/analysis/sql_results/`, and the intended large-data strategy (chunked
-sales loading) was confirmed. No change to the plan's analytical scope was
-required.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

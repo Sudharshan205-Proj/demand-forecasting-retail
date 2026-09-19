@@ -66,14 +66,4 @@ repository state.
 
 ## Phase 17 Re-Audit Status
 
-VERIFIED — 24 TESTS PASS; the pipeline was re-executed over the full dataset in
-350 seconds and produced a byte-identical 7,431,026-row output. Independent
-output validation confirmed row preservation and canonical-grain uniqueness
-(0 duplicates). The quality report now carries the validation metrics
-(date coverage, unique items/stores, total demand and revenue) that previously
-existed only in a stale JSON artifact, which was removed. Date coverage
-(2022-08-28 to 2024-09-26) and unmatched catalog rows (36,580) reconcile with
-Phase 4 and Phase 5. README required no change. The Git items were originally not
-re-asserted because the audit ran no Git operation; they are now ticked against
-the verified repository state (branch `phase-6-data-integration`, tip
-`f8aee8b`, merged into `main`; audit commit `5e158ca`).
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

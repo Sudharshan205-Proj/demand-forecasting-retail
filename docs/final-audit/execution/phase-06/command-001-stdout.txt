@@ -1,7 +1,0 @@
-Integrating cleaned retail datasets...
-Retail data integration completed successfully.
-Rows integrated: 7,431,026
-Date coverage: 2022-08-28 to 2024-09-26
-Unique items: 28,180
-Integrated dataset: C:\Users\User\demand-forecasting-retail\data\processed\integrated_retail_data.csv
-Quality report: C:\Users\User\demand-forecasting-retail\data\processed\integration_quality_report.csv

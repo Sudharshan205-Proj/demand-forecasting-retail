@@ -82,12 +82,4 @@ been launched and validated in the target environment.
 
 ## Phase 17 Re-Audit Record
 
-The original plan named `data/analysis/` as the deployment input. That
-directory is gitignored, so the plan as written could not have produced a
-working deployment on any host: the build would have succeeded and the first
-page load would have failed. The committed bundle and the resolution order
-close that gap, and a test reconciles the bundle against the pipeline output
-so it cannot silently drift.
-
-The status line previously read `NOT YET VERIFIED` while nothing had been run.
-Status is now split into the three verifiable claims above.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).

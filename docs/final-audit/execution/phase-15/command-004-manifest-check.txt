@@ -1,1 +1,0 @@
-figures: 4 manifest byte-size+sha256 independently re-verified: True

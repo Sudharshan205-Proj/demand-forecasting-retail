@@ -159,36 +159,4 @@ This phase is descriptive rather than predictive.
 
 ## Phase 17 Re-Audit Record
 
-**Audit status:** AUDITED — COMPLETE
-
-The Phase 17 re-audit applied the following methodological changes, all of
-which are reflected under the headings above:
-
-| Section | Change |
-|---|---|
-| 2 | Documented the three-pass chunked execution and constant-memory behaviour |
-| 3 | Added non-finite quantification and record-frequency reporting |
-| 4 | Added item-level quartiles, IQR fence and concentration metrics |
-| 5 | Added month-level record counts and the partial-month note |
-| 6 | Added revenue share alongside demand share |
-| 7 | Added the explicit unmatched-department group and per-record averages |
-| 8 | Replaced the deterministic sample with exact full-dataset pairwise-complete correlation; documented centering and non-finite exclusion |
-| 9 | Implemented the previously documented outlier identification at item level |
-| 10 | Documented categorical label handling |
-| 11 | Added the level shift to the forecasting considerations |
-
-Justification: the previous correlation sample gave equal weight to every
-chunk irrespective of size and reused one seed per chunk, producing
-coefficients that differed from the exact full-dataset values by up to 0.179
-(including a sign change) while appearing in the results documentation as
-authoritative. Sections 4, 5, 6, 7 and 9 close requirements that the phase
-purpose, the EDA questions, this methodology and the course-content coverage
-already claimed but that had no implementation.
-
-Verification: the exact correlation procedure was validated against two
-independent calculations (a direct pairwise-complete computation and a
-centered accumulator prototype) for all 21 coefficient pairs; the model
-reproduced every one to four decimal places, and the diagonal is reported as
-exactly 1. Phase 7 tests were extended from 10 to 34 and the full suite passes
-with 193 tests. The pipeline completed in 61-63 seconds and every artifact was
-inspected against the summaries it derives from.
+Moved to the consolidated [Phase 17 Re-Audit Record](../phase-17/re-audit-record.md).
