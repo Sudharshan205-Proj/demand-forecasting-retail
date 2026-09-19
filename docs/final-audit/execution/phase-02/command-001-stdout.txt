@@ -1,0 +1,210 @@
+Inspected 8 CSV file(s).
+
+========================================================================
+FILE: actual_matrix.csv
+SIZE BYTES: 1,115,377
+ROWS (PARSED): 35,202
+ROWS (PHYSICAL): 35,202
+LINES SKIPPED: 0
+COLUMNS: 3
+COLUMN NAMES: item_id, date, store_id
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 0
+DATA TYPES:
+  - item_id: str
+  - date: str
+  - store_id: int64
+MISSING VALUES:
+  - None
+UNIQUE IDENTIFIERS:
+  - item_id: 15,398
+  - store_id: 4
+DATE COLUMN: date
+INVALID DATE VALUES: 0
+DATE MIN: 2019-10-17
+DATE MAX: 2024-09-26
+
+========================================================================
+FILE: catalog.csv
+SIZE BYTES: 16,024,094
+ROWS (PARSED): 192,239
+ROWS (PHYSICAL): 219,810
+LINES SKIPPED: 27,571
+COLUMNS: 8
+COLUMN NAMES: item_id, dept_name, class_name, subclass_name, item_type, weight_volume, weight_netto, fatness
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 0
+DATA TYPES:
+  - item_id: str
+  - dept_name: str
+  - class_name: str
+  - subclass_name: str
+  - item_type: str
+  - weight_volume: float64
+  - weight_netto: float64
+  - fatness: float64
+MISSING VALUES:
+  - item_type: 155,271
+  - weight_volume: 120,805
+  - weight_netto: 150,033
+  - fatness: 185,408
+UNIQUE IDENTIFIERS:
+  - item_id: 192,239
+
+========================================================================
+FILE: discounts_history.csv
+SIZE BYTES: 341,483,059
+ROWS (PARSED): 3,746,744
+ROWS (PHYSICAL): 3,746,744
+LINES SKIPPED: 0
+COLUMNS: 8
+COLUMN NAMES: date, item_id, sale_price_before_promo, sale_price_time_promo, promo_type_code, doc_id, number_disc_day, store_id
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 0
+DATA TYPES:
+  - date: str
+  - item_id: str
+  - sale_price_before_promo: float64
+  - sale_price_time_promo: float64
+  - promo_type_code: float64
+  - doc_id: str
+  - number_disc_day: float64
+  - store_id: int64
+MISSING VALUES:
+  - promo_type_code: 317,846
+UNIQUE IDENTIFIERS:
+  - item_id: 16,081
+  - store_id: 4
+DATE COLUMN: date
+INVALID DATE VALUES: 0
+DATE MIN: 2022-08-28
+DATE MAX: 2045-12-31
+
+========================================================================
+FILE: markdowns.csv
+SIZE BYTES: 426,080
+ROWS (PARSED): 8,979
+ROWS (PHYSICAL): 8,979
+LINES SKIPPED: 0
+COLUMNS: 6
+COLUMN NAMES: date, item_id, normal_price, price, quantity, store_id
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 268
+DATA TYPES:
+  - date: str
+  - item_id: str
+  - normal_price: float64
+  - price: float64
+  - quantity: float64
+  - store_id: int64
+MISSING VALUES:
+  - None
+UNIQUE IDENTIFIERS:
+  - item_id: 313
+  - store_id: 3
+DATE COLUMN: date
+INVALID DATE VALUES: 0
+DATE MIN: 2022-08-28
+DATE MAX: 2024-09-26
+
+========================================================================
+FILE: online.csv
+SIZE BYTES: 56,839,802
+ROWS (PARSED): 1,123,412
+ROWS (PHYSICAL): 1,123,412
+LINES SKIPPED: 0
+COLUMNS: 6
+COLUMN NAMES: date, item_id, quantity, price_base, sum_total, store_id
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 0
+DATA TYPES:
+  - date: str
+  - item_id: str
+  - quantity: float64
+  - price_base: float64
+  - sum_total: float64
+  - store_id: int64
+MISSING VALUES:
+  - None
+UNIQUE IDENTIFIERS:
+  - item_id: 18,405
+  - store_id: 2
+DATE COLUMN: date
+INVALID DATE VALUES: 0
+DATE MIN: 2022-08-28
+DATE MAX: 2024-09-26
+
+========================================================================
+FILE: price_history.csv
+SIZE BYTES: 29,279,545
+ROWS (PARSED): 698,626
+ROWS (PHYSICAL): 698,626
+LINES SKIPPED: 0
+COLUMNS: 5
+COLUMN NAMES: date, item_id, price, code, store_id
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 18,641
+DATA TYPES:
+  - date: str
+  - item_id: str
+  - price: float64
+  - code: int64
+  - store_id: int64
+MISSING VALUES:
+  - None
+UNIQUE IDENTIFIERS:
+  - item_id: 37,624
+  - store_id: 4
+DATE COLUMN: date
+INVALID DATE VALUES: 0
+DATE MIN: 2022-08-28
+DATE MAX: 2024-09-26
+
+========================================================================
+FILE: sales.csv
+SIZE BYTES: 379,235,110
+ROWS (PARSED): 7,432,685
+ROWS (PHYSICAL): 7,432,685
+LINES SKIPPED: 0
+COLUMNS: 6
+COLUMN NAMES: date, item_id, quantity, price_base, sum_total, store_id
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 0
+DATA TYPES:
+  - date: str
+  - item_id: str
+  - quantity: float64
+  - price_base: float64
+  - sum_total: float64
+  - store_id: int64
+MISSING VALUES:
+  - None
+UNIQUE IDENTIFIERS:
+  - item_id: 28,182
+  - store_id: 4
+DATE COLUMN: date
+INVALID DATE VALUES: 0
+DATE MIN: 2022-08-28
+DATE MAX: 2024-09-26
+
+========================================================================
+FILE: stores.csv
+SIZE BYTES: 158
+ROWS (PARSED): 4
+ROWS (PHYSICAL): 4
+LINES SKIPPED: 0
+COLUMNS: 5
+COLUMN NAMES: store_id, division, format, city, area
+INDEX COLUMN DROPPED: Unnamed: 0
+DUPLICATE ROWS: 0
+DATA TYPES:
+  - store_id: int64
+  - division: str
+  - format: str
+  - city: str
+  - area: int64
+MISSING VALUES:
+  - None
+UNIQUE IDENTIFIERS:
+  - store_id: 4
+

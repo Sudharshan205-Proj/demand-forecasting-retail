@@ -57,7 +57,10 @@ outputs were inspected and independently validated.
 
 ## Test results
 
-22 passed (Phase 6 test module); 169 passed (full project suite).
+22 passed (Phase 6 test module); 169 passed (full project suite). The 22 was the
+count at the completion of this phase's audit; the Phase 8 re-audit added two
+tests when the discount-rate zero-denominator guard was fixed at source, so the
+module now holds **24 tests, all passing**.
 
 ## Known issues
 
@@ -82,15 +85,16 @@ outputs were inspected and independently validated.
 COMPLETE — VERIFIED
 
 The implementation, tests, validation, documentation and artifact checks have
-all succeeded. Git state is managed by the project owner; the Phase 17 audit
-performs no Git operations.
+all succeeded. Git state is managed by the project owner; verified 2026-09-19:
+the branch `phase-6-data-integration` exists locally and on `origin`, its tip
+`f8aee8b` is merged into `main`, and `main` matches `origin/main`.
 
 ## Phase 17 Re-Audit Record
 
 AUDITED — COMPLETE
 
 The pipeline was re-executed over the full dataset during the Phase 17 re-audit
-(350 seconds) and produced a byte-identical integrated dataset (1,283,886,539
+(350 seconds) and produced a byte-identical integrated dataset (1,283,859,491
 bytes, 7,431,026 rows). Verified findings:
 
 1. The end-to-end run reproduces the original phase result exactly: row count,
@@ -109,7 +113,8 @@ bytes, 7,431,026 rows). Verified findings:
    exact for this dataset.
 4. Test coverage of the integration core was added: the previously untested
    `aggregate_*` functions and `build_integration` are now covered (13 → 22
-   tests), replacing a pre-existing test whose assertion was vacuous.
+   tests; 24 after the Phase 8 re-audit), replacing a pre-existing test whose
+   assertion was vacuous.
 
 Date coverage (2022-08-28 to 2024-09-26) and the unmatched catalog count
 (36,580) reconcile with the Phase 5 cleaned-basis figures, and the raw-basis

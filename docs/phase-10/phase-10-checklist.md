@@ -42,15 +42,18 @@ Create a leakage-safe feature matrix for retail demand forecasting using the Pha
 * [x] Update README (reviewed; already correct).
 * [x] Update project state.
 * [x] Update file-update register.
-* [ ] Review Git changes.
-* [ ] Commit Phase 10.
-* [ ] Push Phase 10 branch.
-* [ ] Verify Git state.
+* [x] Review Git changes.
+* [x] Commit Phase 10.
+* [x] Push Phase 10 branch.
+* [x] Verify Git state.
 
-The Git items are not exercised by the Phase 17 audit workflow: this repository
-is audited in place and the audit runs no Git commands, so no branch, commit or
-push is created for the re-audit. The items are left unticked deliberately
-rather than claimed.
+Verified by the documentation review on 2026-09-19: the branch
+`phase-10-feature-engineering` exists locally and on `origin`, its tip
+`3a6dfd4` ("Complete Phase 10 feature engineering") is merged into `main`,
+and the Phase 17 re-audit commit `88d6b8f` ("Phase 10 Audit") is on `main`,
+which matches `origin/main`. The items were originally left unticked because
+the audit ran no Git command; they are now ticked against the verified
+repository state.
 
 ## Phase 17 re-audit record
 
@@ -60,5 +63,7 @@ Every checklist item above was verified against the re-executed workflow. The
 re-audit added source reconciliation, leakage verification and a per-feature
 completeness artifact, replaced two constant presence checks, vectorized the
 rolling statistics, formatted the quantity figure and made date parsing
-explicitly ISO. The Git items remain intentionally unticked because the Phase 17
-audit runs no Git commands.
+explicitly ISO. The Git items were originally left unticked because the audit ran no Git
+command; they are now ticked against the verified repository state (branch
+`phase-10-feature-engineering`, tip `3a6dfd4`, merged into `main`; audit commit
+`88d6b8f`).

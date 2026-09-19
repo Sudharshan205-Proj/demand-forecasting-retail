@@ -1,0 +1,19 @@
+Query 1: 4 result rows -> query_1.csv
+Query 2: 20 result rows -> query_2.csv
+Query 3: 1 result rows -> query_3.csv
+Query 4: 4 result rows -> query_4.csv
+Query 5: 4 result rows -> query_5.csv
+Query 6: 4 result rows -> query_6.csv
+Query 7: 4 result rows -> query_7.csv
+Query 8: 181 result rows -> query_8.csv
+Query 9: 501 result rows -> query_9.csv
+Query 10: 20 result rows -> query_10.csv
+Query 11: 88 result rows -> query_11.csv
+Query 12: 761 result rows -> query_12.csv
+Query 13: 20 result rows -> query_13.csv
+Query 14: 3 result rows -> query_14.csv
+Query 15: 2,571 result rows -> query_15.csv
+Query 16: 1 result rows -> query_16.csv
+Query 17: 1 result rows -> query_17.csv
+Query 18: 1 result rows -> query_18.csv
+SQL analysis completed successfully. Generated 18 result files.

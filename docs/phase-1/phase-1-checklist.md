@@ -99,11 +99,11 @@
 - [x] Problem types
 - [x] Hypothesis thinking
 - [x] Data-driven decision context
-- [ ] Prepare stage — future phase
-- [ ] Process stage — future phase
-- [ ] Analyze stage — future phases
-- [ ] Share stage — future phases
-- [ ] Act stage — future phases
+- [ ] Prepare stage — not a Phase 1 deliverable; closed by later phases (Phases 2 and 5–10)
+- [ ] Process stage — not a Phase 1 deliverable; closed by later phases (Phases 5–6)
+- [ ] Analyze stage — not a Phase 1 deliverable; closed by later phases (Phases 7–14)
+- [ ] Share stage — not a Phase 1 deliverable; closed by later phases (Phases 15–17)
+- [ ] Act stage — not a Phase 1 deliverable; closed by later phases (Phase 13 and Phase 16)
 
 ## Validation
 

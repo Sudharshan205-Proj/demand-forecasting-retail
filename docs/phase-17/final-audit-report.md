@@ -35,7 +35,8 @@ a committed Tableau workbook.
 | Tableau | `tableau/` | VERIFIED |
 | Tests | `tests/` (18 test modules) | VERIFIED |
 
-Tracked file count: 178. `.gitignore` excludes virtual environments, caches,
+Tracked file count: 183 (verified with `git ls-files` on 2026-09-19; an earlier
+figure of 178 was stale). `.gitignore` excludes virtual environments, caches,
 `data/raw/*`, `data/processed/*`, `data/analysis/*`, `*.db`, `reports/*` and
 secrets, while retaining the data-directory placeholders.
 
@@ -118,8 +119,9 @@ still has no owning phase. It is recorded as an open item, not claimed.
 - HEAD at audit time: `fa2eed8` — *Phase 16 Audit*.
 - The Phase 17 audits themselves performed no Git operations except the Phase 16
   deployment commit/push carried out under its approved deployment plan.
-- The exact end-of-phase Git commands are provided by the project-state record
-  for the owner to run; this report does not claim a commit or push occurred.
+- The owner has since performed the end-of-phase commit and push: verified
+  2026-09-19, `HEAD` = `origin/main` = `e5a750f` (*Final Audit*), and the
+  `phase-17-testing-documentation-final-audit` branch exists on `origin`.
 
 ## 9. Documentation — VERIFIED
 

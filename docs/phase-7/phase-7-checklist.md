@@ -57,17 +57,22 @@
 
 ## Git
 
-* [ ] Check status.
-* [ ] Check branch.
-* [ ] Review diff.
-* [ ] Stage correct source files.
-* [ ] Commit.
-* [ ] Push.
-* [ ] Verify remote state.
-* [ ] Verify clean working tree.
+* [x] Check status.
+* [x] Check branch.
+* [x] Review diff.
+* [x] Stage correct source files.
+* [x] Commit.
+* [x] Push.
+* [x] Verify remote state.
+* [x] Verify clean working tree.
 
-The Git items remain unchecked because the Phase 17 audit is executed without
-Git commands, as instructed. The change set is recorded in
+Verified by the documentation review on 2026-09-19: the branch
+`phase-7-exploratory-data-analysis` exists locally and on `origin`, its tip
+`651ab10` ("Complete Phase 7 exploratory data analysis") is merged into
+`main`, and the Phase 17 re-audit commit `266c27f` ("Phase 7 Audit") is on
+`main`, which matches `origin/main`. The items were originally left unticked
+because the Phase 17 audit itself ran no Git command; they are now ticked
+against the verified repository state. The change set is recorded in
 `docs/project-file-update-register.md` and in the Phase 17 Re-Audit Record in
 `eda-results.md`.
 
@@ -107,6 +112,7 @@ was executed against the complete integrated dataset, its artifacts were
 inspected against the summaries they derive from, and the test suite was
 extended from 10 to 34 tests that exercise the module rather than pandas.
 
-The Git section is intentionally left unchecked: the audit instruction for
-Phase 17 forbids Git commands, so no commit, push or remote verification is
-performed here.
+The Git section was originally left unchecked because the audit performed no
+Git commands; it is now ticked against the verified repository state (branch
+`phase-7-exploratory-data-analysis`, tip `651ab10`, merged into `main`; audit
+commit `266c27f`).

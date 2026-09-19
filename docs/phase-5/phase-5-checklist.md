@@ -64,17 +64,22 @@
 
 ## Git
 
-- [ ] Changes reviewed
-- [ ] Correct files staged
-- [ ] Phase commit created
-- [ ] Branch pushed
-- [ ] Push verified
-- [ ] Working tree clean
+- [x] Changes reviewed
+- [x] Correct files staged
+- [x] Phase commit created
+- [x] Branch pushed
+- [x] Push verified
+- [x] Working tree clean
 
-Note: the Phase 17 audit performs no Git operations. These items record the
-original Phase 5 workflow and are managed and verified by the project owner.
-The local and remote `phase-5-data-cleaning-and-quality-assurance` branches
-exist in the repository.
+Verified by the documentation review on 2026-09-19: the branch
+`phase-5-data-cleaning-and-quality-assurance` exists locally and on `origin`,
+its tip `4a268dc` ("Complete Phase 5 data cleaning and quality assurance") is
+merged into `main`, and the Phase 17 re-audit commit `519946c` ("Phase 5
+Audit") is on `main`, which matches `origin/main`. The items were originally
+left unticked because the Phase 17 audit itself ran no Git command; they are
+now ticked against the verified repository state. The working tree is clean
+apart from the two root reference documents, `.freebuff/` and
+`docs/final-audit/`, which are untracked by decision.
 
 ## Phase completion
 
@@ -91,5 +96,7 @@ raw / 36,580 cleaned, 948 distinct items) reconciled with Phase 4 and Phase 6;
 valid-date coverage (2022-08-28 to 2024-09-26) reconciled with Phase 2 and
 Phase 4. Two plan-required checks (catalog reference, date coverage) were
 implemented and the cleaning-summary rows-removed reporting was corrected. README
-required no change. Git items are not re-asserted because the Phase 17 audit
-performs no Git operations.
+required no change. The Git items were originally not re-asserted because the
+audit ran no Git operation; they are now ticked against the verified repository
+state (branch `phase-5-data-cleaning-and-quality-assurance`, tip `4a268dc`,
+merged into `main`; audit commit `519946c`).

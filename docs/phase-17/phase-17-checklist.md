@@ -77,9 +77,10 @@ silent.
 
 - [x] Working-tree state inspected (only the two reference documents and
       `.freebuff/` untracked, by decision)
-- [ ] Phase 17 commit created — left to the owner; the exact commands are in
-      `docs/phase-0/project-state.md`
-- [ ] Branch pushed — not performed by this review
+- [x] Phase 17 commit created — the owner's commit `e5a750f` ("Final Audit") is
+      on `main`; verified 2026-09-19
+- [x] Branch pushed — `origin/main` points at `e5a750f`, and the
+      `phase-17-testing-documentation-final-audit` branch exists on `origin`
 
 ## Explicitly Outstanding
 

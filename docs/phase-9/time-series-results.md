@@ -202,7 +202,7 @@ verification machinery, not the data.
 | Test | Result |
 |---|---|
 | Phase 9 test file | 37 tests, all passing (was 10) |
-| Full suite | 280 tests, all passing; Phase 9 and Phase 10 add 48 between them |
+| Full suite | 258 tests, all passing, as at the completion of this phase's audit (the suite reached 530 by Phase 17); Phase 9 and Phase 10 add 49 between them |
 
 Coverage added: end-to-end aggregation, within-chunk duplicate detection,
 chunk-size independence, numeric coercion, invalid-date/quantity/column
@@ -274,7 +274,7 @@ Run from the project root with the virtual environment present.
 | 4 | Verify the quality report | `.venv\Scripts\python.exe -c "import pandas as pd; r=pd.read_csv('data/analysis/time_series_quality_report.csv'); print(len(r), bool(r['passed'].all()))"` | `15 True` |
 | 5 | Verify reconciliation | `.venv\Scripts\python.exe -c "import pandas as pd; print(pd.read_csv('data/analysis/time_series_summary.csv').to_string(index=False))"` | 7,431,026 rows; quantity 41949529.910 |
 | 6 | Regression: dependent phase | `.venv\Scripts\python.exe -m pytest tests/test_feature_engineering.py -q -p no:cacheprovider` | 32 passed |
-| 7 | Regression: full suite | `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider` | 321 passed |
+| 7 | Regression: full suite | `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider` | 258 passed (as at this phase's completion; 530 at Phase 17) |
 
 ## Phase 11 Re-Audit Note
 

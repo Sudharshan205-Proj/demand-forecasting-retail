@@ -44,16 +44,17 @@ Branch:
 
 main
 
-HEAD (audit-time):
+HEAD (current):
 
-fa2eed8 — Phase 16 Audit.
+e5a750f — Final Audit (`origin/main` points at the same commit, verified 2026-09-19).
 
 The Phase 0–16 records below name `phase-17-testing-documentation-final-audit`
 as the intended phase branch, and the Phase 16 deployment validation records it
 as the Streamlit build branch. The checkout observed during the final review was
-on `main` at `fa2eed8`; the discrepancy is stated rather than silently rewritten.
-No Git operation was performed by this review, so the owner should confirm the
-branch and run the end-of-phase commit when ready.
+on `main` at `fa2eed8`, and the mismatch is stated rather than silently
+rewritten. The audit performed no Git operation; the project owner has since
+completed the end-of-phase commit, so `main` and `origin/main` now both point
+at `e5a750f` (Final Audit, 2026-09-19).
 
 Git status:
 
@@ -185,6 +186,53 @@ The cleaned dataset and quality reports are reproducible generated artifacts and
 - docs/project-file-update-register.md
 
 The integrated dataset and its quality report are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
+
+## Files Modified During Phase 7 Re-Audit
+
+- scripts/exploratory_data_analysis.py
+- tests/test_exploratory_data_analysis.py
+- docs/phase-7/eda-results.md
+- docs/phase-7/eda-methodology.md
+- docs/phase-7/eda-plan.md
+- docs/phase-7/eda-quality-framework.md
+- docs/phase-7/course-content-coverage.md
+- docs/phase-7/phase-7-checklist.md
+- docs/phase-6/integration-results.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/project-file-update-register.md
+
+No raw data files are modified. No Git commands were run during this audit.
+
+## Files Modified During Phase 8 Re-Audit
+
+- scripts/statistical_analytical_analysis.py
+- tests/test_statistical_analytical_analysis.py
+- scripts/integrate_retail_data.py (zero-denominator guard for the discount rates)
+- tests/test_integrate_retail_data.py (two tests added, 22 to 24)
+- docs/phase-8/statistical-analysis-plan.md
+- docs/phase-8/statistical-methodology.md
+- docs/phase-8/statistical-quality-framework.md
+- docs/phase-8/statistical-results.md
+- docs/phase-8/course-content-coverage.md
+- docs/phase-8/phase-8-checklist.md
+- docs/phase-6/integration-results.md
+- docs/phase-7/eda-results.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- requirements.txt (pinned to the verified environment)
+- docs/project-file-update-register.md
+
+Generated artifacts from this phase: the `data/analysis/statistical_*.csv`
+summaries and `statistical_findings.txt`, the four
+`reports/figures/statistical_*.png` figures and the two artifacts added by this
+audit (`statistical_monthly_activity.csv`, `statistical_quality_report.csv`),
+all excluded from Git. No raw data files are modified. These two lists are
+reconstructed from the Phase 7 and Phase 8 records in
+`docs/project-file-update-register.md` and from the phase status paragraphs
+below.
 
 ## Files Modified During Phase 9 Re-Audit
 
@@ -534,8 +582,8 @@ executed workflow. The results document was populated with verified values,
 the methodology recorded the single-pass source reconciliation and the gap
 magnitudes, the quality framework was re-pointed at its 15 quality-report
 checks, the plan and course-content coverage received re-audit records, and
-the checklist was completed (the Git items remain unticked because the Phase
-17 audit performs no Git operations).
+the checklist was completed and its Git items are now ticked against the
+verified repository state (the audit itself ran no Git operation).
 
 Phase 10 documentation:
 
@@ -546,8 +594,9 @@ executed workflow. The results document was populated with verified values and
 the feature-completeness table, the methodology recorded the full-memory
 processing and the compiled grouped-rolling path, the quality framework was
 re-pointed at its 14 quality-report checks, the plan and course-content
-coverage received re-audit records, and the checklist was completed (the Git
-items remain unticked because the Phase 17 audit performs no Git operations).
+coverage received re-audit records, and the checklist was completed with its
+Git items ticked against the verified repository state (the audit itself ran no
+Git operation).
 
 Phase 12 documentation:
 
@@ -607,7 +656,7 @@ The Phase 2 validation test verifies the raw-data inspection utilities: basic st
 
 Phase 3 validation:
 
-VERIFIED — 10 TESTS PASS
+VERIFIED — 12 TESTS PASS
 
 The Phase 3 validation test verifies the spreadsheet pipeline: store lookup loading, required workbook sheets, required course formulas, exact aggregation across chunk boundaries, invalid-date exclusion from the daily sheet only, table-reference handling, autofilter/table conflicts, VLOOKUP store-cell targets, bounded validation references, and the dynamic (non-hardcoded) store-selection dropdown.
 
@@ -625,13 +674,39 @@ The Phase 5 validation verifies required-column handling, store-id loading, nega
 
 Phase 6 validation:
 
-VERIFIED — 22 TESTS PASS
+VERIFIED — 24 TESTS PASS
 
 The Phase 6 validation covers key normalisation and required-column handling plus the previously untested integration core: catalog and store dimension deduplication, price-history event aggregation, markdown discount calculation, promotion aggregation, online-channel aggregation, the actual-matrix indicator, end-to-end `build_integration` row preservation and grain uniqueness (including unmatched-catalog retention, online/physical separation and the new validation metrics), the many-to-one row-multiplication guard, and missing-source-file handling (13 original, one vacuous test replaced, 9 tests added).
 
+Phase 7 validation:
+
+VERIFIED — 34 TESTS PASS
+
+The Phase 7 validation covers the complete EDA workflow: exact full-dataset
+pairwise-complete correlation, item-level distribution, outlier and
+concentration metrics, promotion and markdown record frequency, non-finite
+counters, monthly/store/category/top-item summaries, figure generation
+including the case where a category has no value, findings content and the
+full `main()` workflow (10 to 34 tests).
+
+Phase 8 validation:
+
+VERIFIED — 46 TESTS PASS
+
+The Phase 8 validation covers the complete statistical workflow: streaming
+moments and variance against whole-array reference values, chunk-size
+independence, NaN and infinity exclusion, degenerate variance, promotion
+presence semantics and the rate-sign partition, manually verified group
+statistics and Mann-Whitney values, correlation schema and ordering,
+price-regression orientation, integer lags, OLS and Newey-West trend values,
+store shares, the 56-metric quality report including deliberate-failure cases,
+findings formatting and figure generation (10 to 46 tests). The same re-audit
+added two Phase 6 tests (22 to 24) when the discount-rate zero-denominator
+guard was fixed at source.
+
 Phase 9 validation:
 
-VERIFIED — 36 TESTS PASS
+VERIFIED — 37 TESTS PASS
 
 The Phase 9 validation covers the complete preparation workflow: end-to-end
 aggregation, within-chunk duplicate detection, chunk-size independence,
@@ -640,7 +715,36 @@ analysis and its span identity, single-observation series, split boundaries
 (including the three-date minimum and the 70/15/15 proportions for 761 dates),
 partition non-overlap, the quality report (one pass case and five
 deliberate-failure cases), quantity formatting, findings content and the full
-`main()` workflow with source preservation (10 to 36 tests).
+`main()` workflow with source preservation (10 to 37 tests).
+
+Phase 10 validation:
+
+VERIFIED — 32 TESTS PASS
+
+The Phase 10 validation covers the complete feature-engineering workflow:
+end-to-end preparation, invalid date and column rejection, rolling mean and
+standard deviation values, multi-series independence, target and split
+preservation, the quality report (one pass case and five deliberate-failure
+cases), presence-check counts, the feature summary, split summary, findings
+content and the full `main()` workflow (10 to 32 tests).
+
+Phase 11 validation:
+
+VERIFIED — 52 TESTS PASS
+
+The Phase 11 validation covers the complete forecasting workflow: input schema and loader behaviour, store-day aggregation and reconciliation, series densification and its index validation, per-store model runs (configuration, training/validation windows, horizon, baseline reproduction), pooled summary reconciliation and ordering, the quality report (one pass case on a full synthetic workflow and thirteen deliberate-failure cases), findings content and the full `main()` workflow including its missing-input and failed-quality-check paths (11 to 52 tests).
+
+Phase 12 validation:
+
+VERIFIED — 64 TESTS PASS
+
+The Phase 12 validation covers the complete evaluation and tuning workflow: metric guards, forecast primitives, the store-day feature builder (feature completeness, lag identity, rolling exclusion, target preservation, series age), the typed configuration dispatcher, adaptive fold creation (requested, adapted and reduced counts, chronology, expansion, rejection), split validation including duplicate keys, cross-validation coverage and skipped-store recording, summary aggregation, the selection rule and its MAPE tie-break, validation and error-analysis reproduction from stored predictions, the quality report (one pass case and eleven deliberate-failure cases) and the full `main()` workflow with its missing-input and failed-quality-check paths (12 to 64 tests).
+
+Phase 13 validation:
+
+VERIFIED — 78 TESTS PASS
+
+The Phase 13 validation covers the complete inventory-insight workflow: input validation including the expected-store contract, densification (gap filling, per-store bounds, quantity preservation, duplicate and empty rejection), both descriptive summaries and their coefficient-of-variation agreement, model-evidence loading and its four rejection paths, forecast-error recomputation against Phase 12, both scenario families including the bias-adjusted level and the recovered-mean identity, typed configuration propagation, insight selection and its relative-error checks, and the full `main()` workflow (10 to 78 tests).
 
 Phase 14 validation:
 
@@ -669,28 +773,11 @@ VERIFIED — 32 TESTS PASS
 
 The Phase 15 validation drives the visualization workflow as a subprocess over synthetic analytical inputs built in a temporary directory, so it exercises the complete pipeline without depending on generated artifacts. It covers the successful run (exit status, all 55 quality checks passing, four non-empty figures, both reports and the manifest), the manifest digest and byte size re-verified against the files on disk, a failing gate proven to withhold every figure, and six subprocess failure paths each asserting a non-zero exit, a `FAILED` message and no figure written. Fourteen unit tests cover `validate_inputs` and `validate_leakage_guard`: missing columns, empty inputs, negative demand, negative variability, a broken variance identity, negative reorder points, invalid service levels, mismatched store sets, duplicate store ids, missing insight types, unreconciled insight values and a test-period metric. Seven workbook and URL tests assert well-formedness, the five worksheets and the dashboard, full schema agreement with the current CSV headers, preserved date datatypes, idempotent reconciliation, drift detection, unknown-source rejection and that the recorded Tableau Public URL names this workbook and view (the phase previously had 10 unit-only tests).
 
-Phase 12 validation:
+Phase 16 validation:
 
-VERIFIED — 64 TESTS PASS
+VERIFIED — 36 TESTS PASS
 
-The Phase 12 validation covers the complete evaluation and tuning workflow: metric guards, forecast primitives, the store-day feature builder (feature completeness, lag identity, rolling exclusion, target preservation, series age), the typed configuration dispatcher, adaptive fold creation (requested, adapted and reduced counts, chronology, expansion, rejection), split validation including duplicate keys, cross-validation coverage and skipped-store recording, summary aggregation, the selection rule and its MAPE tie-break, validation and error-analysis reproduction from stored predictions, the quality report (one pass case and eleven deliberate-failure cases) and the full `main()` workflow with its missing-input and failed-quality-check paths (12 to 64 tests).
-
-Phase 11 validation:
-
-VERIFIED — 52 TESTS PASS
-
-The Phase 11 validation covers the complete forecasting workflow: input schema and loader behaviour, store-day aggregation and reconciliation, series densification and its index validation, per-store model runs (configuration, training/validation windows, horizon, baseline reproduction), pooled summary reconciliation and ordering, the quality report (one pass case on a full synthetic workflow and thirteen deliberate-failure cases), findings content and the full `main()` workflow including its missing-input and failed-quality-check paths (11 to 52 tests).
-
-Phase 10 validation:
-
-VERIFIED — 31 TESTS PASS
-
-The Phase 10 validation covers the complete feature-engineering workflow:
-end-to-end preparation, invalid date and column rejection, rolling mean and
-standard deviation values, multi-series independence, target and split
-preservation, the quality report (one pass case and five deliberate-failure
-cases), presence-check counts, the feature summary, split summary, findings
-content and the full `main()` workflow (10 to 31 tests).
+The Phase 16 validation covers the application: formatting helpers including missing values, CSV loading and the missing-artifact message, the three-step artifact-resolution order including the deployment-bundle fallback and the incomplete-location case, bundle integrity (complete, nothing unexpected and byte-identical to the pipeline output), per-store evidence derivation with the fold-count label and the single-fold caveat, scenario filtering and training-day lookup, static guarantees (import safety, no module-scope Streamlit calls, no secrets, project-relative paths), and a headless startup smoke test that serves the app on a free port and asserts HTTP 200 (5 to 36 tests).
 
 Phase 17 final audit:
 
@@ -724,8 +811,9 @@ the existing ones.
 - The Phase 12 error analysis shows every selected model under-forecasting on average, with the bias widening in the second half of the validation period. Phase 13's inventory scenarios should treat this as a known directional bias.
 - The reserved final test evaluation named in the Phase 12 plan still has no owning phase. It remains deferred and is recorded as an open item for the final project audit.
 - The Phase 11 validation store-days contain no zero-demand observations, so MAPE's zero-exclusion rule is a verified safety guarantee rather than a rule that changes the reported values. This is documented rather than presented as exercised coverage.
-- The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
+- The Phase 5–10 checklist Git items were originally left unticked because the Phase 17 audit performed no Git operations. The 2026-09-19 documentation review verified the repository state instead: each phase branch (`phase-5-data-cleaning-and-quality-assurance` through `phase-10-feature-engineering`) exists locally and on `origin` and is merged into `main` (tips `4a268dc`, `f8aee8b`, `651ab10`, `d528614`, `e1ec4a6`, `3a6dfd4`), with the audit commits `519946c`, `5e158ca`, `266c27f`, `3ed429a`, `ccf5673` and `88d6b8f` on `main`. The boxes are now ticked with that verification note.
 - RStudio remains installed but unevidenced: the Phase 14 workflow runs through `Rscript` and no `.Rproj` is committed, so the course-coverage record marks the RStudio row as NOT EVIDENCED rather than claiming it.
+- CORRECTED (2026-09-19 documentation review): four stale per-phase test counts were found in this file and in the Phase 3 and Phase 6 records (Phase 3 10 → 12, Phase 6 22 → 24, Phase 9 36 → 37, Phase 10 31 → 32); this file's integrated-dataset size was wrong by digit transposition (1,283,886,539 → 1,283,859,491 bytes); the Phase 9 re-audit paragraph recorded Phase 10's full-suite total (280 instead of the arithmetically verified 258 at Phase 9 completion); the Tests section was missing its Phase 7, 8, 13 and 16 entries and was out of phase order; and the Git record named the pre-final HEAD. The complete per-file assessment, its evidence and the documents changed are recorded in `docs/final-audit/docs-file-review-2026-09-19.md`.
 
 ## Unresolved Decisions
 
@@ -788,7 +876,7 @@ Phase 6 — Data Integration has been re-audited as part of Phase 17.
 
 AUDITED — COMPLETE
 
-The Phase 6 integration pipeline was re-executed over the complete dataset (350 seconds) and produced a byte-identical 1,283,886,539-byte output with 7,431,026 rows. Independent output validation confirmed row preservation and canonical-grain uniqueness (0 duplicates), unknown stores (0) and 36,580 unmatched catalog rows (reconciling with the Phase 4 raw count of 36,585). The stale, unreproducible `integration_quality_report.json` was removed and its validation metrics folded into the CSV report (date coverage 2022-08-28 to 2024-09-26; 28,180 unique items; 4 stores; total demand 41,949,529.91; total sales revenue 5,659,219,309.90). The chunked aggregation was measured to be numerically exact (no key spans a chunk; maximum difference 0.0). Phase 6 tests increased from 13 to 22 and the full suite passes (169 tests).
+The Phase 6 integration pipeline was re-executed over the complete dataset (350 seconds) and produced a byte-identical 1,283,859,491-byte output with 7,431,026 rows. Independent output validation confirmed row preservation and canonical-grain uniqueness (0 duplicates), unknown stores (0) and 36,580 unmatched catalog rows (reconciling with the Phase 4 raw count of 36,585). The stale, unreproducible `integration_quality_report.json` was removed and its validation metrics folded into the CSV report (date coverage 2022-08-28 to 2024-09-26; 28,180 unique items; 4 stores; total demand 41,949,529.91; total sales revenue 5,659,219,309.90). The chunked aggregation was measured to be numerically exact (no key spans a chunk; maximum difference 0.0). Phase 6 tests increased from 13 to 22 (the Phase 8 re-audit later took the module to 24, which is the count recorded in the Tests section) and the full suite passes (169 tests).
 
 ## Phase 7 Re-Audit Status
 
@@ -836,7 +924,7 @@ data. A
 structural finding is now documented: 55,122 of 58,022 item-store series
 contain intermediate date gaps (12,553,017 missing days), so calendar-based
 lag windows require an explicit densification decision in later phases. Phase
-9 tests increased from 10 to 37 and the full suite passes (280 tests). Both
+9 tests increased from 10 to 37 and the full suite passes (258 tests, as at the completion of this phase's audit; the suite reached 530 by Phase 17). Both
 pipelines were re-run after the final source change — Phase 9 first, because
 Phase 10 consumes its output — so every artifact post-dates its script.
 
@@ -870,7 +958,7 @@ point, because a series' first observed date is always at or before its later
 rows. A cross-phase finding is recorded for the Phase 11–13 audits: those
 scripts load the feature matrix but select only `date`, `store_id`, `quantity`
 and `split`, so the engineered features are not currently used as predictors.
-Phase 10 tests increased from 10 to 32 and the full suite passes (280 tests).
+Phase 10 tests increased from 10 to 32 and the full suite passes (280 tests, as at the completion of this phase's audit; the suite reached 530 by Phase 17).
 
 ## Phase 11 Re-Audit Status
 
@@ -1183,15 +1271,16 @@ named there and in the Phase 17 checklist rather than hidden:
 - RStudio remains installed but unevidenced (the workflow runs through
   `Rscript`).
 
-The next phase is none: the project lifecycle is complete. The owner's remaining
-actions are the end-of-phase Git commit (commands below) and the optional
-hosted deployment and Tableau refresh.
+The next phase is none: the project lifecycle is complete. The end-of-phase
+commit and push have been performed by the project owner (`e5a750f` on `main`,
+matching `origin/main`). The owner's remaining optional actions are the hosted
+deployment and the Tableau refresh.
 
-## End-of-Phase Git Commands (provided, not run by the audit)
+## End-of-Phase Git Commands (executed by the project owner)
 
-Run from the repository root. The audit performed no Git operation, so these are
-provided for the project owner. Confirm the branch first — the checkout observed
-at audit time was `main`.
+Recorded for history: the audit performed no Git operation, and the project
+owner then ran the end-of-phase commit from the repository root on `main`.
+Verified 2026-09-19: `HEAD` = `origin/main` = `e5a750f` — "Final Audit".
 
 ```text
 git status
@@ -1201,6 +1290,7 @@ git commit -m "Phase 17 Final Audit"
 git log --oneline -5
 ```
 
-The two root reference documents and `.freebuff/` stay untracked by decision.
-Generated artifacts under `data/` remain excluded from Git. Push only after
-confirming the target branch with the project owner.
+The two root reference documents, `.freebuff/` and the audit outputs under
+`docs/final-audit/` stay untracked by decision. Generated artifacts under
+`data/` remain excluded from Git. The commit was pushed to the project owner's
+remote, which now holds `e5a750f` on `main`.

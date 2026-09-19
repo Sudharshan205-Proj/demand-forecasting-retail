@@ -1,0 +1,5 @@
+Preparing retail data for time-series forecasting...
+Time-series preparation completed successfully.
+Prepared dataset: C:\Users\User\demand-forecasting-retail\data\processed\time_series_daily.csv
+Summary: C:\Users\User\demand-forecasting-retail\data\analysis\time_series_summary.csv
+Quality report: C:\Users\User\demand-forecasting-retail\data\analysis\time_series_quality_report.csv

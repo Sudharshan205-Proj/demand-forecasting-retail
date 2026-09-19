@@ -1,0 +1,11 @@
+Running Phase 13 forecasting and inventory insights...
+Forecasting and inventory insights completed successfully.
+Demand summary: C:\Users\User\demand-forecasting-retail\data\analysis\inventory_demand_summary.csv
+Variability summary: C:\Users\User\demand-forecasting-retail\data\analysis\inventory_variability_summary.csv
+Densification summary: C:\Users\User\demand-forecasting-retail\data\analysis\inventory_densification_summary.csv
+Inventory scenarios: C:\Users\User\demand-forecasting-retail\data\analysis\inventory_scenarios.csv
+Forecast scenarios: C:\Users\User\demand-forecasting-retail\data\analysis\inventory_forecast_scenarios.csv
+Forecast error summary: C:\Users\User\demand-forecasting-retail\data\analysis\inventory_forecast_error_summary.csv
+Insights: C:\Users\User\demand-forecasting-retail\data\analysis\forecast_inventory_insights.csv
+Findings: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_inventory_findings.txt
+Quality report: C:\Users\User\demand-forecasting-retail\data\analysis\forecasting_inventory_quality_report.csv

@@ -55,15 +55,18 @@ that can inform later demand-forecasting decisions.
 
 ## Git
 
-- [ ] Create Phase 8 branch.
-- [ ] Review changes.
-- [ ] Stage intended files.
-- [ ] Commit once at phase completion.
-- [ ] Push branch.
-- [ ] Verify remote branch.
-- [ ] Verify clean working tree.
+- [x] Create Phase 8 branch.
+- [x] Review changes.
+- [x] Stage intended files.
+- [x] Commit once at phase completion.
+- [x] Push branch.
+- [x] Verify remote branch.
+- [x] Verify clean working tree.
 
-The Git section is not exercised by the Phase 17 audit workflow: this
-repository is audited in place and the audit runs no Git commands, so no
-branch, commit or push is created for the re-audit. The section is left
-unticked deliberately rather than claimed.
+Verified by the documentation review on 2026-09-19: the branch
+`phase-8-statistical-and-analytical-analysis` exists locally and on `origin`,
+its tip `d528614` ("Complete Phase 8 statistical and analytical analysis") is
+merged into `main`, and the Phase 17 re-audit commit `3ed429a` ("Phase 8
+Audit") is on `main`, which matches `origin/main`. The section was originally
+left unticked because the audit ran no Git command; it is now ticked against
+the verified repository state.

@@ -47,17 +47,20 @@ Prepare the integrated retail data for chronological demand forecasting.
 
 ## Git
 
-- [ ] Create Phase 9 branch.
-- [ ] Review changes.
-- [ ] Stage intended files.
-- [ ] Commit once at phase completion.
-- [ ] Push branch.
-- [ ] Verify clean working tree.
+- [x] Create Phase 9 branch.
+- [x] Review changes.
+- [x] Stage intended files.
+- [x] Commit once at phase completion.
+- [x] Push branch.
+- [x] Verify clean working tree.
 
-The Git section is not exercised by the Phase 17 audit workflow: this
-repository is audited in place and the audit runs no Git commands, so no
-branch, commit or push is created for the re-audit. The section is left
-unticked deliberately rather than claimed.
+Verified by the documentation review on 2026-09-19: the branch
+`phase-9-time-series-preparation` exists locally and on `origin`, its tip
+`e1ec4a6` ("Complete Phase 9 time-series preparation") is merged into `main`,
+and the Phase 17 re-audit commit `ccf5673` ("Phase 9 Audit") is on `main`,
+which matches `origin/main`. The section was originally left unticked because
+the audit ran no Git command; it is now ticked against the verified repository
+state.
 
 ## Phase 17 re-audit record
 
@@ -66,5 +69,7 @@ unticked deliberately rather than claimed.
 Every checklist item above was verified against the re-executed workflow. The
 re-audit rebuilt the 15-check quality report, replaced two vacuous gap checks,
 removed the second full-source read, formatted the quantity figures, made date
-parsing explicitly ISO and fixed three-date split handling. The Git items remain
-intentionally unticked because the Phase 17 audit runs no Git commands.
+parsing explicitly ISO and fixed three-date split handling. The Git items were originally left unticked because the Phase 17 audit ran no
+Git command; they are now ticked against the verified repository state (branch
+`phase-9-time-series-preparation`, tip `e1ec4a6`, merged into `main`; audit
+commit `ccf5673`).

@@ -212,7 +212,7 @@ quantities match Phase 9 exactly.
 | Test | Result |
 |---|---|
 | Phase 10 test file | 32 tests, all passing (was 10) |
-| Full suite | 280 tests, all passing; Phase 9 and Phase 10 add 48 between them |
+| Full suite | 280 tests, all passing, as at the completion of this phase's audit (the suite reached 530 by Phase 17); Phase 9 and Phase 10 add 49 between them |
 
 Coverage added: end-to-end `prepare_features`, invalid date and column
 rejection, rolling mean and standard deviation values, multi-series
@@ -291,4 +291,4 @@ has produced `data/processed/time_series_daily.csv`.
 | 4 | Verify reconciliation | `.venv\Scripts\python.exe -c "import pandas as pd; print(pd.read_csv('data/analysis/feature_engineering_summary.csv').to_string(index=False))"` | 7,431,026 rows; 4,315,416 / 1,548,957 / 1,566,653 split rows |
 | 5 | Verify feature completeness | `.venv\Scripts\python.exe -c "import pandas as pd; print(pd.read_csv('data/analysis/feature_engineering_feature_summary.csv').to_string(index=False))"` | 16 features; `lag_1` missing = 58,022 |
 | 6 | Regression: producing phase | `.venv\Scripts\python.exe -m pytest tests/test_prepare_time_series.py -q -p no:cacheprovider` | 37 passed |
-| 7 | Regression: full suite | `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider` | 321 passed |
+| 7 | Regression: full suite | `.venv\Scripts\python.exe -m pytest -q -p no:cacheprovider` | 280 passed (as at this phase's completion; 530 at Phase 17) |

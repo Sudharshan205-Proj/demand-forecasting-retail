@@ -93,7 +93,9 @@ The defined horizon is recorded in the Phase 11 and Phase 12 forecasting records
 
 ## 6. Geographic Scope
 
-TBD based on dataset availability.
+Not applicable beyond store level: the dataset carries no geographic
+attributes, so the four store identifiers are the only location dimension
+(verified in Phase 2 and Phase 4).
 
 ## 7. Product Scope
 

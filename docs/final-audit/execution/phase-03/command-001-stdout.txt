@@ -1,0 +1,5 @@
+Spreadsheet analysis workbook created successfully.
+Output: C:\Users\User\demand-forecasting-retail\data\analysis\retail_spreadsheet_analysis.xlsx
+Daily records: 761
+Store records: 4
+Item records: 28,182

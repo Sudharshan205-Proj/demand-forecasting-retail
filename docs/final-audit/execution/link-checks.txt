@@ -1,0 +1,3 @@
+200 https://public.tableau.com/views/Retail_Demand_Forecasting/RetailDemandForecastingInventoryPlanning
+200 https://public.tableau.com/app/profile/sudharshan.moodley/viz/Retail_Demand_Forecasting/RetailDemandForecastingInventoryPlanning
+200 https://www.kaggle.com/datasets/svizor/retail-sales-forecasting-data

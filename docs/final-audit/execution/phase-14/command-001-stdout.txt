@@ -1,0 +1,4 @@
+Phase 14 R analysis completed successfully.
+Quality checks passed: 91 of 91 
+R output directory: C:/Users/User/demand-forecasting-retail/data/analysis/r 
+Render the report with (from the repository root): Rscript -e "rmarkdown::render('r/r_analysis_report.Rmd', output_dir = file.path(getwd(), 'data', 'analysis', 'r'))"

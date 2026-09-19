@@ -1,0 +1,8 @@
+compared: 124 artifacts
+  deployment           identical=  8 differs=  0 missing=  0
+  generated-analysis   identical= 90 differs=  4 missing=  0
+  generated-processed  identical=  8 differs=  0 missing=  0
+  r-analysis           identical=  2 differs=  0 missing=  0
+  raw-data             identical=  9 differs=  0 missing=  0
+  tableau              identical=  3 differs=  0 missing=  0
+report: C:\Users\User\demand-forecasting-retail\docs\final-audit\execution\phase-17\artifact-drift-report.tsv

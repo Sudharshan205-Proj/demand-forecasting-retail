@@ -1,0 +1,4 @@
+inventory_scenarios.csv: 13 column(s) reconciled
+inventory_variability_summary.csv: 8 column(s) reconciled
+tuned_validation_results.csv: 10 column(s) reconciled
+Workbook schema already matches its sources.

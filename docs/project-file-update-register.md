@@ -185,7 +185,7 @@ VERIFIED — workbook regenerated and confirmed functionally identical during th
 
 The re-audit regenerated and verified the workbook (761 daily records, 4 stores, 28,182 items), populated the results documentation with verified findings, corrected the deferred-phase chart, and confirmed the course-technology coverage claims against the actual workbook.
 
-IN PROGRESS
+COMPLETE — VERIFIED
 
 ---
 
@@ -328,7 +328,7 @@ The re-audit added six validation metrics to the quality report (date coverage,
 unique items/stores, total demand and revenue), removed the stale
 `integration_quality_report.json` artifact that the current script cannot
 reproduce, documented the same-day price-event tie-break, and replaced a vacuous
-test with real coverage of the integration core (13 to 22 tests). No grain, join
+test with real coverage of the integration core (13 to 22 tests, 24 after the Phase 8 re-audit). No grain, join
 key or release policy was changed; the integrated output is byte-identical and
 no raw data files are modified.
 
@@ -927,3 +927,45 @@ the hosted deployment has not been executed.
 - The reserved final test-period evaluation has no owning phase.
 - RStudio remains installed but unevidenced; the R workflow runs through `Rscript`.
 - The two root reference documents remain untracked by the project owner's decision.
+
+---
+
+## Documentation File Review — 2026-09-19
+
+Every file under `docs/` (220 files: 151 markdown and 69 evidence captures) was
+reviewed after the final audit. Each markdown file was machine-swept for eight
+claim classes (test counts, full-suite totals, metric constants, artifact byte
+sizes, status declarations, referenced paths, external links and checklist
+state) and those claims were checked against live evidence:
+`pytest --collect-only`, the generated artifacts, `git ls-files`,
+`git ls-remote` and read-only SQL over `data/analysis/retail_demand.db`.
+
+Corrections applied by that review:
+
+- Phase 3 test count 10 → 12 (`docs/phase-3/phase-3-checklist.md`,
+  `docs/phase-0/project-state.md`).
+- Phase 6 test count 22 → 24 (`docs/phase-6/integration-results.md`,
+  `docs/phase-6/phase-6-checklist.md`, this register,
+  `docs/phase-0/project-state.md`).
+- Phase 9 test count 36 → 37 and Phase 10 31 → 32 in
+  `docs/phase-0/project-state.md`.
+- Integrated-dataset size 1,283,886,539 → 1,283,859,491 bytes
+  (`docs/phase-0/project-state.md`, `docs/phase-6/integration-results.md`).
+- Phase 9 full-suite total 280 → 258 (labelled as at Phase 9 completion) and
+  "Phase 9 and Phase 10 add 48" → 49 (`docs/phase-9/time-series-results.md`,
+  `docs/phase-10/feature-engineering-results.md`).
+- `docs/phase-0/project-state.md`: added the missing Phase 7, 8, 13 and 16 test
+  entries, reordered the Tests section 0 → 17, added the missing Phase 7 and
+  Phase 8 re-audit file lists, and corrected the HEAD record to `e5a750f`.
+- `docs/phase-17/final-audit-report.md`: tracked file count 178 → 183, and the
+  Git section records the owner's completed commit and push.
+- This register: the stale `IN PROGRESS` in the Phase 3 section and the
+  Phase 6 "13 to 22 tests" figure.
+- Phase 5–10 checklist Git items ticked against the verified branch/commit
+  state; Phase 1 stage boxes annotated with their owning phases;
+  `docs/phase-1/scope-and-assumptions.md` geographic-scope placeholder
+  resolved.
+- `docs/final-audit/` records corrected where they had under-reported the
+  drift (see `docs/final-audit/docs-file-review-2026-09-19.md`).
+
+No source file, test, configuration or data was changed by this review.

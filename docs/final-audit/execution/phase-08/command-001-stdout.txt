@@ -1,0 +1,6 @@
+Running statistical and analytical analysis...
+Statistical and analytical analysis completed successfully.
+Summary: C:\Users\User\demand-forecasting-retail\data\analysis\statistical_summary.csv
+Findings: C:\Users\User\demand-forecasting-retail\data\analysis\statistical_findings.txt
+Quality report: C:\Users\User\demand-forecasting-retail\data\analysis\statistical_quality_report.csv
+Figures: C:\Users\User\demand-forecasting-retail\reports\figures

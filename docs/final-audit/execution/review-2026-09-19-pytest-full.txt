@@ -1,0 +1,15 @@
+........................................................................ [ 13%]
+........................................................................ [ 27%]
+........................................................................ [ 40%]
+........................................................................ [ 54%]
+........................................................................ [ 67%]
+........................................................................ [ 81%]
+........................................................................ [ 95%]
+..........................                                               [100%]
+============================== warnings summary ===============================
+tests/test_clean_retail_data.py::test_clean_sales_writes_output_across_chunks
+  C:\Users\User\demand-forecasting-retail\scripts\clean_retail_data.py:127: UserWarning: Could not infer format, so each element will be parsed individually, falling back to `dateutil`. To ensure parsing is consistent and as-expected, please specify a format.
+    chunk["date"] = pd.to_datetime(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+530 passed, 1 warning in 292.24s (0:04:52)

@@ -31,12 +31,12 @@ Actual evidence must exist.
 
 | Topic | Project Evidence | Status |
 |---|---|---|
-| Data analytics | Methodology documentation | 📄 |
-| Data-driven decisions | Business analysis | 🟨 |
+| Data analytics | Six-stage methodology across Phases 0–17 | 🟩 |
+| Data-driven decisions | Phase 13 inventory scenarios and Phase 16 decision-support application | 🟩 |
 | Analytical thinking | Analytical questions | 🟩 |
-| Structured thinking | Project methodology | 📄 |
+| Structured thinking | Phase 1 structured workflow (problem → requirements → questions → analysis → recommendations) | 🟩 |
 | Problem solving | Business problem decomposition | 🟩 |
-| Critical thinking | Analytical decisions | 🟨 |
+| Critical thinking | Phase 12/13 model and business decisions | 🟩 |
 | Business understanding | Problem definition | 🟩 |
 | Stakeholders | Stakeholder analysis | 🟩 |
 | Quantitative data | Phase 7–8 sales and statistical analysis | 🟩 |
@@ -77,12 +77,12 @@ Actual evidence must exist.
 | Data sources | Source documentation | 🟩 |
 | Internal/external/open data | Source classification | 🟩 |
 | Data relevance | Dataset assessment | 🟩 |
-| Data credibility | ROCCC assessment | 📄 |
-| Data validity | Validation | 📄 |
+| Data credibility | `docs/phase-2/data-source-assessment.md` (all five ROCCC criteria VERIFIED) | 🟩 |
+| Data validity | Phase 5 validation and quality report | 🟩 |
 | Data reliability | Source assessment | 🟩 |
 | Data bias | Bias assessment | 🟨 |
 | Data context | Dataset documentation | 🟩 |
-| ROCCC | Dataset assessment | 📄 |
+| ROCCC | `docs/phase-2/data-source-assessment.md` (Reliable, Original, Comprehensive, Current, Cited) | 🟩 |
 | Databases | SQLite/SQL | 🟩 |
 | Relational tables | SQL database | 🟩 |
 | Keys | Database design | 🟩 |
@@ -163,7 +163,7 @@ Actual evidence must exist.
 | JOIN | SQL scripts | 🟩 |
 | Aliases | SQL scripts | 🟩 |
 | Subqueries | SQL scripts | 🟩 |
-| Temporary tables | SQL scripts | ⬜ |
+| Temporary tables | Not applicable — analysis uses CTEs; not introduced merely for coverage | ❌ |
 | Calculated fields | SQL scripts | 🟩 |
 | Validation queries | SQL scripts | 🟩 |
 | Filtering | SQL scripts | 🟩 |
@@ -706,10 +706,55 @@ Rows that remain open, honestly:
 
 - **RStudio** stays ⬜: the R workflow was executed through `Rscript` and no
   `.Rproj` is committed.
-- **Temporary tables (SQL)** stays ⬜: the analysis uses common table expressions
-  rather than explicit temporary tables.
-- **Data ethics** and **qualitative/contextual analysis** stay 🟨, and
-  **annotations** and **accessibility** stay 🟨.
+- **Temporary tables (SQL)** is ❌ NOT APPLICABLE, matching the final report:
+  the analysis uses common table expressions rather than explicit temporary
+  tables, and the course guidance forbids introducing them merely to claim
+  coverage.
+- **Data bias** (Courses 1 and 3), **qualitative data**, **collaboration**,
+  **normalization**, **data governance**, **access control**, **ownership**,
+  **consent**, **correlation visualization**, **annotations** and
+  **accessibility** stay 🟨: their evidence is documented rather than
+  exhaustively verified, or a human review was not performed.
 
 The full audit, including the outstanding-items register, is in
 `docs/phase-17/final-audit-report.md`.
+
+## Curriculum Row Re-Verification — 2026-09-19
+
+The Phase 17 final audit reconciled the rows that were still ⬜, but it left the
+rows that the earlier per-phase notes had marked 📄 (documented) or 🟨
+(partial). The post-audit documentation review recorded that this file had not
+been re-verified row by row. This section records that re-verification against
+the executed pipelines, the generated artifacts and the Phase 17 report, and
+supersedes the earlier per-phase notes where they disagree.
+
+Rows that advanced on delivered evidence:
+
+- **Course 1** — **Data analytics** and **Structured thinking** move 📄 → 🟩:
+  the six-stage analytical lifecycle is executed end to end across Phases 0–17,
+  and the Phase 1 structured workflow (problem → requirements → questions →
+  analysis → recommendations) is implemented. **Data-driven decisions** and
+  **Critical thinking** move 🟨 → 🟩, because the forecast-driven inventory
+  scenarios (Phase 13) and the decision-support application (Phase 16) now
+  exist. Course 2's Critical thinking row already rested on the same Phase
+  12–13 evidence.
+- **Course 3** — **Data credibility** and **ROCCC** move 📄 → 🟩: the Phase 2
+  source assessment records all five ROCCC criteria (Reliable, Original,
+  Comprehensive, Current, Cited) as VERIFIED after inspecting the actual data.
+  **Data validity** moves 📄 → 🟩: Phase 5 executes the validation and writes
+  the quality report.
+- **Course 5 SQL** — **Temporary tables** moves ⬜ → ❌ NOT APPLICABLE, matching
+  the Phase 17 report. The analysis uses common table expressions, and the
+  course guidance is explicit that temporary tables must not be introduced
+  merely to claim coverage.
+
+Rows that remain open after this re-verification, and why:
+
+- **RStudio** stays ⬜: the R workflow runs through `Rscript` and no `.Rproj`
+  is committed, so the topic is unevidenced rather than applicable.
+- **Not Applicable** rows — Holidays, Prophet/LSTM and Temporary tables —
+  reflect requirements that the dataset or the course boundary made
+  inapplicable; each is the subject of a documented decision rather than a
+  hidden gap.
+- The 🟨 rows listed in the Phase 17 section remain partial for the reasons
+  recorded there.

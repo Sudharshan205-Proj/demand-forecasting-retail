@@ -48,27 +48,32 @@
 
 ## Git
 
-* [ ] Review status.
-* [ ] Review diff.
-* [ ] Review staged files.
-* [ ] Commit once.
-* [ ] Push branch.
-* [ ] Verify remote branch.
-* [ ] Verify clean working tree.
+* [x] Review status.
+* [x] Review diff.
+* [x] Review staged files.
+* [x] Commit once.
+* [x] Push branch.
+* [x] Verify remote branch.
+* [x] Verify clean working tree.
 
-Note: the Phase 17 audit performs no Git operations. These items record the
-original Phase 6 workflow and are managed and verified by the project owner.
-The local and remote `phase-6-data-integration` branches exist in the
-repository.
+Verified by the documentation review on 2026-09-19: the branch
+`phase-6-data-integration` exists locally and on `origin`, its tip `f8aee8b`
+("Complete Phase 6 data integration") is merged into `main`, and the Phase 17
+re-audit commit `5e158ca` ("Phase 6 Audit") is on `main`, which matches
+`origin/main`. The items were originally left unticked because the Phase 17
+audit itself ran no Git command; they are now ticked against the verified
+repository state.
 
 ## Phase 17 Re-Audit Status
 
-VERIFIED — 22 TESTS PASS; the pipeline was re-executed over the full dataset in
+VERIFIED — 24 TESTS PASS; the pipeline was re-executed over the full dataset in
 350 seconds and produced a byte-identical 7,431,026-row output. Independent
 output validation confirmed row preservation and canonical-grain uniqueness
 (0 duplicates). The quality report now carries the validation metrics
 (date coverage, unique items/stores, total demand and revenue) that previously
 existed only in a stale JSON artifact, which was removed. Date coverage
 (2022-08-28 to 2024-09-26) and unmatched catalog rows (36,580) reconcile with
-Phase 4 and Phase 5. README required no change. Git items are not re-asserted
-because the Phase 17 audit performs no Git operations.
+Phase 4 and Phase 5. README required no change. The Git items were originally not
+re-asserted because the audit ran no Git operation; they are now ticked against
+the verified repository state (branch `phase-6-data-integration`, tip
+`f8aee8b`, merged into `main`; audit commit `5e158ca`).

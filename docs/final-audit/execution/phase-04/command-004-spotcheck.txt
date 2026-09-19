@@ -1,0 +1,4 @@
+sales columns: ['date', 'item_id', 'quantity', 'price_base', 'sum_total', 'store_id']
+revenue-like columns: ['sum_total']
+revenue_total = (5658351680.71,)
+store_count = (4,)
