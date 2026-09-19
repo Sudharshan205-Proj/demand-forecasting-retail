@@ -71,3 +71,22 @@ tooltips.
 The dashboard should move from:
 
 Demand → Variability → Forecast Evidence → Inventory Planning → Action.
+
+## As Built
+
+Verified against `tableau/Retail_Demand_Forecasting.twb` on 19 September 2026:
+
+| Element | Count / value |
+|---|---|
+| Worksheets | 5 — Average Demand by Store; Relative Demand Variability; Reorder-Point Scenarios; Forecast Evidence; Safety Stock Scenarios |
+| Dashboard | 1 — *Retail Demand Forecasting & Inventory Planning* |
+| Layout zones | 19 |
+| Filters | 6 (store, lead time, service level) |
+| Field instances | 27 |
+| Marks | 3 bar, 2 line |
+| Authoring build | Tableau 2026.2.2 |
+| Published URL | `https://public.tableau.com/views/Retail_Demand_Forecasting/RetailDemandForecastingInventoryPlanning` |
+
+Open item: the Reorder-Point Scenarios worksheet uses a fixed axis range whose
+lead-time minimum sits slightly below zero and should be reset to start at the
+smallest assumed lead time.

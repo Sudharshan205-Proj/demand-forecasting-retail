@@ -24,7 +24,7 @@ Actual evidence must exist.
 | Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
 | Process | Clean, validate, transform and integrate data | 🟩 |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟩 |
-| Share | Tableau, charts, reports and storytelling | ⬜ |
+| Share | Tableau, charts, reports and storytelling | 🟩 |
 | Act | Forecast demand and produce inventory recommendations | ⬜ |
 
 ## Course 1 — Foundations
@@ -173,24 +173,24 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Charts | Python/R/Tableau | 🟨 |
-| Histograms | EDA | 🟨 |
-| Line charts | Time series | 🟨 |
-| Bar charts | Product analysis | 🟨 |
-| Scatter plots | Driver analysis | 🟨 |
-| Distribution visualization | EDA | 🟨 |
-| Correlation visualization | Analytical analysis | ⬜ |
-| Static visualization | Python/R | 🟨 |
-| Dynamic visualization | Tableau/application | ⬜ |
-| Dashboards | Tableau | ⬜ |
-| Filters | Tableau | ⬜ |
-| Labels | Visualizations | ⬜ |
-| Annotations | Visualizations | ⬜ |
-| Accessibility | Dashboard | ⬜ |
-| Direct labeling | Dashboard | ⬜ |
-| Visualization design | Dashboard | ⬜ |
-| Audience awareness | Storytelling | ⬜ |
-| Storytelling | Final case study | ⬜ |
+| Charts | Python/R/Tableau | 🟩 |
+| Histograms | EDA | 🟩 |
+| Line charts | Time series | 🟩 |
+| Bar charts | Product analysis | 🟩 |
+| Scatter plots | Driver analysis | 🟩 |
+| Distribution visualization | EDA | 🟩 |
+| Correlation visualization | Analytical analysis | 🟨 |
+| Static visualization | Python/R | 🟩 |
+| Dynamic visualization | Tableau/application | 🟩 |
+| Dashboards | Tableau | 🟩 |
+| Filters | Tableau | 🟩 |
+| Labels | Visualizations | 🟩 |
+| Annotations | Visualizations | 🟨 |
+| Accessibility | Dashboard | 🟨 |
+| Direct labeling | Dashboard | 🟩 |
+| Visualization design | Dashboard | 🟩 |
+| Audience awareness | Storytelling | 🟩 |
+| Storytelling | Final case study | 🟨 |
 | Presentation | Final presentation | ⬜ |
 | Q&A | Final presentation | ⬜ |
 
@@ -575,8 +575,9 @@ Status effects:
   forecasting (Phases 11–13) analysis are all now backed by verified
   evidence. The earlier per-phase notes above recorded this stage as 🟨 at
   the time they were written; this section supersedes them.
-- The `Share` (Tableau, charts, storytelling) and `Act` stages remain ⬜
-  pending the Phase 15 and Phase 16 audits.
+- The `Share` (Tableau, charts, storytelling) stage moved from ⬜ to 🟩 in the
+  Phase 15 audit. The `Act` stage remains ⬜ pending the Phase 16 audit; this
+  note, written before that audit, recorded the then-current state.
 
 ## Final Audit Rule
 
@@ -591,3 +592,40 @@ Every item must eventually answer:
 7. Does the implementation genuinely demonstrate the concept?
 
 Documentation alone is not sufficient evidence.
+
+## Phase 15 Re-Audit Status
+
+The Phase 15 audit (Visualization & Tableau) re-executed the visualization
+workflow against the current Phase 13 evidence and verified the committed
+Tableau workbook. It was the phase that closed Course 6 and the `Share`
+stage:
+
+- 55 quality checks that gate the run, reconciling every charted value with
+  its source CSV, including all five insight families;
+- four regenerated static figures with direct value labels, explicit units
+  and a manifest recording each figure's byte size and SHA-256 digest;
+- a committed Tableau workbook — 5 worksheets, 1 dashboard, 6 filters — whose
+  cached textscan schema was reconciled with the current CSV headers
+  (170 insertions, 52 deletions, idempotent, declared datatypes preserved);
+- a published Tableau Public dashboard verified to resolve (HTTP 200);
+- 32 Phase 15 tests, including six subprocess failure paths.
+
+Status effects:
+
+- Every Course 6 row moves from 🟨 or ⬜ to 🟩 except three. **Annotations**
+  and **Accessibility** are 🟨: the workbook contains no annotation objects
+  and no human usability or screen-reader review was performed. **Correlation
+  visualization** is 🟨: the correlation is reported as a table and a
+  bivariate scatter, not as a correlation graphic.
+- **Presentation** and **Q&A** remain ⬜: they belong to the final
+  presentation, which no phase has produced.
+- **Storytelling** (Final case study) is 🟨: `data-storytelling.md` sets out
+  the audience, context, problem, evidence, insights, recommendations,
+  limitations and narrative flow, but the final case-study packaging is still
+  outstanding.
+- The `Share` stage moves from ⬜ to 🟩: charts, static and dynamic
+  visualization, the dashboard, filters, labels, direct labelling,
+  visualization design, audience awareness and storytelling are all backed by
+  verified evidence.
+- The latest per-phase notes above recorded Course 6 and the `Share` stage as
+  incomplete at the time they were written; this section supersedes them.

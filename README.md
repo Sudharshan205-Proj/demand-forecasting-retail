@@ -145,6 +145,32 @@ Test the workflow with:
 Python remains the project's primary forecasting implementation; R provides
 independent analysis, cross-language verification and reproducible reporting.
 
+### Reproducing the Phase 15 visualizations
+
+Run from the repository root:
+
+```text
+.venv\Scripts\python.exe scripts/create_visualizations.py
+.venv\Scripts\python.exe scripts/sync_tableau_workbook_schema.py --check
+```
+
+The workflow reads five Phase 12/13 analytical outputs and writes four figures
+to `data/analysis/visualizations/` plus `visualization_quality_report.csv` and
+`visualization_manifest.csv` to `data/analysis/` (all excluded from Git). It
+records 55 quality checks, stops and draws nothing if any check fails, and the
+manifest records each figure's byte size and SHA-256 digest.
+
+The schema-sync command reports whether the committed Tableau workbook's
+cached field schema still matches the current CSV headers; run it without
+`--check` to repair the workbook in place. The dashboard is published at
+<https://public.tableau.com/views/Retail_Demand_Forecasting/RetailDemandForecastingInventoryPlanning>.
+
+Test the phase with:
+
+```text
+.venv\Scripts\python.exe -m pytest tests/test_create_visualizations.py -q
+```
+
 ## Disclaimer
 
 Forecasts are analytical estimates and should support inventory decision-making rather than being treated as guaranteed future demand.

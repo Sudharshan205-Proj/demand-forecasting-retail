@@ -790,9 +790,52 @@ source-controlled. No raw data files are modified. No Git commands were run.
 
 ## Phase 15
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit)
 
-Files will be determined at Phase 15 start.
+Files modified:
+
+- `scripts/create_visualizations.py`
+- `scripts/sync_tableau_workbook_schema.py` (new)
+- `tests/test_create_visualizations.py`
+- `tableau/Retail_Demand_Forecasting.twb`
+- `tableau/tableau-data-dictionary.md`
+- `tableau/tableau-dashboard-specification.md`
+- `docs/phase-15/visualization-and-tableau-plan.md`
+- `docs/phase-15/visualization-methodology.md`
+- `docs/phase-15/visualization-quality-framework.md`
+- `docs/phase-15/visualization-results.md`
+- `docs/phase-15/data-storytelling.md`
+- `docs/phase-15/tableau-dashboard-guide.md`
+- `docs/phase-15/course-content-coverage.md`
+- `docs/phase-15/phase-15-checklist.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-0/environment.md`
+- `docs/phase-1/analytical-questions.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-11/course-content-coverage.md`
+- `docs/phase-14/r-analysis-results.md`
+- `docs/project-file-update-register.md`
+- `README.md`
+
+The Phase 15 re-audit re-executed the visualization workflow against the
+current Phase 13 evidence and verified the committed Tableau workbook. The
+pre-audit figures were dated 8 Sep while every input they read was regenerated
+on 19 Sep, so the phase had never run against its own inputs; the results
+document said NOT YET EXECUTED and all 49 checklist boxes were unticked while
+commit `f1146d8` existed. Eleven findings were corrected: the workflow now
+validates five inputs rather than four, reconciles every charted value against
+its source, fails when the forecast-evidence insight is missing instead of
+silently drawing three of four charts, gates the run on a 55-check quality
+report and records each figure's byte size and SHA-256 digest in a manifest.
+A new helper reconciled the workbook's stale cached textscan schema with the
+current CSV headers (170 insertions, 52 deletions, idempotent, declared
+`date` types preserved). The published Tableau Public dashboard was verified
+to resolve (HTTP 200). Phase 15 tests increased from 10 to 32, including six
+subprocess failure paths, and the full suite passes (499 tests). The figures,
+reports and manifest are reproducible generated artifacts and are not
+source-controlled; the workbook is source-controlled. No raw data files are
+modified. No Git commands were run.
 
 ---
 
@@ -808,10 +851,10 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 14 have been re-audited and approved. Phase 15 is the next audit target. The Phase 14 re-audit moved the R analysis onto the current Phase 13 evidence, extended it to the forecast-error scenario family, the densification summary and the stored Phase 12 forecasts, reconciled all seven Phase 13 insight types on store, metric and value, recomputed RMSE, MAE and MAPE in R with `yardstick`, and rebuilt the phase's validation as a 91-check quality report that gates the run. It also synchronised the Phase 0–13 records that carry Phase 14 status or path claims, including Phase 13's audit row that named `scripts/r_analysis.*` as an unexecuted downstream dependency.
+Phase 0 through Phase 15 have been re-audited and approved. Phase 16 is the next audit target. The Phase 15 re-audit moved the visualization workflow onto the current Phase 13 evidence, reconciled every charted value with its source, rebuilt the phase's validation as a 55-check quality report that gates the run and an output manifest that records each figure's digest, and reconciled the Tableau workbook's stale cached schema with the current CSV headers. It also synchronised the Phase 0–14 records that carry Phase 15 status, including the plan that named Phase 14 as an input and Phase 11's forecast-visualization deferral.
 
-Carried forward to the Phase 15 audit:
+Carried forward to the Phase 16 audit:
 
-- `docs/phase-15/visualization-and-tableau-plan.md` lists Phase 14 as an input, while the Phase 15 script consumes no R output.
-- Phase 15's results and deployment documents still say NOT YET EXECUTED.
 - Phase 16's generated artifacts still require re-execution during its own audit.
+- The published Tableau Public dashboard embeds extracts built on 8 Sep and needs a Tableau refresh and re-publish to show post-audit values; this requires Tableau Desktop.
+- The Tableau workbook's data-source directory is an absolute local path, and its Reorder-Point Scenarios worksheet uses a fixed axis range whose lead-time minimum sits slightly below zero.

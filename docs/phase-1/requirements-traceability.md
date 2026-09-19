@@ -178,6 +178,36 @@ On that evidence:
   has no owning phase, and BR-012 through BR-016 remain ⬜ until their phases
   are audited.
 
+## Phase 15 Re-Audit Note
+
+The Phase 15 re-audit re-executed the visualization workflow against the
+current Phase 13 evidence and verified the committed Tableau workbook and its
+published view: 55 quality checks all passed, every charted value reconciled
+with its source CSV, the workbook's 5 worksheets / 1 dashboard / 6 filters
+were confirmed, its stale cached schema was reconciled with the current CSV
+headers, and the Tableau Public URL was confirmed to resolve (HTTP 200).
+
+On that evidence:
+
+- **BR-011 (Visualization, Python/R/Tableau) moves from 🟨 to 🟩.** All three
+  components are now verified: the Python workflow exports four figures with
+  direct value labels and a digest manifest, the R workflow exports four more
+  in Phase 14, and the Tableau component is a committed workbook with a
+  published, reachable dashboard.
+- The `Share` stage moves from ⬜ to 🟩: charts, static and dynamic
+  visualization, the dashboard, filters, labels, direct labelling,
+  visualization design, audience awareness and storytelling are all backed by
+  verified evidence.
+- BR-004 (Forecasting) remains 🟨: the reserved test-period evaluation still
+  has no owning phase, and BR-012 through BR-016 remain ⬜ until their phases
+  are audited.
+- Two limitations are recorded rather than smoothed over: the published
+  dashboard reflects the extract built when it was published on 8 September
+  2026 and needs a Tableau refresh to show post-audit values, and Phase 15's
+  course-coverage record marks "Annotations" and "Accessibility" as PARTIAL
+  because no in-chart annotations exist and no human usability review was
+  performed.
+
 ## Evidence Rule
 
 A requirement will only be marked VERIFIED when actual implementation or documented evidence exists.

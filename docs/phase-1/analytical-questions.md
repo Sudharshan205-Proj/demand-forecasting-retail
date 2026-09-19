@@ -95,8 +95,8 @@ The analysis must allow the data to support or contradict the hypotheses.
 | R analysis | Phase 14 (VERIFIED) |
 | Evaluation | Phase 12 |
 | Inventory insights | Phase 13 |
-| Visualization | Phase 15 |
-| Storytelling | Phase 15 |
+| Visualization | Phase 15 (VERIFIED) |
+| Storytelling | Phase 15 (VERIFIED) |
 | Application | Phase 16 |
 
 ## 7. Final Question

@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 14 have been re-audited and approved; Phase 15 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 15 have been re-audited and approved; Phase 16 is the next audit target.
 
 ## Git
 
@@ -46,11 +46,13 @@ phase-17-testing-documentation-final-audit
 
 HEAD (audit-time):
 
-17110e0 — Phase 13 Audit (the Phase 12 and Phase 13 audits were committed afterwards; the Phase 14 audit work is uncommitted in the working tree). The Phase 14 re-audit performs no Git operations and does not create a commit.
+5687af0 — Phase 14 Audit. The Phase 15 re-audit performs no Git operations and does not create a commit.
 
 Git status:
 
 The Phase 14 re-audit modifies the Phase 14 documentation, both R workflow files, the Phase 0–13 records that carry Phase 14 status or path claims, and the tracking docs; it adds `tests/test_r_analysis.py`. The `data/analysis/r/r_*.csv`, `r_environment.csv`, `r_analysis_findings.txt`, `plots/*.png` and `r_analysis_report.html` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+
+The Phase 15 re-audit modifies the Phase 15 documentation, the visualization workflow, the new schema-sync helper, the committed Tableau workbook and the two Tableau documents, plus the Phase 0–14 records that carry Phase 15 status or path claims; it rewrites `tests/test_create_visualizations.py`. The `data/analysis/visualization_quality_report.csv`, `data/analysis/visualization_manifest.csv` and `data/analysis/visualizations/*.png` outputs are generated artifacts excluded from Git. No raw data files are modified.
 
 Phase branch:
 
@@ -335,6 +337,34 @@ workflow and refuses to knit if any check fails. The Phase 14 outputs are
 reproducible generated artifacts and are not source-controlled. No raw data
 files are modified.
 
+## Files Modified During Phase 15 Re-Audit
+
+- scripts/create_visualizations.py
+- scripts/sync_tableau_workbook_schema.py (new)
+- tests/test_create_visualizations.py
+- tableau/Retail_Demand_Forecasting.twb
+- tableau/tableau-data-dictionary.md
+- tableau/tableau-dashboard-specification.md
+- docs/phase-15/visualization-and-tableau-plan.md
+- docs/phase-15/visualization-methodology.md
+- docs/phase-15/visualization-quality-framework.md
+- docs/phase-15/visualization-results.md
+- docs/phase-15/data-storytelling.md
+- docs/phase-15/tableau-dashboard-guide.md
+- docs/phase-15/course-content-coverage.md
+- docs/phase-15/phase-15-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-0/environment.md
+- docs/phase-1/analytical-questions.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-11/course-content-coverage.md
+- docs/phase-14/r-analysis-results.md
+- docs/project-file-update-register.md
+- README.md
+
+The visualization workflow was rebuilt around named functions, extended to consume and validate five inputs rather than four, given a run-gating 55-check quality report and an output manifest, and made location-independent. A new helper reconciles the Tableau workbook's cached schema with the current CSV headers. The figures and both reports are reproducible generated artifacts and are not source-controlled. No raw data files are modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -567,6 +597,12 @@ Artifact-contract tests verify the shipped outputs when they are present,
 including that they post-date the Phase 13 evidence they consume (0 to 36
 tests).
 
+Phase 15 validation:
+
+VERIFIED — 32 TESTS PASS
+
+The Phase 15 validation drives the visualization workflow as a subprocess over synthetic analytical inputs built in a temporary directory, so it exercises the complete pipeline without depending on generated artifacts. It covers the successful run (exit status, all 55 quality checks passing, four non-empty figures, both reports and the manifest), the manifest digest and byte size re-verified against the files on disk, a failing gate proven to withhold every figure, and six subprocess failure paths each asserting a non-zero exit, a `FAILED` message and no figure written. Fourteen unit tests cover `validate_inputs` and `validate_leakage_guard`: missing columns, empty inputs, negative demand, negative variability, a broken variance identity, negative reorder points, invalid service levels, mismatched store sets, duplicate store ids, missing insight types, unreconciled insight values and a test-period metric. Seven workbook and URL tests assert well-formedness, the five worksheets and the dashboard, full schema agreement with the current CSV headers, preserved date datatypes, idempotent reconciliation, drift detection, unknown-source rejection and that the recorded Tableau Public URL names this workbook and view (the phase previously had 10 unit-only tests).
+
 Phase 12 validation:
 
 VERIFIED — 64 TESTS PASS
@@ -594,7 +630,12 @@ content and the full `main()` workflow (10 to 31 tests).
 
 - The repository's original Phase 0 commit did not contain the Phase 0 test source even though a compiled `test_phase0_project_setup` bytecode artifact existed locally.
 - The original Phase 0 documentation was stale in several places relative to the completed project state; the re-audit corrected the README status table, environment versions, project-state HEAD record and file-update register.
-- Exact RStudio and Tableau Public versions are not recorded.
+- Exact RStudio and Tableau Public *client* versions are not recorded. The published Tableau Public workbook is now evidenced (HTTP 200 on 19 September 2026), but the client build is not obtainable from the command line.
+- The published Phase 15 dashboard reflects the extract built when it was published on 8 September 2026, before the Phase 13 and Phase 14 audits; refreshing and re-publishing it requires Tableau Desktop and cannot be done from the command line. The static figures in the repository were regenerated on 19 September 2026 and post-date their inputs.
+- The Tableau workbook's three data sources use the absolute local path `C:/Users/User/demand-forecasting-retail/data/analysis`, so opening it on another machine requires re-pointing the connections.
+- The Tableau `Reorder-Point Scenarios` worksheet uses a fixed axis range whose lead-time minimum sits slightly below zero; it does not distort the plotted values but should start at the smallest assumed lead time.
+- Phase 15 marks its "Annotations" and "Accessibility" course rows PARTIAL rather than VERIFIED: the workbook contains no annotation objects and no human usability or screen-reader review was performed.
+- Phase 15's distribution and correlation course rows are satisfied by Phase 7 and Phase 8 artifacts, not by this phase, and are labelled VERIFIED ELSEWHERE so the Phase 15 claim is not overstated.
 - BigQuery is not required by the current project implementation.
 - Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
 - Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
@@ -932,4 +973,47 @@ forecast-error family 475,037 / 98,038 / 99,791 / 474,242.
 Phase 14 tests increased from 0 to 36, including twelve deliberate-failure
 paths, and the full suite passes (477 tests). The R outputs are reproducible
 generated artifacts and are excluded from Git; no raw data files are
-modified. The next Phase 17 audit target is Phase 15.
+modified. The next Phase 17 audit target was Phase 15.
+
+## Phase 15 Re-Audit Status
+
+Phase 15 — Visualization & Tableau has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 15 workflow was re-executed against the current Phase 13 evidence
+and every generated artifact was inspected. The pre-audit figures were dated
+8 Sep while every input they read was regenerated on 19 Sep, so the phase had
+never run against its own inputs and the charts embedded pre-audit values.
+The phase's results document said NOT YET EXECUTED and all 49 checklist boxes
+were unticked, while commit `f1146d8` existed and four figures had already
+been produced.
+
+Eleven findings were recorded and corrected. The workflow now consumes and
+validates five inputs rather than four, reconciles every charted value against
+its source and fails when the forecast-evidence insight is missing instead of
+silently drawing three of four charts. Every validation is recorded in a
+55-check quality report that gates the run, and the output manifest records
+each figure's byte size and SHA-256 digest. Project-root and directory
+resolution no longer depends on the checkout directory name, and both are
+overridable for tests. A new helper, `scripts/sync_tableau_workbook_schema.py`,
+reconciles the workbook's cached textscan schema with the current CSV headers:
+the Phase 13 audit had added `season_length` and `order`, shifting every later
+field's position, so the cached ordinals no longer matched the files. The
+repair produced 170 insertions and 52 deletions across the three data sources
+and their extracts, preserves the declared `date` datatypes, and is
+idempotent.
+
+The static figures now carry direct value labels and explicit units, and
+reproduce the verified values: Store 1 leads on average demand
+(29,711.253352), Store 4 on relative variability (CV 0.380098), Store 2 on
+both validation RMSE (711.206677) and relative validation error (8.141356 %),
+and the 14-day / 95 % scenario reorder points are 448,302 / 95,240 / 91,618 /
+476,010. The published Tableau Public dashboard was verified to resolve
+(HTTP 200), and its URL names this workbook and this dashboard.
+
+Phase 15 tests increased from 10 to 32, including six subprocess failure
+paths, and the full suite passes (499 tests). The figures, reports and
+manifest are reproducible generated artifacts and are excluded from Git; the
+workbook is source-controlled. No raw data files are modified. The next
+Phase 17 audit target is Phase 16.

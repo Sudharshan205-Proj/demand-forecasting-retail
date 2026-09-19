@@ -38,14 +38,16 @@
             <column datatype='integer' name='store_id' ordinal='0' />
             <column datatype='string' name='model' ordinal='1' />
             <column datatype='string' name='configuration' ordinal='2' />
-            <column datatype='integer' name='lead_time_days' ordinal='3' />
-            <column datatype='real' name='service_level' ordinal='4' />
-            <column datatype='real' name='z_value' ordinal='5' />
-            <column datatype='real' name='mean_daily_demand' ordinal='6' />
-            <column datatype='real' name='std_daily_demand' ordinal='7' />
-            <column datatype='real' name='expected_lead_time_demand' ordinal='8' />
-            <column datatype='real' name='safety_stock' ordinal='9' />
-            <column datatype='real' name='reorder_point' ordinal='10' />
+            <column datatype='real' name='season_length' ordinal='3' />
+            <column datatype='string' name='order' ordinal='4' />
+            <column datatype='integer' name='lead_time_days' ordinal='5' />
+            <column datatype='real' name='service_level' ordinal='6' />
+            <column datatype='real' name='z_value' ordinal='7' />
+            <column datatype='real' name='mean_daily_demand' ordinal='8' />
+            <column datatype='real' name='std_daily_demand' ordinal='9' />
+            <column datatype='real' name='expected_lead_time_demand' ordinal='10' />
+            <column datatype='real' name='safety_stock' ordinal='11' />
+            <column datatype='real' name='reorder_point' ordinal='12' />
           </columns>
         </relation>
         <metadata-records>
@@ -109,12 +111,39 @@
             <object-id>[inventory_scenarios.csv_27EAB14F85B44187B025E8758609A1DB]</object-id>
           </metadata-record>
           <metadata-record class='column'>
+            <remote-name>season_length</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[season_length]</local-name>
+            <parent-name>[inventory_scenarios.csv]</parent-name>
+            <remote-alias>season_length</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[inventory_scenarios.csv_27EAB14F85B44187B025E8758609A1DB]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>order</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[order]</local-name>
+            <parent-name>[inventory_scenarios.csv]</parent-name>
+            <remote-alias>order</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RGB' />
+            <object-id>[inventory_scenarios.csv_27EAB14F85B44187B025E8758609A1DB]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
             <remote-name>lead_time_days</remote-name>
             <remote-type>20</remote-type>
             <local-name>[lead_time_days]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>lead_time_days</remote-alias>
-            <ordinal>3</ordinal>
+            <ordinal>5</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -126,7 +155,7 @@
             <local-name>[service_level]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>service_level</remote-alias>
-            <ordinal>4</ordinal>
+            <ordinal>6</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -138,7 +167,7 @@
             <local-name>[z_value]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>z_value</remote-alias>
-            <ordinal>5</ordinal>
+            <ordinal>7</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -150,7 +179,7 @@
             <local-name>[mean_daily_demand]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>mean_daily_demand</remote-alias>
-            <ordinal>6</ordinal>
+            <ordinal>8</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -162,7 +191,7 @@
             <local-name>[std_daily_demand]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>std_daily_demand</remote-alias>
-            <ordinal>7</ordinal>
+            <ordinal>9</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -174,7 +203,7 @@
             <local-name>[expected_lead_time_demand]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>expected_lead_time_demand</remote-alias>
-            <ordinal>8</ordinal>
+            <ordinal>10</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -186,7 +215,7 @@
             <local-name>[safety_stock]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>safety_stock</remote-alias>
-            <ordinal>9</ordinal>
+            <ordinal>11</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -198,7 +227,7 @@
             <local-name>[reorder_point]</local-name>
             <parent-name>[inventory_scenarios.csv]</parent-name>
             <remote-alias>reorder_point</remote-alias>
-            <ordinal>10</ordinal>
+            <ordinal>12</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -265,12 +294,39 @@
               <collation flag='0' name='LEN_RGB' />
             </metadata-record>
             <metadata-record class='column'>
+              <remote-name>season_length</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[season_length]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>season_length</remote-alias>
+              <ordinal>3</ordinal>
+              <family>inventory_scenarios.csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>order</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[order]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>order</remote-alias>
+              <ordinal>4</ordinal>
+              <family>inventory_scenarios.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>2</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LEN_RGB' />
+            </metadata-record>
+            <metadata-record class='column'>
               <remote-name>lead_time_days</remote-name>
               <remote-type>20</remote-type>
               <local-name>[lead_time_days]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>lead_time_days</remote-alias>
-              <ordinal>3</ordinal>
+              <ordinal>5</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>integer</local-type>
               <aggregation>Sum</aggregation>
@@ -283,7 +339,7 @@
               <local-name>[service_level]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>service_level</remote-alias>
-              <ordinal>4</ordinal>
+              <ordinal>6</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -296,7 +352,7 @@
               <local-name>[z_value]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>z_value</remote-alias>
-              <ordinal>5</ordinal>
+              <ordinal>7</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -309,7 +365,7 @@
               <local-name>[mean_daily_demand]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>mean_daily_demand</remote-alias>
-              <ordinal>6</ordinal>
+              <ordinal>8</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -322,7 +378,7 @@
               <local-name>[std_daily_demand]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>std_daily_demand</remote-alias>
-              <ordinal>7</ordinal>
+              <ordinal>9</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -335,7 +391,7 @@
               <local-name>[expected_lead_time_demand]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>expected_lead_time_demand</remote-alias>
-              <ordinal>8</ordinal>
+              <ordinal>10</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -348,7 +404,7 @@
               <local-name>[safety_stock]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>safety_stock</remote-alias>
-              <ordinal>9</ordinal>
+              <ordinal>11</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -361,7 +417,7 @@
               <local-name>[reorder_point]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>reorder_point</remote-alias>
-              <ordinal>10</ordinal>
+              <ordinal>12</ordinal>
               <family>inventory_scenarios.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -384,14 +440,16 @@
                   <column datatype='integer' name='store_id' ordinal='0' />
                   <column datatype='string' name='model' ordinal='1' />
                   <column datatype='string' name='configuration' ordinal='2' />
-                  <column datatype='integer' name='lead_time_days' ordinal='3' />
-                  <column datatype='real' name='service_level' ordinal='4' />
-                  <column datatype='real' name='z_value' ordinal='5' />
-                  <column datatype='real' name='mean_daily_demand' ordinal='6' />
-                  <column datatype='real' name='std_daily_demand' ordinal='7' />
-                  <column datatype='real' name='expected_lead_time_demand' ordinal='8' />
-                  <column datatype='real' name='safety_stock' ordinal='9' />
-                  <column datatype='real' name='reorder_point' ordinal='10' />
+                  <column datatype='real' name='season_length' ordinal='3' />
+                  <column datatype='string' name='order' ordinal='4' />
+                  <column datatype='integer' name='lead_time_days' ordinal='5' />
+                  <column datatype='real' name='service_level' ordinal='6' />
+                  <column datatype='real' name='z_value' ordinal='7' />
+                  <column datatype='real' name='mean_daily_demand' ordinal='8' />
+                  <column datatype='real' name='std_daily_demand' ordinal='9' />
+                  <column datatype='real' name='expected_lead_time_demand' ordinal='10' />
+                  <column datatype='real' name='safety_stock' ordinal='11' />
+                  <column datatype='real' name='reorder_point' ordinal='12' />
                 </columns>
               </relation>
             </properties>
@@ -706,11 +764,13 @@
             <column datatype='integer' name='store_id' ordinal='0' />
             <column datatype='string' name='model' ordinal='1' />
             <column datatype='string' name='configuration' ordinal='2' />
-            <column datatype='date' name='validation_start' ordinal='3' />
-            <column datatype='date' name='validation_end' ordinal='4' />
-            <column datatype='integer' name='forecast_horizon' ordinal='5' />
-            <column datatype='real' name='rmse' ordinal='6' />
-            <column datatype='real' name='mape_percent' ordinal='7' />
+            <column datatype='real' name='season_length' ordinal='3' />
+            <column datatype='string' name='order' ordinal='4' />
+            <column datatype='date' name='validation_start' ordinal='5' />
+            <column datatype='date' name='validation_end' ordinal='6' />
+            <column datatype='integer' name='forecast_horizon' ordinal='7' />
+            <column datatype='real' name='rmse' ordinal='8' />
+            <column datatype='real' name='mape_percent' ordinal='9' />
           </columns>
         </relation>
         <metadata-records>
@@ -774,12 +834,39 @@
             <object-id>[tuned_validation_results.csv_3AF8647A29D54ECC8C18407AA28FF6FE]</object-id>
           </metadata-record>
           <metadata-record class='column'>
+            <remote-name>season_length</remote-name>
+            <remote-type>5</remote-type>
+            <local-name>[season_length]</local-name>
+            <parent-name>[tuned_validation_results.csv]</parent-name>
+            <remote-alias>season_length</remote-alias>
+            <ordinal>3</ordinal>
+            <local-type>real</local-type>
+            <aggregation>Sum</aggregation>
+            <contains-null>true</contains-null>
+            <object-id>[tuned_validation_results.csv_3AF8647A29D54ECC8C18407AA28FF6FE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
+            <remote-name>order</remote-name>
+            <remote-type>129</remote-type>
+            <local-name>[order]</local-name>
+            <parent-name>[tuned_validation_results.csv]</parent-name>
+            <remote-alias>order</remote-alias>
+            <ordinal>4</ordinal>
+            <local-type>string</local-type>
+            <aggregation>Count</aggregation>
+            <scale>1</scale>
+            <width>1073741823</width>
+            <contains-null>true</contains-null>
+            <collation flag='0' name='LEN_RGB' />
+            <object-id>[tuned_validation_results.csv_3AF8647A29D54ECC8C18407AA28FF6FE]</object-id>
+          </metadata-record>
+          <metadata-record class='column'>
             <remote-name>validation_start</remote-name>
             <remote-type>133</remote-type>
             <local-name>[validation_start]</local-name>
             <parent-name>[tuned_validation_results.csv]</parent-name>
             <remote-alias>validation_start</remote-alias>
-            <ordinal>3</ordinal>
+            <ordinal>5</ordinal>
             <local-type>date</local-type>
             <aggregation>Year</aggregation>
             <contains-null>true</contains-null>
@@ -791,7 +878,7 @@
             <local-name>[validation_end]</local-name>
             <parent-name>[tuned_validation_results.csv]</parent-name>
             <remote-alias>validation_end</remote-alias>
-            <ordinal>4</ordinal>
+            <ordinal>6</ordinal>
             <local-type>date</local-type>
             <aggregation>Year</aggregation>
             <contains-null>true</contains-null>
@@ -803,7 +890,7 @@
             <local-name>[forecast_horizon]</local-name>
             <parent-name>[tuned_validation_results.csv]</parent-name>
             <remote-alias>forecast_horizon</remote-alias>
-            <ordinal>5</ordinal>
+            <ordinal>7</ordinal>
             <local-type>integer</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -815,7 +902,7 @@
             <local-name>[rmse]</local-name>
             <parent-name>[tuned_validation_results.csv]</parent-name>
             <remote-alias>rmse</remote-alias>
-            <ordinal>6</ordinal>
+            <ordinal>8</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -827,7 +914,7 @@
             <local-name>[mape_percent]</local-name>
             <parent-name>[tuned_validation_results.csv]</parent-name>
             <remote-alias>mape_percent</remote-alias>
-            <ordinal>7</ordinal>
+            <ordinal>9</ordinal>
             <local-type>real</local-type>
             <aggregation>Sum</aggregation>
             <contains-null>true</contains-null>
@@ -894,12 +981,41 @@
               <object-id>[tuned_validation_results.csv_3AF8647A29D54ECC8C18407AA28FF6FE]</object-id>
             </metadata-record>
             <metadata-record class='column'>
+              <remote-name>season_length</remote-name>
+              <remote-type>5</remote-type>
+              <local-name>[season_length]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>season_length</remote-alias>
+              <ordinal>3</ordinal>
+              <family>tuned_validation_results.csv</family>
+              <local-type>real</local-type>
+              <aggregation>Sum</aggregation>
+              <approx-count>3</approx-count>
+              <contains-null>true</contains-null>
+              <object-id>[tuned_validation_results.csv_3AF8647A29D54ECC8C18407AA28FF6FE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
+              <remote-name>order</remote-name>
+              <remote-type>129</remote-type>
+              <local-name>[order]</local-name>
+              <parent-name>[Extract]</parent-name>
+              <remote-alias>order</remote-alias>
+              <ordinal>4</ordinal>
+              <family>tuned_validation_results.csv</family>
+              <local-type>string</local-type>
+              <aggregation>Count</aggregation>
+              <approx-count>1</approx-count>
+              <contains-null>true</contains-null>
+              <collation flag='0' name='LEN_RGB' />
+              <object-id>[tuned_validation_results.csv_3AF8647A29D54ECC8C18407AA28FF6FE]</object-id>
+            </metadata-record>
+            <metadata-record class='column'>
               <remote-name>validation_start</remote-name>
               <remote-type>133</remote-type>
               <local-name>[validation_start]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>validation_start</remote-alias>
-              <ordinal>3</ordinal>
+              <ordinal>5</ordinal>
               <family>tuned_validation_results.csv</family>
               <local-type>date</local-type>
               <aggregation>Year</aggregation>
@@ -913,7 +1029,7 @@
               <local-name>[validation_end]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>validation_end</remote-alias>
-              <ordinal>4</ordinal>
+              <ordinal>6</ordinal>
               <family>tuned_validation_results.csv</family>
               <local-type>date</local-type>
               <aggregation>Year</aggregation>
@@ -927,7 +1043,7 @@
               <local-name>[forecast_horizon]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>forecast_horizon</remote-alias>
-              <ordinal>5</ordinal>
+              <ordinal>7</ordinal>
               <family>tuned_validation_results.csv</family>
               <local-type>integer</local-type>
               <aggregation>Sum</aggregation>
@@ -941,7 +1057,7 @@
               <local-name>[rmse]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>rmse</remote-alias>
-              <ordinal>6</ordinal>
+              <ordinal>8</ordinal>
               <family>tuned_validation_results.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -955,7 +1071,7 @@
               <local-name>[mape_percent]</local-name>
               <parent-name>[Extract]</parent-name>
               <remote-alias>mape_percent</remote-alias>
-              <ordinal>7</ordinal>
+              <ordinal>9</ordinal>
               <family>tuned_validation_results.csv</family>
               <local-type>real</local-type>
               <aggregation>Sum</aggregation>
@@ -979,11 +1095,13 @@
                   <column datatype='integer' name='store_id' ordinal='0' />
                   <column datatype='string' name='model' ordinal='1' />
                   <column datatype='string' name='configuration' ordinal='2' />
-                  <column datatype='date' name='validation_start' ordinal='3' />
-                  <column datatype='date' name='validation_end' ordinal='4' />
-                  <column datatype='integer' name='forecast_horizon' ordinal='5' />
-                  <column datatype='real' name='rmse' ordinal='6' />
-                  <column datatype='real' name='mape_percent' ordinal='7' />
+                  <column datatype='real' name='season_length' ordinal='3' />
+                  <column datatype='string' name='order' ordinal='4' />
+                  <column datatype='date' name='validation_start' ordinal='5' />
+                  <column datatype='date' name='validation_end' ordinal='6' />
+                  <column datatype='integer' name='forecast_horizon' ordinal='7' />
+                  <column datatype='real' name='rmse' ordinal='8' />
+                  <column datatype='real' name='mape_percent' ordinal='9' />
                 </columns>
               </relation>
             </properties>

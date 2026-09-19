@@ -303,11 +303,14 @@ the cross-phase records listed under "Files reviewed" were synchronised.
 ### Remaining issues
 
 - None open for Phase 14.
-- Downstream: `docs/phase-15/visualization-and-tableau-plan.md` lists Phase 14
-  as an input, while the Phase 15 script consumes no R output. That claim is a
-  Phase 15 audit item.
-- Downstream: Phase 15's own results documents still say NOT YET EXECUTED, and
-  Phase 16's generated artifacts still require re-execution during their
-  audits.
+- CLOSED in the Phase 15 re-audit: `docs/phase-15/visualization-and-tableau-plan.md`
+  listed Phase 14 as an input while the Phase 15 script consumed no R output.
+  The plan was corrected — Phase 15 consumes Phase 13/12 evidence, and the R
+  figures belong to Phase 14's own report.
+- CLOSED in the Phase 15 re-audit: Phase 15's results document said NOT YET
+  EXECUTED against a phase that had already been committed and executed. That
+  document has been rewritten with verified results.
+- Still open downstream: Phase 16's generated artifacts require re-execution
+  during their own audit.
 - RStudio itself is installed but is not evidenced as used: the workflow runs
   through `Rscript`. The course-coverage record states this explicitly.

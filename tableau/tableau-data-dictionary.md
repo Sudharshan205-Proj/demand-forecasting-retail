@@ -31,3 +31,22 @@ Inventory fields represent planning scenarios.
 
 They do not represent actual supplier contracts, inventory policies or
 procurement requirements.
+
+## Fields Actually Connected
+
+Verified against the committed workbook on 19 September 2026. The workbook
+connects to three sources, and every field it references is present in them.
+
+| Source | Fields |
+|---|---|
+| `inventory_scenarios.csv` | `store_id`, `model`, `configuration`, `season_length`, `order`, `lead_time_days`, `service_level`, `z_value`, `mean_daily_demand`, `std_daily_demand`, `expected_lead_time_demand`, `safety_stock`, `reorder_point` |
+| `inventory_variability_summary.csv` | `store_id`, `mean_daily_demand`, `std_daily_demand`, `variance_daily_demand`, `p90_daily_demand`, `p95_daily_demand`, `p99_daily_demand`, `coefficient_of_variation` |
+| `tuned_validation_results.csv` | `store_id`, `model`, `configuration`, `season_length`, `order`, `validation_start`, `validation_end`, `forecast_horizon`, `rmse`, `mape_percent` |
+
+The workbook's cached copy of these schemas is reconciled against the current
+CSV headers by `scripts/sync_tableau_workbook_schema.py`. Before that repair
+the cached schema predated the addition of `season_length` and `order`, which
+had shifted the position of every later field.
+
+`season_length` is numeric where a seasonal model applies and empty
+thereafter; `order` is empty throughout and is therefore typed as text.
