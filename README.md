@@ -120,6 +120,31 @@ The repository is organized into:
 
 All important project decisions, dependencies, preprocessing steps, model parameters, evaluation metrics, and dataset information will be documented.
 
+### Reproducing the Phase 14 R analysis
+
+Run both commands from the repository root:
+
+```text
+Rscript r/r_analysis.R
+Rscript -e "rmarkdown::render('r/r_analysis_report.Rmd', output_dir = file.path(getwd(), 'data', 'analysis', 'r'))"
+```
+
+The workflow reads the Phase 12 and Phase 13 analytical outputs and writes its
+artifacts to `data/analysis/r/` (excluded from Git). It records 91 quality
+checks in `r_analysis_quality_report.csv`, stops if any check fails, and only
+then writes its findings; the R Markdown report calls the same workflow and
+refuses to render when validation fails. R, pandoc and package versions are
+recorded in `data/analysis/r/r_environment.csv`.
+
+Test the workflow with:
+
+```text
+.venv\Scripts\python.exe -m pytest tests/test_r_analysis.py -q
+```
+
+Python remains the project's primary forecasting implementation; R provides
+independent analysis, cross-language verification and reproducible reporting.
+
 ## Disclaimer
 
 Forecasts are analytical estimates and should support inventory decision-making rather than being treated as guaranteed future demand.

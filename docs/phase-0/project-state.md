@@ -6,7 +6,7 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 13 — Forecasting & Inventory Insights
+Phase 14 — R Analysis
 
 ## Overall Status
 
@@ -36,7 +36,7 @@ IN PROGRESS
 
 - Phase 17 — Testing, Documentation & Final Audit
 
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 13 have been re-audited and approved; Phase 14 is the next audit target.
+Phase 17 is auditing completed phases individually. Phase 0 through Phase 14 have been re-audited and approved; Phase 15 is the next audit target.
 
 ## Git
 
@@ -46,11 +46,11 @@ phase-17-testing-documentation-final-audit
 
 HEAD (audit-time):
 
-bef780b — Phase 11 Audit (the Phase 12 and Phase 13 audit work is uncommitted in the working tree). The Phase 13 re-audit performs no Git operations and does not create a commit.
+17110e0 — Phase 13 Audit (the Phase 12 and Phase 13 audits were committed afterwards; the Phase 14 audit work is uncommitted in the working tree). The Phase 14 re-audit performs no Git operations and does not create a commit.
 
 Git status:
 
-The Phase 13 re-audit modifies the Phase 13 documentation, its script and tests, the Phase 16 records whose Store 4 claims its corrected evidence falsified, and the tracking docs; the `data/analysis/inventory_*.csv`, `forecast_inventory_insights.csv`, `forecasting_inventory_findings.txt` and `forecasting_inventory_quality_report.csv` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
+The Phase 14 re-audit modifies the Phase 14 documentation, both R workflow files, the Phase 0–13 records that carry Phase 14 status or path claims, and the tracking docs; it adds `tests/test_r_analysis.py`. The `data/analysis/r/r_*.csv`, `r_environment.csv`, `r_analysis_findings.txt`, `plots/*.png` and `r_analysis_report.html` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 Phase branch:
 
@@ -307,6 +307,34 @@ unaudited and its generated artifacts must be re-executed during its own
 audit. The insights outputs are reproducible generated artifacts and are
 not source-controlled. No raw data files are modified.
 
+## Files Modified During Phase 14 Re-Audit
+
+- r/r_analysis.R
+- r/r_analysis_report.Rmd
+- tests/test_r_analysis.py (new)
+- docs/phase-14/r-analysis-plan.md
+- docs/phase-14/r-analysis-methodology.md
+- docs/phase-14/r-analysis-quality-framework.md
+- docs/phase-14/r-analysis-results.md
+- docs/phase-14/course-content-coverage.md
+- docs/phase-14/phase-14-checklist.md
+- docs/phase-0/project-state.md
+- docs/phase-0/curriculum-mapping.md
+- docs/phase-0/environment.md
+- docs/phase-1/requirements-traceability.md
+- docs/phase-1/analytical-questions.md
+- docs/phase-12/course-content-coverage.md
+- docs/phase-13/forecasting-and-inventory-insights-results.md
+- docs/project-file-update-register.md
+- README.md
+
+The R workflow was rebuilt around named functions, extended to consume both
+scenario families plus the stored Phase 12 forecasts, and given a 91-check
+quality report that gates the run. The R Markdown report now sources that
+workflow and refuses to knit if any check fails. The Phase 14 outputs are
+reproducible generated artifacts and are not source-controlled. No raw data
+files are modified.
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -518,6 +546,27 @@ partition non-overlap, the quality report (one pass case and five
 deliberate-failure cases), quantity formatting, findings content and the full
 `main()` workflow with source preservation (10 to 36 tests).
 
+Phase 14 validation:
+
+VERIFIED — 36 TESTS PASS
+
+The Phase 14 validation drives the R workflow as a subprocess over synthetic
+Phase 13/Phase 12 inputs built in a temporary directory, so it exercises the
+complete pipeline without depending on generated artifacts. It covers the
+successful run (exit status, all 91 quality checks passing, every documented
+output and figure written, findings derived from evidence, environment
+versions recorded, store table reconciled with the input demand, insight
+reconciliation covering every published row, metric recomputation and
+densification) and twelve deliberate-failure paths (missing file, missing
+column, missing key column, negative demand, duplicate store rows, store-set
+mismatch, reorder-point violation, safety-stock violation, z-value mismatch,
+uncorrected bias, insight mismatch, metric mismatch, densification mismatch),
+each asserting the specific named check. Structural tests lock in the
+function-based design, the absence of hardcoded paths and the report's gate.
+Artifact-contract tests verify the shipped outputs when they are present,
+including that they post-date the Phase 13 evidence they consume (0 to 36
+tests).
+
 Phase 12 validation:
 
 VERIFIED — 64 TESTS PASS
@@ -557,6 +606,7 @@ content and the full `main()` workflow (10 to 31 tests).
 - The reserved final test evaluation named in the Phase 12 plan still has no owning phase. It remains deferred and is recorded as an open item for the final project audit.
 - The Phase 11 validation store-days contain no zero-demand observations, so MAPE's zero-exclusion rule is a verified safety guarantee rather than a rule that changes the reported values. This is documented rather than presented as exercised coverage.
 - The Phase 5 checklist Git items are retained as the original phase record and are not re-asserted by the Phase 17 audit, which performs no Git operations.
+- RStudio remains installed but unevidenced: the Phase 14 workflow runs through `Rscript` and no `.Rproj` is committed, so the course-coverage record marks the RStudio row as NOT EVIDENCED rather than claiming it.
 
 ## Unresolved Decisions
 
@@ -840,4 +890,46 @@ excluded from Git; no raw data files are modified. Phase 16's documentation
 asserted that Store 4 is descriptive-only because it has no validated tuned
 configuration; that became false and was corrected, and Phase 16's
 generated artifacts remain to be re-executed during its own audit. The next
-Phase 17 audit target is Phase 14.
+Phase 17 audit target was Phase 14.
+
+## Phase 14 Re-Audit Status
+
+Phase 14 — R Analysis has been re-audited as part of Phase 17.
+
+AUDITED — COMPLETE
+
+The Phase 14 workflow was re-executed against the current Phase 13 evidence
+and every generated artifact was inspected. The pre-audit artifacts were
+dated 8 Sep while the Phase 13 inputs they consume were regenerated on
+19 Sep, so the phase had never run against its own inputs: the committed
+`r_store_analysis.csv` still described Store 3 with 531 training days,
+mean 5,843.874970 and minimum 173.898 — the pre-audit Phase 13 values that
+Phase 13's own re-audit replaced with 532 days, 5,832.890242 and 0.000.
+
+Fourteen findings were recorded and corrected. The workflow was rebuilt
+around named functions and now consumes nine inputs, including the
+forecast-error scenario family, the forecast-error summary, the
+densification summary and the 456 stored Phase 12 validation forecasts it
+previously ignored. Every validation is recorded in a 91-check quality
+report that gates the run; the findings report is withheld on failure. All
+seven Phase 13 insight types are now reconciled on store, metric name and
+value (13 of 13 rows, maximum relative difference 0.0), and RMSE, MAE and
+MAPE are recomputed in R with `yardstick` and reconciled with Phase 12's
+reported values (maximum relative difference 2.94e-13 and 5.56e-13), which
+makes the previously idle `tidymodels` dependency genuine. Project-root and
+directory resolution no longer depends on the checkout directory name, and
+both are overridable for tests. The R Markdown report sources the audited
+workflow, resolves its figures correctly and refuses to knit if any check
+fails. Malformed inputs are now reported instead of crashing the run.
+
+The phase reports 1,656 densified training store-days against 1,655
+observed with one zero-filled day, matching Phases 11 and 13; Store 1 leads
+on average demand (29,711.253352) and Store 4 on relative variability
+(CV 0.380098). At a 14-day lead time and 95 % service level the historical
+family gives reorder points of 448,302 / 95,240 / 91,618 / 476,010 and the
+forecast-error family 475,037 / 98,038 / 99,791 / 474,242.
+
+Phase 14 tests increased from 0 to 36, including twelve deliberate-failure
+paths, and the full suite passes (477 tests). The R outputs are reproducible
+generated artifacts and are excluded from Git; no raw data files are
+modified. The next Phase 17 audit target is Phase 15.

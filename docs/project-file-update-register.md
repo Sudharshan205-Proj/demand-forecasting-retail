@@ -722,9 +722,69 @@ its own audit.
 
 ## Phase 14
 
-Not yet started.
+AUDITED — COMPLETE (Phase 17 re-audit).
 
-Files will be determined at Phase 14 start.
+Files:
+
+- `r/r_analysis.R`
+- `r/r_analysis_report.Rmd`
+- `tests/test_r_analysis.py` (added in the re-audit)
+- `docs/phase-14/r-analysis-plan.md`
+- `docs/phase-14/r-analysis-methodology.md`
+- `docs/phase-14/r-analysis-quality-framework.md`
+- `docs/phase-14/r-analysis-results.md`
+- `docs/phase-14/course-content-coverage.md`
+- `docs/phase-14/phase-14-checklist.md`
+- `data/analysis/r/r_store_analysis.csv` (generated; excluded from Git)
+- `data/analysis/r/r_inventory_scenario_summary.csv` (generated; excluded from Git)
+- `data/analysis/r/r_forecast_inventory_scenario_summary.csv` (generated; excluded from Git)
+- `data/analysis/r/r_baseline_inventory_scenario.csv` (generated; excluded from Git)
+- `data/analysis/r/r_baseline_forecast_inventory_scenario.csv` (generated; excluded from Git)
+- `data/analysis/r/r_phase13_consistency.csv` (generated; excluded from Git)
+- `data/analysis/r/r_phase13_reconciliation.csv` (generated; excluded from Git)
+- `data/analysis/r/r_metric_reconciliation.csv` (generated; excluded from Git)
+- `data/analysis/r/r_analysis_quality_report.csv` (generated; excluded from Git)
+- `data/analysis/r/r_environment.csv` (generated; excluded from Git)
+- `data/analysis/r/r_analysis_findings.txt` (generated; excluded from Git)
+- `data/analysis/r/plots/average_daily_demand_by_store.png` (generated; excluded from Git)
+- `data/analysis/r/plots/demand_variability_by_store.png` (generated; excluded from Git)
+- `data/analysis/r/plots/inventory_reorder_point_scenarios.png` (generated; excluded from Git)
+- `data/analysis/r/plots/inventory_scenario_family_comparison.png` (generated; excluded from Git)
+- `data/analysis/r/r_analysis_report.html` (generated; excluded from Git)
+
+Cross-phase files synchronised:
+
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-0/environment.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-1/analytical-questions.md`
+- `docs/phase-12/course-content-coverage.md`
+- `docs/phase-13/forecasting-and-inventory-insights-results.md`
+- `docs/project-file-update-register.md`
+- `README.md`
+
+The re-audit re-executed the R workflow against the current Phase 13 evidence
+(91 of 91 quality checks) and registered the HTML report. The pre-audit
+artifacts were dated 8 Sep while the Phase 13 inputs were regenerated on
+19 Sep, so the phase had never run against its own inputs: the stale,
+untracked `r_store_analysis.csv` still carried the pre-audit Store 3
+statistics
+(531 days, 5,843.874970, minimum 173.898). Fourteen defects were corrected.
+The workflow was rebuilt around 28 named functions, extended to consume nine
+inputs including both scenario families and the 456 stored Phase 12
+validation forecasts, and given a 91-check quality report that gates the run
+and withholds the findings report on failure. All seven Phase 13 insight
+types are reconciled on store, metric name and value (13 of 13 rows), and
+RMSE, MAE and MAPE are recomputed with `yardstick` and reconciled with the
+reported values, making the previously idle `tidymodels` dependency genuine.
+Project-root and directory resolution no longer depends on the checkout
+directory name. The R Markdown report sources the audited workflow, resolves
+its four figures correctly and refuses to knit when validation fails.
+Malformed inputs are reported instead of crashing the run. Phase 14 tests
+increased from 0 to 36 (twelve failure paths) and the full suite passes (477
+tests). The R outputs are reproducible generated artifacts and are not
+source-controlled. No raw data files are modified. No Git commands were run.
 
 ---
 
@@ -748,4 +808,10 @@ Files will be determined at Phase 16 start.
 
 IN PROGRESS — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 13 have been re-audited and approved. Phase 14 is the next audit target. The Phase 13 re-audit moved the insights phase onto the densified store-day series Phases 11–12 use, added a forecast-error scenario family that consumes the stored Phase 12 forecasts, corrected the generated findings that falsely claimed Store 4 had no tuned model, reconciled the source matrix, and rebuilt the phase's validation as a 43-check quality report that gates the run. It also synchronised the Phase 0–12 records that carry Phase 13 constraints and corrected Phase 16's now-false Store 4 descriptive-only statements.
+Phase 0 through Phase 14 have been re-audited and approved. Phase 15 is the next audit target. The Phase 14 re-audit moved the R analysis onto the current Phase 13 evidence, extended it to the forecast-error scenario family, the densification summary and the stored Phase 12 forecasts, reconciled all seven Phase 13 insight types on store, metric and value, recomputed RMSE, MAE and MAPE in R with `yardstick`, and rebuilt the phase's validation as a 91-check quality report that gates the run. It also synchronised the Phase 0–13 records that carry Phase 14 status or path claims, including Phase 13's audit row that named `scripts/r_analysis.*` as an unexecuted downstream dependency.
+
+Carried forward to the Phase 15 audit:
+
+- `docs/phase-15/visualization-and-tableau-plan.md` lists Phase 14 as an input, while the Phase 15 script consumes no R output.
+- Phase 15's results and deployment documents still say NOT YET EXECUTED.
+- Phase 16's generated artifacts still require re-execution during its own audit.

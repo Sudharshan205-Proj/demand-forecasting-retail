@@ -10,85 +10,157 @@ output:
 
 # 1. Purpose
 
-This report provides an R-based analytical view of the retail demand
-forecasting project.
+This report provides an R-based analytical and validation view of the retail
+demand forecasting project.
 
-The analysis uses the compact analytical outputs produced during Phase 13
-rather than reloading the full raw retail dataset.
+It consumes the compact analytical outputs produced by Phase 13 and the stored
+Phase 12 validation forecasts rather than reloading the full raw retail
+dataset. Every figure below is produced by the audited workflow in
+`r/r_analysis.R`; nothing is entered by hand.
 
-Python remains the primary forecasting implementation. R is used here to
-demonstrate an independent analytical and reporting workflow.
+Python remains the primary forecasting implementation. R is used here as an
+independent analytical, validation and reporting workflow.
 
-# 2. Packages
+# 2. Method
+
+The report sources the phase script and runs it. That means the report and the
+script verify the same evidence, and the report cannot render if any quality
+check fails.
 
 ```{r setup, message=FALSE, warning=FALSE}
 library(tidyverse)
-library(dplyr)
-library(ggplot2)
-library(tidymodels)
+library(yardstick)
 
 knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
   message = FALSE
 )
+
+find_project_root <- function(start_dir = getwd()) {
+  current <- normalizePath(start_dir, winslash = "/", mustWork = TRUE)
+
+  repeat {
+    if (
+      file.exists(file.path(current, "pyproject.toml")) &&
+        dir.exists(file.path(current, "docs"))
+    ) {
+      return(current)
+    }
+
+    parent <- dirname(current)
+
+    if (identical(parent, current)) {
+      stop("Could not locate the project root from the knitting directory.")
+    }
+
+    current <- parent
+  }
+}
+
+project_root <- find_project_root()
+
+# Pandoc resolves resources relative to this document's directory, so figures
+# are referenced relative to the report rather than by absolute path.
+relative_to_report <- function(path) {
+  input_dir <- normalizePath(
+    dirname(knitr::current_input(dir = TRUE)),
+    winslash = "/",
+    mustWork = TRUE
+  )
+
+  root_prefix <- paste0("^", project_root, "/?")
+  depth <- length(strsplit(
+    sub(root_prefix, "", input_dir),
+    "/"
+  )[[1]])
+
+  file.path(
+    paste(rep("..", depth), collapse = "/"),
+    sub(root_prefix, "", normalizePath(path, winslash = "/", mustWork = FALSE))
+  )
+}
+
+source(
+  file.path(project_root, "r", "r_analysis.R")
+)
+
+results <- main()
 ```
 
-# 3. Load Phase 13 Results
+# 3. Validation Result
 
-```{r load-data}
-analysis_dir <- file.path(
-  "..",
-  "data",
-  "analysis"
+The workflow records every validation in a machine-readable quality report and
+stops if any check fails.
+
+```{r quality-summary}
+quality <- results$quality
+
+summary_table <- tibble(
+  checks = nrow(quality),
+  passed = sum(quality$passed),
+  failed = sum(!quality$passed)
 )
 
-demand <- read_csv(
-  file.path(
-    analysis_dir,
-    "inventory_demand_summary.csv"
-  ),
-  show_col_types = FALSE
-)
-
-variability <- read_csv(
-  file.path(
-    analysis_dir,
-    "inventory_variability_summary.csv"
-  ),
-  show_col_types = FALSE
-)
-
-scenarios <- read_csv(
-  file.path(
-    analysis_dir,
-    "inventory_scenarios.csv"
-  ),
-  show_col_types = FALSE
-)
+summary_table
 ```
 
-# 4. Store-Level Demand
+```{r quality-failures}
+quality %>%
+  filter(!passed) %>%
+  select(check, actual, expected)
+```
 
-The following analysis uses `dplyr` to combine the demand and variability
-summaries.
+# 4. Input Coverage
+
+```{r input-coverage}
+coverage <- tibble(
+  input = c(
+    "Historical demand summary",
+    "Demand variability summary",
+    "Historical inventory scenarios",
+    "Forecast-error inventory scenarios",
+    "Forecast-error summary",
+    "Densification summary",
+    "Phase 13 insights",
+    "Phase 12 tuned validation results",
+    "Phase 12 stored predictions"
+  ),
+  rows = c(
+    nrow(results$inputs$demand),
+    nrow(results$inputs$variability),
+    nrow(results$scenarios),
+    nrow(results$forecast_scenarios),
+    nrow(results$inputs$forecast_errors),
+    nrow(results$inputs$densification),
+    nrow(results$inputs$insights),
+    nrow(results$inputs$validation_results),
+    nrow(results$inputs$predictions)
+  )
+)
+
+coverage
+```
+
+# 5. Store-Level Demand
+
+The analysis uses `dplyr` to join the demand and variability summaries and to
+arrange the stores by average demand.
 
 ```{r store-analysis}
-store_analysis <- demand %>%
-  left_join(
-    variability %>%
-      select(
-        store_id,
-        std_daily_demand,
-        p90_daily_demand,
-        p95_daily_demand,
-        p99_daily_demand
-      ),
-    by = "store_id"
-  ) %>%
-  arrange(desc(mean_daily_demand))
+store_analysis <- results$store_analysis
 
-store_analysis
+store_analysis %>%
+  select(
+    store_id,
+    training_days,
+    mean_daily_demand,
+    median_daily_demand,
+    min_daily_demand,
+    max_daily_demand,
+    std_daily_demand,
+    coefficient_of_variation
+  )
 ```
 
 ## Highest Average Demand
@@ -96,7 +168,7 @@ store_analysis
 ```{r highest-demand}
 highest_demand <- store_analysis %>%
   slice_max(
-    mean_daily_demand,
+    order_by = mean_daily_demand,
     n = 1,
     with_ties = FALSE
   )
@@ -105,14 +177,16 @@ highest_demand
 ```
 
 The highest observed average daily demand occurs at Store
-`r highest_demand$store_id`.
+`r highest_demand$store_id`, at
+`r format(round(highest_demand$mean_daily_demand, 3), big.mark = ",")` units
+per day over `r highest_demand$training_days` densified training days.
 
-# 5. Demand Variability
+## Highest Relative Variability
 
 ```{r highest-variability}
 highest_variability <- store_analysis %>%
   slice_max(
-    coefficient_of_variation,
+    order_by = coefficient_of_variation,
     n = 1,
     with_ties = FALSE
   )
@@ -120,13 +194,15 @@ highest_variability <- store_analysis %>%
 highest_variability
 ```
 
-Store `r highest_variability$store_id` has the highest observed coefficient
-of variation.
+Store `r highest_variability$store_id` has the highest observed coefficient of
+variation (`r round(highest_variability$coefficient_of_variation, 6)`). Its
+history is the shortest of the four stores, so this estimate rests on fewer
+observations than the others.
 
 ## Visualization
 
-The following chart uses a `ggplot2` layered construction with a data
-mapping and geometric object.
+The following chart uses a `ggplot2` layered construction with a data mapping
+and geometric objects.
 
 ```{r demand-plot}
 ggplot(
@@ -139,13 +215,12 @@ ggplot(
   geom_col() +
   labs(
     title = "Average Daily Demand by Store",
+    subtitle = "Densified training store-day series (Phases 11-13 basis)",
     x = "Store",
     y = "Mean Daily Demand"
   ) +
   theme_minimal()
 ```
-
-# 6. Relative Variability
 
 ```{r variability-plot}
 ggplot(
@@ -158,124 +233,195 @@ ggplot(
   geom_col() +
   labs(
     title = "Relative Demand Variability by Store",
+    subtitle = "Coefficient of variation (standard deviation / mean)",
     x = "Store",
     y = "Coefficient of Variation"
   ) +
   theme_minimal()
 ```
 
+# 6. Exported Figures
+
+The workflow exports the same evidence with `ggsave()`.
+
+```{r exported-figures, out.width="100%"}
+plot_files <- c(
+  "average_daily_demand_by_store.png",
+  "demand_variability_by_store.png",
+  "inventory_reorder_point_scenarios.png",
+  "inventory_scenario_family_comparison.png"
+)
+
+knitr::include_graphics(
+  vapply(
+    file.path(results$paths$plot_dir, plot_files),
+    relative_to_report,
+    character(1)
+  )
+)
+```
+
 # 7. Inventory Scenario Analysis
 
 The inventory calculations are planning scenarios rather than operational
-requirements because supplier lead times and actual service-level targets
-were not available.
+requirements because supplier lead times and actual service-level targets were
+not available.
 
 ```{r scenario-summary}
-scenario_summary <- scenarios %>%
-  group_by(
-    lead_time_days,
-    service_level
-  ) %>%
-  summarise(
-    stores = n_distinct(store_id),
-    average_reorder_point = mean(reorder_point),
-    maximum_reorder_point = max(reorder_point),
-    average_safety_stock = mean(safety_stock),
-    .groups = "drop"
-  )
-
-scenario_summary
+results$scenario_summary
 ```
 
-## Reorder-Point Visualization
+```{r forecast-scenario-summary}
+results$forecast_scenario_summary
+```
 
-```{r reorder-point-plot}
-ggplot(
-  scenarios,
-  aes(
-    x = lead_time_days,
-    y = reorder_point,
-    group = service_level,
-    linetype = factor(service_level)
+## 14-Day / 95% Planning Scenario
+
+```{r baseline-scenarios}
+results$historical_baseline %>%
+  select(
+    store_id,
+    mean_daily_demand,
+    expected_lead_time_demand,
+    safety_stock,
+    reorder_point
   )
-) +
+
+results$forecast_baseline %>%
+  select(
+    store_id,
+    bias_adjusted_daily_demand,
+    expected_lead_time_demand,
+    safety_stock,
+    reorder_point
+  )
+```
+
+## Faceted Scenario Comparison
+
+`facet_wrap()` provides a separate view per store and separates the two
+uncertainty inputs.
+
+```{r scenario-facets}
+bind_rows(
+  results$scenarios %>%
+    mutate(family = "historical variability"),
+  results$forecast_scenarios %>%
+    mutate(family = "forecast residual error")
+) %>%
+  ggplot(
+    aes(
+      x = lead_time_days,
+      y = reorder_point,
+      colour = family,
+      linetype = factor(service_level)
+    )
+  ) +
   geom_line() +
   geom_point() +
   facet_wrap(~ store_id) +
   labs(
-    title = "Scenario Reorder Points",
+    title = "Reorder-Point Scenarios by Lead Time and Service Level",
     x = "Lead Time (Days)",
     y = "Reorder Point",
+    colour = "Uncertainty input",
     linetype = "Service Level"
   ) +
   theme_minimal()
 ```
 
-The use of `facet_wrap()` provides separate views for each store.
+# 8. Phase 13 Reconciliation
 
-# 8. Phase 13 Consistency Check
+R independently reproduces every insight Phase 13 published, and reconciles
+the published value as well as the store label.
 
-The R analysis should reproduce the principal store-level findings already
-established in Phase 13.
-
-```{r consistency}
-phase13_insights <- read_csv(
-  file.path(
-    analysis_dir,
-    "forecast_inventory_insights.csv"
-  ),
-  show_col_types = FALSE
-)
-
-phase13_highest_demand <- phase13_insights %>%
-  filter(
-    insight_type == "highest_average_demand"
-  ) %>%
-  slice(1)
-
-phase13_highest_variability <- phase13_insights %>%
-  filter(
-    insight_type == "highest_relative_variability"
-  ) %>%
-  slice(1)
-
-consistency <- tibble(
-  check = c(
-    "Highest average demand store",
-    "Highest relative variability store"
-  ),
-  phase_13 = c(
-    phase13_highest_demand$store_id,
-    phase13_highest_variability$store_id
-  ),
-  r_analysis = c(
-    highest_demand$store_id,
-    highest_variability$store_id
+```{r phase13-reconciliation}
+results$reconciliation %>%
+  select(
+    insight_type,
+    store_id,
+    metric,
+    phase13_value,
+    r_value,
+    relative_difference,
+    match
   )
-) %>%
-  mutate(
-    match = phase_13 == r_analysis
-  )
-
-consistency
 ```
 
-# 9. Interpretation
+```{r phase13-summary}
+tibble(
+  rows_reconciled = nrow(results$reconciliation),
+  rows_matching = sum(results$reconciliation$match),
+  maximum_relative_difference = max(
+    results$reconciliation$relative_difference
+  )
+)
+```
+
+# 9. Phase 12 Forecast-Verification Reconciliation
+
+The workflow recomputes the validation metrics from the 456 stored Phase 12
+validation forecasts using `yardstick`, the tidymodels metrics package, and
+reconciles them with the reported values.
+
+```{r metric-reconciliation}
+results$metrics %>%
+  select(
+    store_id,
+    observations,
+    rmse,
+    mae,
+    mape_percent,
+    reported_rmse,
+    reported_mape_percent,
+    rmse_relative_difference,
+    mape_relative_difference
+  )
+```
+
+Mean absolute error is not published by Phase 12, so it is R-derived evidence
+rather than a reconciliation.
+
+# 10. Densification Reconciliation
+
+```{r densification}
+results$densification
+```
+
+The densified training series used by Phases 11-13 is reproduced exactly:
+`r sum(results$densification$densified_days)` store-days, of which
+`r sum(results$densification$synthetic_days)` is a single zero-filled day.
+
+# 11. Environment
+
+```{r environment}
+results$environment
+```
+
+```{r session-info}
+sessionInfo()
+```
+
+# 12. Interpretation
 
 The R analysis independently reproduces the principal Phase 13 store-level
-findings.
-
-The analysis shows that:
+findings and the Phase 12 validation metrics:
 
 - Store `r highest_demand$store_id` has the highest observed average daily
   physical demand.
 - Store `r highest_variability$store_id` has the highest relative demand
-  variability.
-- Inventory scenarios vary with both assumed lead time and service level.
+  variability, on the shortest history.
+- Every published Phase 13 insight reconciles with the independently
+  recomputed value.
+- Recomputed RMSE and MAPE agree with the Phase 12 artifacts, so the forecast
+  evidence is verified in a second language.
+- Inventory scenarios vary with both assumed lead time and service level, and
+  the forecast-error family sizes buffers from realised forecast error rather
+  than raw historical spread.
 - These inventory values should not be treated as actual procurement
   requirements without operational information.
 
-# 10. Limitations
+# 13. Limitations
 
 The R analysis does not create a competing production forecasting model.
 
@@ -295,13 +441,30 @@ The dataset does not provide:
 
 Therefore, inventory values are scenario estimates.
 
-# 11. Reproducibility
+Store 4's history and its single cross-validation fold mean its variability and
+forecast-error estimates rest on fewer observations than the other stores, and
+that caveat is carried in the generated artifacts rather than only in prose.
+
+# 14. Reproducibility
 
 The report is generated from project files rather than manually entered
 results.
 
-The R script and this R Markdown document are version-controlled project
-artifacts.
+```{r quality-gate}
+if (any(!results$quality$passed)) {
+  stop("Phase 14 quality checks failed; the report must not render.")
+}
 
-The report can be regenerated by running the Phase 14 R workflow from the
-repository root.
+cat(
+  "All",
+  nrow(results$quality),
+  "quality checks passed before this report was rendered.\n"
+)
+```
+
+The report can be regenerated from the repository root with:
+
+```text
+Rscript r/r_analysis.R
+Rscript -e "rmarkdown::render('r/r_analysis_report.Rmd', output_dir = file.path(getwd(), 'data', 'analysis', 'r'))"
+```

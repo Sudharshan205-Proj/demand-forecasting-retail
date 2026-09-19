@@ -225,7 +225,7 @@ unless the required business parameters are actually available and verified.
 | Generated artifacts | `inventory_demand_summary.csv`, `inventory_variability_summary.csv`, `inventory_densification_summary.csv`, `inventory_scenarios.csv`, `inventory_forecast_scenarios.csv`, `inventory_forecast_error_summary.csv`, `forecast_inventory_insights.csv`, `forecasting_inventory_findings.txt`, `forecasting_inventory_quality_report.csv` |
 | Inputs | `data/processed/feature_engineered_daily.csv` (Phase 10) |
 | Upstream | `selected_model_configurations.csv`, `tuned_validation_results.csv`, `model_evaluation_predictions.csv`, `model_error_analysis.csv` (Phase 12) |
-| Downstream | `scripts/r_analysis.*` (Phase 14, unexecuted) |
+| Downstream | `r/r_analysis.R`, `r/r_analysis_report.Rmd` (Phase 14) |
 | Cross-phase | `docs/phase-0/project-state.md`, `docs/phase-0/curriculum-mapping.md`, `docs/phase-1/requirements-traceability.md`, `docs/phase-1/kpi-definitions.md`, `docs/phase-2/dataset-inventory.md`, `docs/phase-12/*`, `docs/phase-16/*`, `docs/project-file-update-register.md`, `README.md` |
 
 ### Findings
@@ -363,11 +363,17 @@ synchronised.
 ### Remaining issues
 
 - None open for Phase 13.
-- Downstream: Phase 14's plan names four Phase 13 artifacts as its inputs
-  and reproduces the two demand findings. Both remain valid: the four
-  filenames are preserved, and the density basis change leaves highest
+- Downstream: Phase 14's plan named four Phase 13 artifacts as its inputs
+  and reproduced the two demand findings. Both remained valid — the four
+  filenames were preserved, and the density basis change left highest
   average demand at Store 1 and highest relative variability at Store 4.
-  Phase 14 additionally gains three artifacts it may consume.
+  **Resolved by the Phase 14 re-audit:** the three additional artifacts this
+  note identified — `inventory_forecast_scenarios.csv`,
+  `inventory_forecast_error_summary.csv` and
+  `inventory_densification_summary.csv` — are now consumed, and the R
+  workflow reconciles all 13 published insight rows on store, metric name
+  and value rather than the two store labels alone. Phase 14 is executed
+  and verified; its record is in `docs/phase-14/r-analysis-results.md`.
 - Downstream: Phase 16's documentation still asserts that Store 4 is
   descriptive-only. That is now false and was corrected during this audit;
   Phase 16's generated artifacts must be re-executed during its own audit.

@@ -21,7 +21,7 @@
 | BR-008 | RMSE/MAPE | Evaluation report | 12 | 🟩 |
 | BR-009 | Model comparison | Model comparison | 12 | 🟩 |
 | BR-010 | Inventory insights | Business analysis | 13 | 🟩 |
-| BR-011 | Visualization | Python/R/Tableau | 7–15 | ⬜ |
+| BR-011 | Visualization | Python/R/Tableau | 7–15 | 🟨 |
 | BR-012 | Tableau | Tableau dashboard | 15 | ⬜ |
 | BR-013 | Application | Deployed application | 16 | ⬜ |
 | BR-014 | Reproducibility | Documentation/configuration | All | ⬜ |
@@ -34,7 +34,7 @@
 | Ask | Business problem, stakeholders, questions | 1 | 🟩 |
 | Prepare | Data acquisition and understanding | 2–3 | 🟩 |
 | Process | Cleaning and integration | 5–6 | 🟩 |
-| Analyze | Analysis and forecasting | 7–14 | 🟨 |
+| Analyze | Analysis and forecasting | 7–14 | 🟩 |
 | Share | Tableau/storytelling/presentation | 15 | ⬜ |
 | Act | Forecast-based recommendations | 13–16 | 🟨 |
 
@@ -155,6 +155,28 @@ insights artifacts asserted that Store 4 had no tuned Phase 12 model, and
 because that sentence was hardcoded it survived re-execution while the
 phase's own data contradicted it. Findings are now derived from the
 evidence, and the quality report blocks the stale claim from returning.
+
+## Phase 14 Re-Audit Note
+
+The Phase 14 re-audit verified the R analysis workflow against the current
+Phase 13 evidence: the workflow was re-executed, 91 quality checks all
+passed, all seven Phase 13 insight types were reconciled on store, metric
+name and value, and RMSE, MAE and MAPE were recomputed from the 456 stored
+Phase 12 validation forecasts with `yardstick` and reconciled with the
+reported values (maximum relative difference 2.94e-13 and 5.56e-13).
+
+On that evidence:
+
+- The `Analyze` stage moves from 🟨 to 🟩: spreadsheet (Phase 3), SQL
+  (Phase 4), Python (Phases 5–13), R (Phase 14), statistical (Phase 8) and
+  forecasting (Phases 11–13) analysis are all backed by verified evidence.
+- BR-011 (Visualization, Python/R/Tableau) moves from ⬜ to 🟨. Its Python
+  and R components are now verified — the R workflow exports four figures and
+  the knitted report renders two more — while the Tableau component belongs
+  to Phase 15.
+- BR-004 (Forecasting) remains 🟨: the reserved test-period evaluation still
+  has no owning phase, and BR-012 through BR-016 remain ⬜ until their phases
+  are audited.
 
 ## Evidence Rule
 

@@ -23,7 +23,7 @@ Actual evidence must exist.
 | Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
 | Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
 | Process | Clean, validate, transform and integrate data | 🟩 |
-| Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟨 |
+| Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟩 |
 | Share | Tableau, charts, reports and storytelling | ⬜ |
 | Act | Forecast demand and produce inventory recommendations | ⬜ |
 
@@ -198,19 +198,19 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| R syntax | R scripts | ⬜ |
-| Variables | R scripts | ⬜ |
-| Functions | R scripts | ⬜ |
-| Data structures | R analysis | ⬜ |
-| Data manipulation | R/dplyr | ⬜ |
-| Data analysis | R analysis | ⬜ |
-| Data visualization | ggplot2 | ⬜ |
-| Reproducibility | R Markdown | ⬜ |
-| Troubleshooting | R workflow | ⬜ |
-| Code organization | R project | ⬜ |
-| RStudio | R project | ⬜ |
-| R Markdown | `.Rmd` report | ⬜ |
-| ggplot2 | R visualizations | ⬜ |
+| R syntax | `r/r_analysis.R` (1,947 lines, executed) | 🟩 |
+| Variables | Analytical frames and returned result objects | 🟩 |
+| Functions | 28 named functions, from `empty_checks()` to `main()` | 🟩 |
+| Data structures | Tibbles, data frames, lists, named vectors, environment collector | 🟩 |
+| Data manipulation | R/dplyr joins, grouping, summaries and filters | 🟩 |
+| Data analysis | `data/analysis/r/r_store_analysis.csv` and the scenario summaries | 🟩 |
+| Data visualization | Four exported ggplot2 figures and two inline report figures | 🟩 |
+| Reproducibility | `r_environment.csv`, discovered project root, R Markdown report | 🟩 |
+| Troubleshooting | Twelve deliberate-failure paths in `tests/test_r_analysis.py` | 🟩 |
+| Code organization | Named functions, section structure, `main()` orchestration | 🟩 |
+| RStudio | Not evidenced — the workflow runs through `Rscript` | ⬜ |
+| R Markdown | `r/r_analysis_report.Rmd` knitted to HTML | 🟩 |
+| ggplot2 | `r/r_analysis.R` and the knitted report | 🟩 |
 
 ## Course 8 — Capstone
 
@@ -547,6 +547,36 @@ dimension:
 The cross-phase finding about the engineered features is closed for both
 Phase 12 and Phase 13's forecast evidence. `forecasting_models.py` (Phase
 11) still consumes the demand target only, which its own scope documents.
+
+## Phase 14 Re-Audit Status
+
+The Phase 14 audit (R Analysis) re-executed the R workflow against the
+current Phase 13 evidence and verified every generated artifact. The
+evidence adds the R-programming and cross-language-verification dimension:
+
+- 91 quality checks that gate the run, including both scenario families'
+  coverage, z values, formulas and monotonicity;
+- all seven Phase 13 insight types reconciled on store, metric name and
+  value (13 of 13 rows);
+- RMSE, MAE and MAPE recomputed from the 456 stored Phase 12 validation
+  forecasts with `yardstick` and reconciled with the reported values;
+- densification reconciled at 1,656 store-days with one zero-filled day;
+- 28 named R functions, four exported figures and a knitted HTML report
+  that refuses to render when validation fails;
+- 36 Phase 14 tests, including twelve deliberate-failure paths.
+
+Status effects:
+
+- Every Course 7 "R Programming" row moves from ⬜ to 🟩 except **RStudio**,
+  which remains ⬜ because the executed workflow runs through `Rscript` and
+  no RStudio project is committed.
+- The `Analyze` stage moves from 🟨 to 🟩: spreadsheet (Phase 3), SQL
+  (Phase 4), Python (Phases 5–13), R (Phase 14), statistical (Phase 8) and
+  forecasting (Phases 11–13) analysis are all now backed by verified
+  evidence. The earlier per-phase notes above recorded this stage as 🟨 at
+  the time they were written; this section supersedes them.
+- The `Share` (Tableau, charts, storytelling) and `Act` stages remain ⬜
+  pending the Phase 15 and Phase 16 audits.
 
 ## Final Audit Rule
 

@@ -161,7 +161,7 @@ Visualization and Tableau are not implemented here because they belong to
 later presentation phases.
 
 R analysis is not implemented here because it belongs to the dedicated
-Phase 14 R Analysis stage.
+Phase 14 R Analysis stage, which the Phase 17 re-audit has now verified.
 
 ## Coverage Rule
 

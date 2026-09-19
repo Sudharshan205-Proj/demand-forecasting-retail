@@ -92,7 +92,7 @@ The analysis must allow the data to support or contradict the hypotheses.
 | Statistical relationships | Phase 8 |
 | Forecast preparation | Phase 9 |
 | Forecasting | Phase 11 |
-| R analysis | Phase 14 |
+| R analysis | Phase 14 (VERIFIED) |
 | Evaluation | Phase 12 |
 | Inventory insights | Phase 13 |
 | Visualization | Phase 15 |

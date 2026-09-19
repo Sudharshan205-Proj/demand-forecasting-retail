@@ -143,15 +143,21 @@ Additional dependencies will only be introduced when justified by a later phase.
 
 ## R Packages
 
-The R workflow uses course-aligned packages. Package installation was verified before the Phase 14 workflow was validated.
+The R workflow uses course-aligned packages. The Phase 14 re-audit verified
+every package against the executed workflow and recorded the versions in
+`data/analysis/r/r_environment.csv`, which the run writes itself.
 
-Verified packages include:
-
-- tidyverse
-- dplyr
-- ggplot2
-- tidymodels
-- rmarkdown
+| Package | Version | Role in Phase 14 |
+|---|---|---|
+| tidyverse | 2.0.0 | Umbrella for the analytical packages |
+| dplyr | 1.2.1 | Joins, grouping, summaries |
+| ggplot2 | 4.0.3 | Exported and inline figures |
+| readr | 2.2.0 | CSV input and output |
+| tidymodels | 1.5.0 | Modelling framework; `yardstick` is its metrics package |
+| yardstick | 1.4.0 | `rmse_vec()`, `mae_vec()`, `mape_vec()` |
+| knitr | 1.52 | R Markdown rendering |
+| rmarkdown | 2.32 | HTML report generation |
+| pandoc | 3.11 | Supplied by rmarkdown for the HTML report |
 
 ## Version Recording
 
@@ -163,10 +169,21 @@ Verified packages include:
 | GitHub CLI | 2.98.0 | VERIFIED |
 | VS Code | 1.136.2 | VERIFIED |
 | R | 4.6.1 | VERIFIED |
-| RStudio | Installed; version not recorded | PARTIALLY VERIFIED |
+| RStudio | Installed; version not recorded and not evidenced as used | PARTIALLY VERIFIED |
 | SQLite | 3.53.4 | VERIFIED |
 | Tableau Public | Installed; version not recorded | PARTIALLY VERIFIED |
 
 ## Phase 0 Audit Record (Phase 17 Re-Audit)
 
 Phase 0 originally left the environment as `NOT YET VERIFIED`. During the Phase 17 re-audit, the environment was re-executed on the audit runner and the version table was corrected where needed: pip was updated from 25.3 to 26.2.1 and VS Code was updated from 1.135.0 to 1.136.2. RStudio and Tableau Public remain PARTIALLY VERIFIED because their exact versions cannot be confirmed from the command line. No dependency was added or removed during this audit.
+
+## Phase 14 Audit Record (Phase 17 Re-Audit)
+
+The Phase 14 re-audit re-verified the R environment against the executed
+workflow. R 4.6.1, pandoc 3.11 and the eight packages listed above were all
+confirmed present, and their versions are now recorded by the workflow itself
+in `data/analysis/r/r_environment.csv` rather than only in prose. RStudio
+remains PARTIALLY VERIFIED: the workflow runs through `Rscript` and no
+RStudio project is committed, so the course-coverage record marks the RStudio
+row as NOT EVIDENCED instead of claiming IDE usage. No Python dependency was
+added or removed, and `requirements.txt` is unchanged.
