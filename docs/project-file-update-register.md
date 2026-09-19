@@ -881,14 +881,49 @@ itself still carried those false statements — the hardcoded store list and the
 
 ## Phase 17
 
-IN PROGRESS — Testing, Documentation & Final Audit
+COMPLETE — Testing, Documentation & Final Audit
 
-Phase 0 through Phase 16 have been re-audited and approved. The Phase 15 re-audit moved the visualization workflow onto the current Phase 13 evidence, reconciled every charted value with its source, rebuilt the phase's validation as a 55-check quality report that gates the run and an output manifest that records each figure's digest, and reconciled the Tableau workbook's stale cached schema with the current CSV headers. It also synchronised the Phase 0–14 records that carry Phase 15 status, including the plan that named Phase 14 as an input and Phase 11's forecast-visualization deferral.
+### Files created
 
-Carried forward to the final Phase 17 review:
+- `docs/phase-17/final-audit-report.md`
+- `docs/phase-17/phase-17-checklist.md`
+- `docs/phase-17/final-case-study.md`
+- `docs/phase-17/final-presentation.md`
+- `docs/phase-17/portfolio-packaging.md`
+
+### Files modified
+
+- `README.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-1/business-requirements.md`
+- `docs/phase-15/data-storytelling.md`
+- `docs/project-file-update-register.md`
+
+### Generated artifact regenerated (excluded from Git)
+
+- `data/analysis/r/r_analysis_report.html` (re-knitted so it post-dates its source)
+
+### Summary
+
+Phase 0 through Phase 16 were each re-audited and approved, and the final review
+then audited the project as a whole. It corrected the cross-phase records that
+had drifted (curriculum mapping, requirements traceability, the Git branch/HEAD
+record), re-knitted the stale R HTML report to clear the one failing test,
+verified the Tableau workbook schema, ran the full suite (530 passed) and
+produced the final case study, presentation and portfolio packaging.
+
+BR-003 (Holidays) was resolved as **Not Applicable** — the dataset has no
+holiday field. BR-004, BR-014 and BR-015 were closed; BR-013 remains 🟨 because
+the hosted deployment has not been executed.
+
+### Carried forward (recorded, not resolved)
 
 - The published Tableau Public dashboard embeds extracts built on 8 Sep and needs a Tableau refresh and re-publish to show post-audit values; this requires Tableau Desktop.
 - The Tableau workbook's data-source directory is an absolute local path, and its Reorder-Point Scenarios worksheet uses a fixed axis range whose lead-time minimum sits slightly below zero.
 - The hosted Streamlit deployment has not been executed: Streamlit Community Cloud requires a one-time interactive authorisation tied to the project owner's account.
 - No human usability or accessibility review of the rendered Streamlit interface has been performed.
-- BR-014 (Reproducibility) and BR-015 (Documentation) have no owning phase and remain ⬜ for the final review.
+- The reserved final test-period evaluation has no owning phase.
+- RStudio remains installed but unevidenced; the R workflow runs through `Rscript`.
+- The two root reference documents remain untracked by the project owner's decision.

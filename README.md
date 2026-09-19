@@ -100,7 +100,7 @@ Course concepts will only be marked as implemented when actual project evidence 
 | Phase 14 | R Analysis | COMPLETE |
 | Phase 15 | Visualization & Tableau | COMPLETE |
 | Phase 16 | Application Development & Deployment | COMPLETE (local); hosted deployment pending |
-| Phase 17 | Testing, Documentation & Final Audit | IN PROGRESS |
+| Phase 17 | Testing, Documentation & Final Audit | COMPLETE |
 
 ## Repository Structure
 
@@ -198,6 +198,41 @@ Test the phase with:
 ```text
 .venv\Scripts\python.exe -m pytest tests/test_application.py -q
 ```
+
+## Final Deliverables
+
+The project closes with a consolidated audit and a portfolio case study:
+
+- `docs/phase-17/final-audit-report.md` — the final project audit across
+  structure, code, tests, data, models, evaluation, configuration, Git,
+  documentation, deployment, security, reproducibility and course coverage.
+- `docs/phase-17/final-case-study.md` — the full case study in course order
+  (problem → future scope).
+- `docs/phase-17/final-presentation.md` — presentation script and Q&A.
+- `docs/phase-17/portfolio-packaging.md` — internship submission guide.
+- `docs/phase-17/phase-17-checklist.md` — the Phase 17 checklist.
+
+Run the full test suite with:
+
+```text
+.venv\Scripts\python.exe -m pytest -q
+```
+
+## Known Limitations
+
+The following are recorded rather than presented as finished work; the full
+register is in `docs/phase-17/final-audit-report.md`.
+
+- The hosted Streamlit deployment requires a one-time owner authorisation; no
+  public URL exists yet. The application is verified running locally.
+- The published Tableau dashboard reflects the extract built on 8 September
+  2026; refreshing it requires Tableau Desktop.
+- No human usability or accessibility review of the rendered interface has been
+  performed.
+- The reserved final test-period evaluation has no owning phase.
+- The dataset contains no holiday field, no lead times, costs or stock levels;
+  holiday analysis is Not Applicable and inventory scenarios are conditional.
+- RStudio is installed but unevidenced; the R workflow runs through `Rscript`.
 
 ## Disclaimer
 

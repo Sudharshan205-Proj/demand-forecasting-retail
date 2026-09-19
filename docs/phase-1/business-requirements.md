@@ -18,6 +18,13 @@ The analysis shall incorporate promotional information when reliable promotional
 
 The analysis shall incorporate holiday information when reliable holiday data is available.
 
+**Outcome (Phase 17 final audit): NOT APPLICABLE.** The requirement is
+conditional on reliable holiday data being available. Phase 2 established that
+no holiday field exists in the selected dataset ("VERIFIED ABSENT"), so the
+condition was never satisfied and no holiday analysis is claimed. If an external
+holiday calendar is introduced later, this requirement becomes applicable again;
+the pilot hypotheses and analytical questions are already drafted for it.
+
 ### BR-004 — Time-Series Forecasting
 
 The system shall produce forecasts of future demand.

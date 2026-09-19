@@ -21,7 +21,7 @@ Actual evidence must exist.
 | Stage | Retail Project Application | Status |
 |---|---|---|
 | Ask | Define retail demand problem, stakeholders, objectives and SMART questions | 🟩 |
-| Prepare | Acquire and understand sales, promotion and holiday data | 🟩 |
+| Prepare | Acquire and understand sales, promotion and product data | 🟩 |
 | Process | Clean, validate, transform and integrate data | 🟩 |
 | Analyze | Perform spreadsheet, SQL, Python, R, statistical and forecasting analysis | 🟩 |
 | Share | Tableau, charts, reports and storytelling | 🟩 |
@@ -39,31 +39,31 @@ Actual evidence must exist.
 | Critical thinking | Analytical decisions | 🟨 |
 | Business understanding | Problem definition | 🟩 |
 | Stakeholders | Stakeholder analysis | 🟩 |
-| Quantitative data | Sales analysis | ⬜ |
-| Qualitative data | Context/documentation where applicable | ⬜ |
-| Data sources | Dataset documentation | ⬜ |
-| Data collection | Data acquisition | ⬜ |
-| Ethics | Ethics documentation | ⬜ |
-| Privacy | Data handling documentation | ⬜ |
-| Security | Security documentation | ⬜ |
-| Data integrity | Validation | ⬜ |
-| Data bias | Bias assessment | ⬜ |
-| Data context | Dataset context | ⬜ |
-| Communication | Reports/presentation | ⬜ |
-| Collaboration | Repository/documentation workflow | ⬜ |
+| Quantitative data | Phase 7–8 sales and statistical analysis | 🟩 |
+| Qualitative data | Business-context documents | 🟨 |
+| Data sources | Phase 2 source documentation | 🟩 |
+| Data collection | Phase 2 data acquisition | 🟩 |
+| Ethics | `docs/phase-2/data-ethics-and-privacy.md` | 🟩 |
+| Privacy | Phase 2 data-handling documentation | 🟩 |
+| Security | `docs/phase-0/security.md` and Phase 2 rules | 🟩 |
+| Data integrity | Phase 5–6 validation | 🟩 |
+| Data bias | Phase 2 bias assessment (documented) | 🟨 |
+| Data context | Phase 2 dataset context | 🟩 |
+| Communication | Phase 15 storytelling; Phase 17 case study and presentation | 🟩 |
+| Collaboration | Repository and documentation workflow | 🟨 |
 
 ## Course 2 — Analytical Thinking
 
 | Topic | Evidence | Status |
 |---|---|---|
 | Prediction | Demand forecasting | 🟩 |
-| Categorization | Product/demand categorization where applicable | ⬜ |
-| Spotting unusual behavior | Demand anomaly/outlier analysis where relevant | 🟨 |
-| Identifying themes | Retail demand patterns | 🟨 |
-| Discovering connections | Promotion/holiday/demand relationships | 🟨 |
-| Finding patterns | Seasonality/trends | 🟨 |
-| Critical thinking | Model and business decisions | 🟨 |
-| Root-cause thinking | Demand-driver investigation | 📄 |
+| Categorization | Phase 7 category analysis (182 rows) | 🟩 |
+| Spotting unusual behavior | Phase 7 item-level outlier and concentration analysis | 🟩 |
+| Identifying themes | Phase 7 temporal and product themes | 🟩 |
+| Discovering connections | Phase 8 promotion/price/demand relationships (holidays N/A) | 🟩 |
+| Finding patterns | Phase 8 trend and weekly seasonality | 🟩 |
+| Critical thinking | Phase 12/13 model and business decisions | 🟩 |
+| Root-cause thinking | Phase 8 diagnosis of the 2023-12 level shift | 🟩 |
 | Problem decomposition | Analytical workflow | 🟩 |
 | Contextual thinking | Retail/inventory context | 🟩 |
 | SMART questions | Business questions | 🟩 |
@@ -190,9 +190,9 @@ Actual evidence must exist.
 | Direct labeling | Dashboard | 🟩 |
 | Visualization design | Dashboard | 🟩 |
 | Audience awareness | Storytelling | 🟩 |
-| Storytelling | Final case study | 🟨 |
-| Presentation | Final presentation | ⬜ |
-| Q&A | Final presentation | ⬜ |
+| Storytelling | `docs/phase-17/final-case-study.md` | 🟩 |
+| Presentation | `docs/phase-17/final-presentation.md` | 🟩 |
+| Q&A | `docs/phase-17/final-presentation.md` | 🟩 |
 
 ## Course 7 — R Programming
 
@@ -216,35 +216,35 @@ Actual evidence must exist.
 
 | Topic | Evidence | Status |
 |---|---|---|
-| Problem | Case study | ⬜ |
-| Context | Case study | ⬜ |
-| Stakeholders | Case study | ⬜ |
-| Questions | Case study | ⬜ |
-| Data | Dataset documentation | ⬜ |
-| Preparation | Data preparation | ⬜ |
-| Processing | Processing pipeline | ⬜ |
-| Analysis | Analytical workflow | ⬜ |
-| Forecasting/modeling | Forecasting pipeline | 🟩 |
-| Visualization | Dashboard/reports | 🟩 |
-| Findings | Final report | ⬜ |
-| Recommendations | Inventory recommendations | 🟩 |
-| Limitations | Final report | ⬜ |
-| Future scope | Final report | ⬜ |
-| Communication | Presentation | ⬜ |
+| Problem | Case study §1 | 🟩 |
+| Context | Case study §2 | 🟩 |
+| Stakeholders | Case study §3 | 🟩 |
+| Questions | Case study §4 | 🟩 |
+| Data | Case study §5 | 🟩 |
+| Preparation | Case study §6 | 🟩 |
+| Processing | Case study §7 | 🟩 |
+| Analysis | Case study §8 | 🟩 |
+| Forecasting/modeling | Phases 9–13 pipeline | 🟩 |
+| Visualization | Dashboard, figures and application | 🟩 |
+| Findings | Case study §11 | 🟩 |
+| Recommendations | Case study §12 | 🟩 |
+| Limitations | Case study §13 | 🟩 |
+| Future scope | Case study §14 | 🟩 |
+| Communication | `docs/phase-17/final-presentation.md` | 🟩 |
 
 ## Retail-Specific Requirements
 
 | Requirement | Evidence | Status |
 |---|---|---|
-| Historical sales | Retail dataset | ⬜ |
-| Promotions | Promotion data | ⬜ |
-| Holidays | Holiday data | ⬜ |
-| Demand forecasting | Forecasting pipeline | 🟩 |
-| ARIMA | Forecasting model | 🟩 |
-| Prophet/LSTM | Additional model if selected | ⬜ |
-| RMSE | Evaluation | 🟩 |
-| MAPE | Evaluation | 🟩 |
-| Inventory optimization | Business analysis | ⬜ |
+| Historical sales | Phases 2–6 retail dataset | 🟩 |
+| Promotions | Phase 6 integration + Phase 8 analysis | 🟩 |
+| Holidays | No holiday field exists (Phase 2: VERIFIED ABSENT) | ❌ |
+| Demand forecasting | Phases 9–13 pipeline | 🟩 |
+| ARIMA | Phase 11 ARIMA(1,1,1) | 🟩 |
+| Prophet/LSTM | Assessed in Phase 11; deliberately not implemented | ❌ |
+| RMSE | Phase 12 evaluation | 🟩 |
+| MAPE | Phase 12 evaluation | 🟩 |
+| Inventory optimization | Phase 13 scenario insights | 🟩 |
 
 ## Phase 1 Re-Audit Status
 
@@ -668,3 +668,48 @@ Status effects:
   `Act` stage, Course 6 (communication and interface design) and Course 8.
 - The earlier per-phase notes above recorded the `Act` stage as ⬜ pending this
   audit; this section supersedes them.
+
+## Phase 17 Final Audit Status
+
+The final project audit reconciled the top mapping tables, which had not been
+updated by the per-phase notes, and produced the artifacts that the remaining
+rows were waiting on. This section supersedes every earlier per-phase note where
+they disagree.
+
+What changed in the tables above:
+
+- **Course 1** moved from twelve ⬜ rows to the evidenced statuses: quantitative
+  data, data sources, data collection, ethics, privacy, security, data
+  integrity, data context and communication are 🟩; qualitative data, data bias
+  and collaboration are 🟨 because their evidence is documented rather than
+  exhaustively verified.
+- **Course 2** advanced categorization, spotting unusual behavior, identifying
+  themes, discovering connections, finding patterns, critical thinking and
+  root-cause thinking to 🟩 on Phase 7 and Phase 8 evidence.
+- **Course 6** advanced storytelling, presentation and Q&A to 🟩 now that
+  `docs/phase-17/final-case-study.md` and `docs/phase-17/final-presentation.md`
+  exist. Correlation visualization remains 🟨 (a table and a bivariate scatter,
+  not a correlation graphic) and annotations/accessibility remain 🟨 (no
+  annotation objects, no human review).
+- **Course 8** advanced all fifteen rows to 🟩 because the final case study is
+  now produced in the required order.
+- **Retail-specific** rows: historical sales, promotions, demand forecasting,
+  ARIMA, RMSE, MAPE and inventory optimization are 🟩.
+- **`Holidays` moves to ❌ NOT APPLICABLE** in both the six-stage table's wording
+  and the retail-specific row: Phase 2 recorded an explicit holiday variable as
+  "VERIFIED ABSENT", and the requirement was conditional on availability. The
+  `Prepare` stage description was corrected for the same reason.
+- **`Prophet/LSTM` moves to ❌ NOT APPLICABLE:** the model was assessed and
+  deliberately not implemented; the assessment itself is verified.
+
+Rows that remain open, honestly:
+
+- **RStudio** stays ⬜: the R workflow was executed through `Rscript` and no
+  `.Rproj` is committed.
+- **Temporary tables (SQL)** stays ⬜: the analysis uses common table expressions
+  rather than explicit temporary tables.
+- **Data ethics** and **qualitative/contextual analysis** stay 🟨, and
+  **annotations** and **accessibility** stay 🟨.
+
+The full audit, including the outstanding-items register, is in
+`docs/phase-17/final-audit-report.md`.

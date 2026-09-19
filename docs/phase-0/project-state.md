@@ -6,13 +6,12 @@ Phase 17 — Testing, Documentation & Final Audit
 
 Current audit target:
 
-Phase 16 — Application Development & Deployment. Phase 0 through Phase 16
-have been re-audited and approved; the remaining work is the final
-cross-phase documentation review that closes Phase 17 itself.
+None. Phase 0 through Phase 16 have been re-audited and approved, and the
+final cross-phase documentation review closed Phase 17 itself.
 
 ## Overall Status
 
-IN PROGRESS
+COMPLETE
 
 ## Completed Phases
 
@@ -33,32 +32,34 @@ IN PROGRESS
 - Phase 14 — R Analysis
 - Phase 15 — Visualization & Tableau
 - Phase 16 — Application Development & Deployment
+- Phase 17 — Testing, Documentation & Final Audit
 
 ## Remaining Phases
 
-- Phase 17 — Testing, Documentation & Final Audit
-
-Phase 17 is auditing completed phases individually. Phase 0 through Phase 16 have been re-audited and approved.
+None. The project lifecycle is complete.
 
 ## Git
 
 Branch:
 
-phase-17-testing-documentation-final-audit
+main
 
 HEAD (audit-time):
 
-344bbf4 — Phase 15 Audit.
+fa2eed8 — Phase 16 Audit.
+
+The Phase 0–16 records below name `phase-17-testing-documentation-final-audit`
+as the intended phase branch, and the Phase 16 deployment validation records it
+as the Streamlit build branch. The checkout observed during the final review was
+on `main` at `fa2eed8`; the discrepancy is stated rather than silently rewritten.
+No Git operation was performed by this review, so the owner should confirm the
+branch and run the end-of-phase commit when ready.
 
 Git status:
 
 The Phase 14 re-audit modifies the Phase 14 documentation, both R workflow files, the Phase 0–13 records that carry Phase 14 status or path claims, and the tracking docs; it adds `tests/test_r_analysis.py`. The `data/analysis/r/r_*.csv`, `r_environment.csv`, `r_analysis_findings.txt`, `plots/*.png` and `r_analysis_report.html` outputs are generated artifacts excluded from Git. No raw data files are modified. The two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision.
 
 The Phase 15 re-audit modifies the Phase 15 documentation, the visualization workflow, the new schema-sync helper, the committed Tableau workbook and the two Tableau documents, plus the Phase 0–14 records that carry Phase 15 status or path claims; it rewrites `tests/test_create_visualizations.py`. The `data/analysis/visualization_quality_report.csv`, `data/analysis/visualization_manifest.csv` and `data/analysis/visualizations/*.png` outputs are generated artifacts excluded from Git. No raw data files are modified.
-
-Phase branch:
-
-phase-17-testing-documentation-final-audit
 
 ## Files Created
 
@@ -396,6 +397,29 @@ The visualization workflow was rebuilt around named functions, extended to consu
 
 The application was made import-safe, its per-store model evidence is now derived from the Phase 12 tables instead of hardcoded store identifiers, its two mislabelled sections were corrected, and it resolves its artifacts from an environment override, the local pipeline output or a committed deployment bundle. A seven-file, 14,977-byte bundle under `deploy/artifacts/` is committed because `data/analysis/` is excluded from Git. The application loads no model and performs no training. No raw data files are modified.
 
+## Files Created During Phase 17 Final Audit
+
+- `docs/phase-17/final-audit-report.md`
+- `docs/phase-17/phase-17-checklist.md`
+- `docs/phase-17/final-case-study.md`
+- `docs/phase-17/final-presentation.md`
+- `docs/phase-17/portfolio-packaging.md`
+
+## Files Modified During Phase 17 Final Audit
+
+- `README.md`
+- `docs/phase-0/project-state.md`
+- `docs/phase-0/curriculum-mapping.md`
+- `docs/phase-1/requirements-traceability.md`
+- `docs/phase-1/business-requirements.md`
+- `docs/project-file-update-register.md`
+- `docs/phase-15/data-storytelling.md` (cross-link to the final case study)
+
+Generated artifacts regenerated during the review (excluded from Git):
+
+- `data/analysis/r/r_analysis_report.html` (re-knitted so it post-dates its
+  source; see Known Issues).
+
 ## Important Decisions
 
 - The project uses the six-stage Ask/Prepare/Process/Analyze/Share/Act methodology.
@@ -550,6 +574,17 @@ at its 24 quality-report checks, the plan, course-content coverage and
 checklist received re-audit records, and the findings report was corrected to
 label the validation period as 2024-02-11 to 2024-06-03.
 
+Phase 17 documentation:
+
+COMPLETE
+
+The final review produced `docs/phase-17/final-audit-report.md`,
+`phase-17-checklist.md`, `final-case-study.md`, `final-presentation.md` and
+`portfolio-packaging.md`, and synchronized `README.md`,
+`docs/phase-0/curriculum-mapping.md`, `docs/phase-1/requirements-traceability.md`,
+`docs/phase-1/business-requirements.md`, `docs/phase-15/data-storytelling.md`
+and `docs/project-file-update-register.md`.
+
 ## Tests
 
 Phase 0 validation:
@@ -657,6 +692,17 @@ preservation, the quality report (one pass case and five deliberate-failure
 cases), presence-check counts, the feature summary, split summary, findings
 content and the full `main()` workflow (10 to 31 tests).
 
+Phase 17 final audit:
+
+VERIFIED — 530 TESTS PASS
+
+The final review ran the complete suite: 530 passed, 1 warning, 0 failed. One
+test failed on first run — `test_report_html_is_regenerated_after_the_report_source`
+because the knitted R HTML report predated its committed R Markdown source. The
+report was re-knitted from the audited workflow (43 chunks; quality gate passed)
+and the suite is green. The review added no new tests; it re-ran and reconciled
+the existing ones.
+
 ## Known Issues
 
 - The repository's original Phase 0 commit did not contain the Phase 0 test source even though a compiled `test_phase0_project_setup` bytecode artifact existed locally.
@@ -668,8 +714,9 @@ content and the full `main()` workflow (10 to 31 tests).
 - Phase 15 marks its "Annotations" and "Accessibility" course rows PARTIAL rather than VERIFIED: the workbook contains no annotation objects and no human usability or screen-reader review was performed.
 - Phase 15's distribution and correlation course rows are satisfied by Phase 7 and Phase 8 artifacts, not by this phase, and are labelled VERIFIED ELSEWHERE so the Phase 15 claim is not overstated.
 - BigQuery is not required by the current project implementation.
-- Two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) remain untracked pending the project owner's decision on whether they should be source-controlled.
-- Phase 17 must continue to audit later phases individually; this Phase 0 re-audit does not certify them.
+- RESOLVED (Phase 17 final audit): the two reference documents (`AI_Phase_Based_Project_Development_Instructions(1).md` and `Internship Course Content Authority — Eight-Video Curriculum Guide.md`) are intentionally kept untracked by the project owner's decision. A fresh clone does not include them and the project does not depend on them to run.
+- RESOLVED (Phase 17 final audit): all later phases were audited individually — Phase 0 through Phase 16 each carry a re-audit record — and the project-level audit is `docs/phase-17/final-audit-report.md`.
+- RESOLVED (Phase 17 final audit): the knitted R HTML report was stale relative to its R Markdown source, which failed `test_report_html_is_regenerated_after_the_report_source`. The report was re-knitted from the audited workflow and the test passes.
 - The Phase 10 re-audit verified that `series_age_days` is not a leakage point: it is `date - series(min date)`, and a series' first observed date is always at or before its later rows, so no future information enters the feature. The earlier flag is resolved.
 - RESOLVED in the Phase 12 re-audit: the engineered lag, rolling and calendar features now reach a model. `scripts/evaluate_and_tune_models.py` adds a deterministic gradient-boosting candidate (`feature_gbm`) over the 16 store-day feature families recomputed at the forecasting grain, and it is selected for stores 1–3 on cross-validation evidence. Phase 11's classical scripts still consume the demand target only, which its own scope documents.
 - Store 4 first appears in the dataset on 2023-12-13, giving it 60 training observations against 531 for stores 1–3. The Phase 12 re-audit adapts the cross-validation fold count to that history, so store 4 is tuned with one fold rather than excluded, and seasonal-naive(7) wins there. Its results rest on a single fold and should be read with that caution.
@@ -684,8 +731,8 @@ content and the full `main()` workflow (10 to 31 tests).
 
 - Final presentation/portfolio packaging remains part of the final project work.
 - Any deployment-platform-specific operational details are outside the Phase 0 audit scope.
-- Global curriculum status will be finalized only as each corresponding phase is audited and its evidence is verified.
-- Whether to source-control the two reference documents listed under Known Issues.
+- Global curriculum status is finalized as of the Phase 17 final audit; see `docs/phase-0/curriculum-mapping.md`.
+- RESOLVED (Phase 17 final audit): the two reference documents are intentionally kept untracked, per the project owner's decision.
 
 ## Phase 0 Audit Status
 
@@ -1108,3 +1155,52 @@ Unlike the preceding audits, this one does commit and push: the approved plan
 for Phase 16 required a real hosted deployment, and the platform builds from
 GitHub, so the deployment bundle and application changes had to be published.
 No Git operation beyond that single phase commit and push was performed.
+
+## Phase 17 Final Audit Status
+
+Phase 17 — Testing, Documentation & Final Audit has been completed as part of
+Phase 17.
+
+COMPLETE
+
+Phase 0 through Phase 16 were each re-audited and approved. The final review
+then audited the project as a whole against the final-audit checklist
+(structure, source, tests, pipeline, models, evaluation, configuration,
+dependencies, Git, documentation, README, deployment, security,
+reproducibility and course coverage), synchronized every cross-phase record that
+had drifted, and produced the final case study, presentation and portfolio
+packaging.
+
+The full audit is recorded in `docs/phase-17/final-audit-report.md`, and the
+phase checklist in `docs/phase-17/phase-17-checklist.md`. The remaining gaps are
+named there and in the Phase 17 checklist rather than hidden:
+
+- the hosted Streamlit deployment awaits a one-time owner authorisation;
+- the published Tableau dashboard reflects the 8 September 2026 extract and
+  needs a Tableau Desktop refresh;
+- no human usability or accessibility review has been performed;
+- the reserved final test-period evaluation has no owning phase;
+- RStudio remains installed but unevidenced (the workflow runs through
+  `Rscript`).
+
+The next phase is none: the project lifecycle is complete. The owner's remaining
+actions are the end-of-phase Git commit (commands below) and the optional
+hosted deployment and Tableau refresh.
+
+## End-of-Phase Git Commands (provided, not run by the audit)
+
+Run from the repository root. The audit performed no Git operation, so these are
+provided for the project owner. Confirm the branch first — the checkout observed
+at audit time was `main`.
+
+```text
+git status
+git diff
+git add README.md docs/phase-0/project-state.md docs/phase-0/curriculum-mapping.md docs/phase-1/requirements-traceability.md docs/phase-1/business-requirements.md docs/phase-15/data-storytelling.md docs/phase-17 docs/project-file-update-register.md
+git commit -m "Phase 17 Final Audit"
+git log --oneline -5
+```
+
+The two root reference documents and `.freebuff/` stay untracked by decision.
+Generated artifacts under `data/` remain excluded from Git. Push only after
+confirming the target branch with the project owner.

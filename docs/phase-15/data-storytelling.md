@@ -106,3 +106,13 @@ The narrative structure was unchanged by the audit. Sections 4, 5 and 7 were
 rewritten to carry the verified values and the two limitations that a reader
 would otherwise not see, instead of leaving the evidence section as a list of
 categories.
+
+## Final Case Study
+
+The narrative arc described above is carried into the project's final
+portfolio artifact, `docs/phase-17/final-case-study.md`, which presents the
+same evidence in the course case-study order (problem → future scope). The
+delivery script and anticipated questions are in
+`docs/phase-17/final-presentation.md`. This document remains the storytelling
+design; the Phase 17 case study is the final written narrative, so the two are
+kept cross-referenced rather than duplicated.
