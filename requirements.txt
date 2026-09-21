@@ -1,0 +1,18 @@
+# Verified environment for the Phase 17 audit.
+# Python 3.12.10 (Windows x86-64). Install with:
+#     python -m pip install -r requirements.txt
+#
+# Versions are pinned because analysis behaviour differs between major
+# releases: pandas 3 reports non-finite-handling and string-casting results
+# that differ from pandas 2 (see the Phase 7 and Phase 8 re-audit records).
+
+numpy==2.5.2
+pandas==3.0.5
+matplotlib==3.11.1
+scipy==1.18.1
+scikit-learn==1.9.0
+statsmodels==0.15.0
+streamlit==1.63.0
+openpyxl==3.1.5
+jupyter==1.1.1
+pytest==9.1.1

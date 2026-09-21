@@ -1,0 +1,5 @@
+store_id,model,configuration,season_length,order,validation_start,validation_end,forecast_horizon,rmse,mape_percent
+1,feature_gbm,"HistGradientBoostingRegressor(learning_rate=0.1, max_iter=200, max_depth=3, min_samples_leaf=5, l2_regularization=1.0, early_stopping=False, random_state=0)",,,2024-02-11,2024-06-03,114,4233.491866591697,9.071512927602166
+2,feature_gbm,"HistGradientBoostingRegressor(learning_rate=0.1, max_iter=200, max_depth=3, min_samples_leaf=5, l2_regularization=1.0, early_stopping=False, random_state=0)",,,2024-02-11,2024-06-03,114,711.2066768532256,8.14135610180036
+3,feature_gbm,"HistGradientBoostingRegressor(learning_rate=0.1, max_iter=200, max_depth=3, min_samples_leaf=5, l2_regularization=1.0, early_stopping=False, random_state=0)",,,2024-02-11,2024-06-03,114,1309.9600342696606,16.283339469567657
+4,seasonal_naive,season_length=7,7,,2024-02-11,2024-06-03,114,6063.055905607364,14.060535077867325

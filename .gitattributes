@@ -1,0 +1,4 @@
+*.md text eol=crlf
+
+*.sql linguist-language=SQL
+*.sql linguist-detectable=true

@@ -1,0 +1,13 @@
+model,store_id,training_start,training_end,validation_start,validation_end,forecast_horizon,configuration
+naive,1,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,last observed value
+seasonal_naive,1,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,season_length=7
+arima,1,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,"order=(1, 1, 1); enforce_stationarity=False; enforce_invertibility=False"
+naive,2,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,last observed value
+seasonal_naive,2,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,season_length=7
+arima,2,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,"order=(1, 1, 1); enforce_stationarity=False; enforce_invertibility=False"
+naive,3,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,last observed value
+seasonal_naive,3,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,season_length=7
+arima,3,2022-08-28,2024-02-10,2024-02-11,2024-06-03,114,"order=(1, 1, 1); enforce_stationarity=False; enforce_invertibility=False"
+naive,4,2023-12-13,2024-02-10,2024-02-11,2024-06-03,114,last observed value
+seasonal_naive,4,2023-12-13,2024-02-10,2024-02-11,2024-06-03,114,season_length=7
+arima,4,2023-12-13,2024-02-10,2024-02-11,2024-06-03,114,"order=(1, 1, 1); enforce_stationarity=False; enforce_invertibility=False"

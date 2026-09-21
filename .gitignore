@@ -1,0 +1,112 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Build / packaging
+build/
+dist/
+wheels/
+pip-wheel-metadata/
+
+# Testing and static analysis
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# R (demand-forecasting-retail.Rproj is tracked on purpose)
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+*_files/
+
+# Generated data (rebuilt by the phase scripts)
+data/raw/*
+data/processed/*
+data/analysis/*
+
+# Generated reports and figures (Phases 7, 8 and 15 rebuild these)
+reports/*
+
+# Databases (Phase 4 retail_demand.db and its SQLite write-ahead sidecars)
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+
+# Tableau temporary files and local extracts
+# (tableau/Retail_Demand_Forecasting.twb is tracked on purpose)
+*.twb~
+*.twbr
+*.tfl
+*.tflx
+*.hyper
+*.tde
+
+# Logs
+*.log
+logs/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+secrets.toml
+
+# Credentials
+*.pem
+*.key
+*.pfx
+*.p12
+credentials.json
+service-account*.json
+kaggle.json
+
+# IDE / editors
+.vscode/
+.idea/
+.vs/
+*.code-workspace
+*.swp
+*~
+
+# OS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Temporary / backup files
+*.tmp
+*.temp
+*.bak
+*.orig
+~$*
